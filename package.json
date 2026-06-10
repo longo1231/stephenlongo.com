@@ -1,0 +1,16 @@
+{
+  "name": "stephenlongo.com",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "sync": "node scripts/sync-notion.mjs"
+  },
+  "dependencies": {
+    "@notionhq/client": "^5.1.0",
+    "astro": "^5.8.0"
+  }
+}
