@@ -1,5 +1,5 @@
 ---
-title: On starting a musings section
+title: "On starting a musings section"
 date: 2026-06-10
 ---
 
