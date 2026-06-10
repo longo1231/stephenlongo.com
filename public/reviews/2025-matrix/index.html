@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>2025 Matrix Review</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .chart-container {
+            width: 800px;
+            height: 600px;
+            margin: 20px 0;
+            padding: 20px;
+        }
+        .legend {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 800px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            padding: 5px;
+        }
+        .color-box {
+            width: 12px;
+            height: 12px;
+            margin-right: 8px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <h1>2025 Matrix Review</h1>
+    <div class="chart-container">
+        <canvas id="myChart"></canvas>
+    </div>
+    <div class="legend">
+        <div class="legend-item">
+            <div class="color-box" style="background-color: rgba(76, 175, 80, 0.6)"></div>
+            <span>Top Right: Successful activities getting more focus</span>
+        </div>
+        <div class="legend-item">
+            <div class="color-box" style="background-color: rgba(33, 150, 243, 0.6)"></div>
+            <span>Top Left: Challenging activities worth improving</span>
+        </div>
+        <div class="legend-item">
+            <div class="color-box" style="background-color: rgba(229, 115, 115, 0.6)"></div>
+            <span>Bottom Left: Challenging activities to reduce</span>
+        </div>
+        <div class="legend-item">
+            <div class="color-box" style="background-color: rgba(255, 167, 38, 0.6)"></div>
+            <span>Bottom Right: Successful activities naturally decreasing</span>
+        </div>
+    </div>
+
+    <script>
+        const activities = [
+            // TOP RIGHT - Green - Successful & Increasing Focus
+            { label: "Coding with LLMs", x: 9, y: 10, labelOffset: { x: 70, y: 0 } },
+            { label: "Reading Fiction", x: 5, y: 10, labelOffset: { x: 60, y: 0 } },
+            { label: "Prop Trading", x: 8, y: 8, labelOffset: { x: 55, y: 0 } },
+            { label: "Date Nights", x: 2, y: 9, labelOffset: { x: 55, y: 0 } },
+            { label: "Lifting", x: 6, y: 6, labelOffset: { x: 35, y: 0 } },
+            { label: "Hiking", x: 3, y: 7, labelOffset: { x: 35, y: 0 } },
+            { label: "Cold Plunges", x: 8, y: 5, labelOffset: { x: 55, y: 0 } },
+            { label: "Running", x: 9, y: 3, labelOffset: { x: 40, y: 0 } },
+            { label: "Patience", x: 1, y: 5, labelOffset: { x: 45, y: 0 } },
+            { label: "Counting Macros", x: 4, y: 4, labelOffset: { x: 60, y: 0 } },
+            { label: "Card Games", x: 1, y: 2, labelOffset: { x: 55, y: 0 } },
+
+            // TOP LEFT - Blue - Challenging but Improving
+            { label: "Shakespeare", x: -2, y: 10, labelOffset: { x: -50, y: 0 } },
+            { label: "Shadow Work", x: -5, y: 8.5, labelOffset: { x: -55, y: 0 } },
+            { label: "Saul Goodman TV", x: -5, y: 7, labelOffset: { x: -70, y: 0 } },
+            { label: "Writing", x: -1, y: 4, labelOffset: { x: -40, y: 0 } },
+            { label: "Travel", x: -4, y: 3, labelOffset: { x: -35, y: 0 } },
+
+            // BOTTOM LEFT - Red - Challenging & Reducing
+            { label: "Market Making", x: -4, y: -10, labelOffset: { x: -60, y: 0 } },
+            { label: "Meetings", x: -5, y: -9, labelOffset: { x: 45, y: 0 } },
+            { label: "Drinking Alcohol", x: -4, y: -8, labelOffset: { x: -70, y: 0 } },
+            { label: "Watching TV", x: -7, y: -7, labelOffset: { x: -55, y: 0 } },
+            { label: "Watching Sports", x: -1, y: -5, labelOffset: { x: 60, y: 0 } },
+
+            // BOTTOM RIGHT - Orange - Successful but Decreasing
+            { label: "Doomscrolling", x: 6, y: -5, labelOffset: { x: 60, y: 0 } },
+            { label: "Calling Kids by Right Name", x: -5, y: 0, labelOffset: { x: -95, y: 0 } }
+        ];
+
+        const getQuadrantColor = (x, y) => {
+            if (x >= 0 && y > 0) return 'rgba(76, 175, 80, 0.6)';
+            if (x < 0 && y > 0) return 'rgba(33, 150, 243, 0.6)';
+            if (x >= 0 && y <= 0) return 'rgba(255, 167, 38, 0.6)';
+            return 'rgba(229, 115, 115, 0.6)';
+        };
+
+        const data = activities.map(activity => ({
+            x: activity.x,
+            y: activity.y,
+            label: activity.label,
+            labelOffset: activity.labelOffset || { x: 0, y: -15 },
+            backgroundColor: getQuadrantColor(activity.x, activity.y)
+        }));
+
+        const labelsPlugin = {
+            id: 'labels',
+            afterDatasetsDraw(chart) {
+                const ctx = chart.ctx;
+                ctx.font = '11px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillStyle = '#666';
+
+                chart.data.datasets[0].data.forEach((point, i) => {
+                    const position = chart.getDatasetMeta(0).data[i].getCenterPoint();
+                    const offset = point.labelOffset;
+                    ctx.fillText(
+                        point.label,
+                        position.x + offset.x,
+                        position.y + offset.y
+                    );
+                });
+            }
+        };
+
+        window.addEventListener('load', function() {
+            const ctx = document.getElementById('myChart');
+            new Chart(ctx, {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        data: data,
+                        backgroundColor: data.map(d => d.backgroundColor),
+                        pointRadius: 8,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    layout: {
+                        padding: {
+                            left: 50,
+                            right: 120,
+                            top: 50,
+                            bottom: 50
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                color: '#e2e8f0',
+                                drawBorder: false,
+                            },
+                            title: {
+                                display: true,
+                                text: '2025 Outcome',
+                                font: {
+                                    size: 14
+                                }
+                            },
+                            min: -10.5,
+                            max: 10.5,
+                        },
+                        y: {
+                            grid: {
+                                color: '#e2e8f0',
+                                drawBorder: false,
+                            },
+                            title: {
+                                display: true,
+                                text: 'Change in Focus for 2026',
+                                font: {
+                                    size: 14
+                                }
+                            },
+                            min: -10.5,
+                            max: 10.5,
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const point = context.raw;
+                                    return [
+                                        point.label,
+                                        `2025 Outcome: ${point.x}`,
+                                        `Change in Focus: ${point.y}`
+                                    ];
+                                }
+                            }
+                        }
+                    }
+                },
+                plugins: [labelsPlugin]
+            });
+        });
+    </script>
+
+<div style="margin-bottom: 40px;"></div>
+
+<footer style="text-align: center; margin-top: 20px; padding: 10px; background-color: #f8f8f8;">
+    <p><a href="https://www.stephenlongo.com" style="color: #333; text-decoration: none;">Return to Homepage</a></p>
+</footer>
+
+</body>
+</html>
