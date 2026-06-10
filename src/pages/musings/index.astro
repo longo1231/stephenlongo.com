@@ -1,0 +1,142 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('musings')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+const fmt = (d) =>
+  d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' });
+---
+<Base title="Musings — Stephen Longo" description="Daily musings, random thoughts, unofficial writing.">
+  <header class="top">
+    <a class="mono back" href="/">← Stephen Longo</a>
+    <span class="mono">Index — 002 / Musings</span>
+  </header>
+
+  <main>
+    <section class="head">
+      <h1>Mus<em>ings</em></h1>
+      <p class="stats mono">{posts.length} {posts.length === 1 ? 'entry' : 'entries'} · unofficial, unedited, unscheduled</p>
+    </section>
+
+    <section class="list">
+      {posts.map((p) => (
+        <a class="entry" href={`/musings/${p.id}`}>
+          <span class="date mono">{fmt(p.data.date)}</span>
+          <span class="name">{p.data.title}</span>
+          <span class="arrow" aria-hidden="true">↗</span>
+        </a>
+      ))}
+    </section>
+  </main>
+
+  <footer class="bottom">
+    <span class="mono">Written in Notion · rendered here</span>
+    <span class="mono">© 2026</span>
+  </footer>
+</Base>
+
+<style>
+  .top,
+  .bottom {
+    display: flex;
+    justify-content: space-between;
+    padding: 1.4rem 2rem;
+  }
+
+  .top {
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .bottom {
+    border-top: 1px solid var(--hairline);
+  }
+
+  .back {
+    text-decoration: none;
+    color: var(--ink);
+  }
+
+  .back:hover {
+    color: var(--accent);
+  }
+
+  main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    min-height: 60vh;
+  }
+
+  .head {
+    padding: 5rem 0 2rem;
+  }
+
+  h1 {
+    font-size: clamp(3.4rem, 11vw, 8.5rem);
+    font-weight: 560;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+  }
+
+  h1 em {
+    font-style: italic;
+    font-weight: 380;
+    color: var(--accent);
+  }
+
+  .stats {
+    margin-top: 1.4rem;
+  }
+
+  .list {
+    border-top: 1px solid var(--hairline);
+    margin: 2.5rem 0 8rem;
+  }
+
+  .entry {
+    display: grid;
+    grid-template-columns: 9rem 1fr 3rem;
+    align-items: baseline;
+    gap: 1.5rem;
+    padding: 1.6rem 0.5rem;
+    border-bottom: 1px solid var(--hairline);
+    text-decoration: none;
+    transition: background 0.18s ease, color 0.18s ease;
+  }
+
+  .name {
+    font-size: clamp(1.3rem, 3vw, 2rem);
+    font-style: italic;
+    font-weight: 440;
+  }
+
+  .arrow {
+    justify-self: end;
+    font-size: 1.3rem;
+    transition: transform 0.18s ease;
+  }
+
+  .entry:hover {
+    background: var(--accent);
+    color: #000;
+  }
+
+  .entry:hover .mono {
+    color: #000;
+  }
+
+  .entry:hover .arrow {
+    transform: translate(0.2rem, -0.2rem);
+  }
+
+  @media (max-width: 640px) {
+    .entry {
+      grid-template-columns: 1fr 2rem;
+    }
+    .date {
+      display: none;
+    }
+  }
+</style>

@@ -1,0 +1,40 @@
+name: Sync content from Notion
+
+on:
+  schedule:
+    - cron: '17 9 * * *' # daily, 09:17 UTC (early morning ET)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Sync from Notion
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+        run: |
+          if [ -z "$NOTION_TOKEN" ]; then
+            echo "NOTION_TOKEN secret not set; skipping sync."
+            exit 0
+          fi
+          npm run sync
+      - name: Commit and push if content changed
+        run: |
+          git config user.name "notion-sync[bot]"
+          git config user.email "noreply@stephenlongo.com"
+          git add -A src/data src/content public/covers
+          if git diff --cached --quiet; then
+            echo "No content changes."
+          else
+            git commit -m "Sync content from Notion"
+            git push
+          fi

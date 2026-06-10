@@ -4,10 +4,18 @@ Personal site. The repo is the source of truth — content, covers, and design a
 
 ## Stack
 
-- [Astro](https://astro.build) static site — `src/pages/index.astro` (landing) and `src/pages/bookshelf.astro`
-- Book data is committed at `src/data/books.json`; covers are committed at `public/covers/`
-- `scripts/sync-notion.mjs` optionally refreshes both from the Bookshelf database in Notion
+- [Astro](https://astro.build) static site — landing (`src/pages/index.astro`), bookshelf (`src/pages/bookshelf.astro`), musings (`src/pages/musings/`)
+- Book data is committed at `src/data/books.json`; covers at `public/covers/`; musings as markdown at `src/content/musings/`
+- `scripts/sync-notion.mjs` refreshes all of it from Notion (Bookshelf + Musings databases)
 - Deploys via `.github/workflows/deploy.yml` to GitHub Pages at stephenlongo.com
+- `.github/workflows/sync.yml` runs the Notion sync nightly (needs the `NOTION_TOKEN` repo secret) and commits any changes, which triggers a deploy
+
+## Posting a musing
+
+1. Open the Musings database in Notion (on the website page in Private)
+2. Add a page: title it, set the Date, write the post as the page body
+3. Check **Published** when it's ready — drafts stay invisible
+4. It goes live on the next nightly sync, or immediately with `npm run sync` + commit
 
 ## Commands
 
