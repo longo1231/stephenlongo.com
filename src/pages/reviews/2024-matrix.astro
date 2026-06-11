@@ -1,0 +1,83 @@
+---
+import Base from '../../layouts/Base.astro';
+import MatrixReview from '../../components/MatrixReview.astro';
+
+const activities = [
+  { label: 'Running', x: 6, y: 9, labelOffset: { x: -50, y: -15 } },
+  { label: 'Lifting', x: 7, y: -2 },
+  { label: 'Sleeping', x: -2, y: 1.8 },
+  { label: 'Coding with LLMs', x: 9, y: 9, labelOffset: { x: 40, y: 15 } },
+  { label: 'The NY Jets', x: -10, y: -8 },
+  { label: 'Reading The Bible', x: 10, y: 0, labelOffset: { x: 70, y: 0 } },
+  { label: 'Reading Fiction', x: -1, y: 8, labelOffset: { x: -50, y: -15 } },
+  { label: 'Reading David Whyte', x: 1.5, y: 4, labelOffset: { x: 30, y: -15 } },
+  { label: 'Protein', x: 8, y: 10, labelOffset: { x: 0, y: -25 } },
+  { label: 'Having a Baby', x: 10, y: -7, labelOffset: { x: 70, y: 0 } },
+  { label: 'Going to the Movies', x: 5, y: 2.8, labelOffset: { x: 30, y: 15 } },
+  { label: 'Writing', x: -8.5, y: 5, labelOffset: { x: -40, y: 0 } },
+  { label: 'Scrolling Twitter', x: 4, y: -4, labelOffset: { x: -30, y: -15 } },
+  { label: 'Listening to Lauren Daigle', x: 9, y: 3.2, labelOffset: { x: 70, y: 0 } },
+  { label: 'Date Nights', x: 7.5, y: 8, labelOffset: { x: -30, y: 15 } },
+  { label: 'Hiking', x: -4, y: 7, labelOffset: { x: 30, y: 0 } },
+  { label: 'Commuting', x: -2, y: -5 },
+  { label: 'Drinking Alcohol', x: -4, y: -3.6 },
+  { label: 'Meetings', x: -2.5, y: -8 },
+  { label: 'Patience', x: -6, y: 5, labelOffset: { x: -40, y: -15 } },
+  { label: 'Watching TV', x: -0.5, y: -6 },
+  { label: 'Listening to Creed', x: 7, y: -8, labelOffset: { x: 30, y: 0 } },
+  { label: 'Market Making', x: -2, y: -4, labelOffset: { x: 30, y: -15 } },
+  { label: 'Prop Trading', x: 3.75, y: 8, labelOffset: { x: -30, y: 0 } },
+];
+---
+<Base title="2024 Matrix — Stephen Longo" description="2024 annual review: outcome vs. change in focus for 2025.">
+  <header class="top">
+    <a class="mono back" href="/reviews">← Annual Reviews</a>
+    <span class="mono">004 / 2024 Matrix</span>
+  </header>
+
+  <main>
+    <MatrixReview
+      year="2024"
+      xLabel="2024 Outcome"
+      yLabel="Change in Focus for 2025"
+      activities={activities}
+    />
+  </main>
+
+  <footer class="bottom">
+    <span class="mono">A year, reviewed</span>
+    <span class="mono">© 2026</span>
+  </footer>
+</Base>
+
+<style>
+  .top,
+  .bottom {
+    display: flex;
+    justify-content: space-between;
+    padding: 1.4rem 2rem;
+  }
+
+  .top {
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .bottom {
+    border-top: 1px solid var(--hairline);
+  }
+
+  .back {
+    text-decoration: none;
+    color: var(--ink);
+  }
+
+  .back:hover {
+    color: var(--accent);
+  }
+
+  main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+</style>

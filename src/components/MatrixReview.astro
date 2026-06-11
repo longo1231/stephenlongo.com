@@ -1,0 +1,241 @@
+---
+interface Activity {
+  label: string;
+  x: number;
+  y: number;
+  labelOffset?: { x: number; y: number };
+}
+
+interface Props {
+  year: string;
+  xLabel: string;
+  yLabel: string;
+  activities: Activity[];
+}
+
+const { year, xLabel, yLabel, activities } = Astro.props;
+
+const quadrants = [
+  { key: 'tr', color: '#65c466', name: 'Top right', desc: 'successful, getting more focus' },
+  { key: 'tl', color: '#60a5fa', name: 'Top left', desc: 'challenging, worth improving' },
+  { key: 'bl', color: '#f47171', name: 'Bottom left', desc: 'challenging, to reduce' },
+  { key: 'br', color: '#ffa726', name: 'Bottom right', desc: 'successful, naturally decreasing' },
+];
+---
+<section class="head">
+  <h1>{year} <em>Matrix</em></h1>
+  <p class="stats mono">{activities.length} activities · {xLabel.toLowerCase()} × {yLabel.toLowerCase()}</p>
+</section>
+
+<div class="chart-scroll">
+  <div class="chart-box">
+    <canvas id="matrix"></canvas>
+  </div>
+</div>
+
+<ul class="quads">
+  {quadrants.map((q) => (
+    <li>
+      <span class="dot" style={`background:${q.color}`}></span>
+      <span class="qname mono">{q.name}</span>
+      <span class="qdesc">{q.desc}</span>
+    </li>
+  ))}
+</ul>
+
+<script is:inline src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<script is:inline define:vars={{ activities, xLabel, yLabel }}>
+  const INK = '#e8e4dc';
+  const DIM = '#8a857c';
+  const HAIRLINE = 'rgba(232, 228, 220, 0.08)';
+  const ZERO = 'rgba(232, 228, 220, 0.28)';
+  const MONO = "'JetBrains Mono', monospace";
+
+  const quadColor = (x, y) => {
+    if (x >= 0 && y > 0) return '#65c466';
+    if (x < 0 && y > 0) return '#60a5fa';
+    if (x >= 0 && y <= 0) return '#ffa726';
+    return '#f47171';
+  };
+
+  const data = activities.map((a) => ({
+    x: a.x,
+    y: a.y,
+    label: a.label,
+    labelOffset: a.labelOffset || { x: 0, y: -15 },
+    color: quadColor(a.x, a.y),
+  }));
+
+  // Soft tint per quadrant so visitors can orient without reading the legend.
+  const quadrantTint = {
+    id: 'quadrantTint',
+    beforeDraw(chart) {
+      const { ctx, chartArea, scales } = chart;
+      if (!chartArea) return;
+      const x0 = scales.x.getPixelForValue(0);
+      const y0 = scales.y.getPixelForValue(0);
+      const { left, right, top, bottom } = chartArea;
+      const tint = (color, x, y, w, h) => {
+        ctx.fillStyle = color;
+        ctx.fillRect(x, y, w, h);
+      };
+      tint('rgba(101, 196, 102, 0.045)', x0, top, right - x0, y0 - top);
+      tint('rgba(96, 165, 250, 0.045)', left, top, x0 - left, y0 - top);
+      tint('rgba(244, 113, 113, 0.045)', left, y0, x0 - left, bottom - y0);
+      tint('rgba(255, 167, 38, 0.045)', x0, y0, right - x0, bottom - y0);
+    },
+  };
+
+  const labels = {
+    id: 'labels',
+    afterDatasetsDraw(chart) {
+      const ctx = chart.ctx;
+      ctx.font = `11px ${MONO}`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      chart.data.datasets[0].data.forEach((point, i) => {
+        const pos = chart.getDatasetMeta(0).data[i].getCenterPoint();
+        ctx.fillStyle = INK;
+        ctx.fillText(point.label, pos.x + point.labelOffset.x, pos.y + point.labelOffset.y);
+      });
+    },
+  };
+
+  new Chart(document.getElementById('matrix'), {
+    type: 'scatter',
+    data: {
+      datasets: [
+        {
+          data,
+          backgroundColor: data.map((d) => d.color),
+          borderColor: 'rgba(11, 11, 13, 0.9)',
+          borderWidth: 1.5,
+          pointRadius: 7,
+          pointHoverRadius: 9,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      layout: { padding: { left: 30, right: 110, top: 40, bottom: 20 } },
+      scales: {
+        x: {
+          min: -10.5,
+          max: 10.5,
+          grid: { color: (c) => (c.tick.value === 0 ? ZERO : HAIRLINE) },
+          border: { display: false },
+          ticks: { color: DIM, font: { family: MONO, size: 10 } },
+          title: {
+            display: true,
+            text: xLabel.toUpperCase(),
+            color: DIM,
+            font: { family: MONO, size: 11 },
+          },
+        },
+        y: {
+          min: -10.5,
+          max: 10.5,
+          grid: { color: (c) => (c.tick.value === 0 ? ZERO : HAIRLINE) },
+          border: { display: false },
+          ticks: { color: DIM, font: { family: MONO, size: 10 } },
+          title: {
+            display: true,
+            text: yLabel.toUpperCase(),
+            color: DIM,
+            font: { family: MONO, size: 11 },
+          },
+        },
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#141416',
+          borderColor: 'rgba(232, 228, 220, 0.2)',
+          borderWidth: 1,
+          titleColor: INK,
+          bodyColor: DIM,
+          titleFont: { family: MONO, size: 12 },
+          bodyFont: { family: MONO, size: 11 },
+          padding: 10,
+          displayColors: false,
+          callbacks: {
+            title: (items) => items[0].raw.label,
+            label: (ctx) => [`outcome: ${ctx.raw.x}`, `focus: ${ctx.raw.y}`],
+          },
+        },
+      },
+    },
+    plugins: [quadrantTint, labels],
+  });
+</script>
+
+<style>
+  .head {
+    padding: 4rem 0 1rem;
+  }
+
+  h1 {
+    font-size: clamp(2.8rem, 9vw, 7rem);
+    font-weight: 560;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+  }
+
+  h1 em {
+    font-style: italic;
+    font-weight: 380;
+    color: var(--accent);
+  }
+
+  .stats {
+    margin-top: 1.2rem;
+  }
+
+  .chart-scroll {
+    overflow-x: auto;
+    margin-top: 2rem;
+  }
+
+  .chart-box {
+    position: relative;
+    min-width: 760px;
+    height: min(72vh, 640px);
+    min-height: 460px;
+  }
+
+  .quads {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 0.6rem;
+    margin: 2.5rem 0 6rem;
+    border-top: 1px solid var(--hairline);
+    padding-top: 1.5rem;
+  }
+
+  .quads li {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    padding: 0.4rem 0;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    transform: translateY(1px);
+  }
+
+  .qname {
+    white-space: nowrap;
+  }
+
+  .qdesc {
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--ink);
+  }
+</style>
