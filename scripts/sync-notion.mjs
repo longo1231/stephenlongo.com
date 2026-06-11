@@ -3,6 +3,7 @@
 // Requires NOTION_TOKEN (internal integration with access to the website page).
 import { Client } from '@notionhq/client';
 import { writeFile, mkdir, rm } from 'node:fs/promises';
+import { existsSync } from 'node:fs';
 import path from 'node:path';
 
 const BOOKS_DS_ID = '69e03bba-77cd-44fa-9c66-f0924275795b';
@@ -29,10 +30,13 @@ const slug = (title) =>
   title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
 // Covers are copied into the repo so the site never depends on external image hosts.
+// Existing files are kept as-is: image hosts re-encode on every request, which
+// would otherwise produce a spurious commit (and deploy) on every sync.
 await mkdir(COVERS_DIR, { recursive: true });
 async function localCover(url, title) {
   if (!url) return null;
   const file = `${slug(title)}.jpg`;
+  if (existsSync(path.join(COVERS_DIR, file))) return `/covers/${file}`;
   try {
     const res = await fetch(url);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
