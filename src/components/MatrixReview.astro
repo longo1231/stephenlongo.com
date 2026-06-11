@@ -27,6 +27,7 @@ const quadrants = [
   <p class="stats mono">{activities.length} activities · {xLabel.toLowerCase()} × {yLabel.toLowerCase()}</p>
 </section>
 
+<p class="swipe mono" aria-hidden="true">swipe the chart →</p>
 <div class="chart-scroll">
   <div class="chart-box">
     <canvas id="matrix"></canvas>
@@ -192,9 +193,25 @@ const quadrants = [
     margin-top: 1.2rem;
   }
 
+  .swipe {
+    display: none;
+    margin-top: 2rem;
+  }
+
   .chart-scroll {
     overflow-x: auto;
     margin-top: 2rem;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  @media (max-width: 800px) {
+    .swipe {
+      display: block;
+    }
+
+    .chart-scroll {
+      margin-top: 0.8rem;
+    }
   }
 
   .chart-box {

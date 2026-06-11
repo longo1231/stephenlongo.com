@@ -79,7 +79,7 @@ const year = (d) => (d ? d.slice(0, 4) : '');
   .bottom {
     display: flex;
     justify-content: space-between;
-    padding: 1.4rem 2rem;
+    padding: 1.4rem var(--pad-x);
   }
 
   .top {
@@ -102,7 +102,7 @@ const year = (d) => (d ? d.slice(0, 4) : '');
   main {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 2rem;
+    padding: 0 var(--pad-x);
   }
 
   .head {
@@ -222,8 +222,13 @@ const year = (d) => (d ? d.slice(0, 4) : '');
   }
 
   .book:hover .overlay,
-  .book:focus-within .overlay {
+  .book:focus-within .overlay,
+  .book.open .overlay {
     opacity: 1;
+  }
+
+  .book.open .jacket {
+    transform: translateY(-6px);
   }
 
   .rating {
@@ -257,11 +262,41 @@ const year = (d) => (d ? d.slice(0, 4) : '');
     margin-top: 0.35rem;
     font-size: 0.62rem;
   }
+
+  @media (max-width: 640px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.7rem 0.9rem;
+    }
+
+    .spine-title {
+      font-size: 1.05rem;
+    }
+
+    .title {
+      font-size: 0.95rem;
+    }
+
+    .meta {
+      font-size: 0.68rem;
+    }
+  }
 </style>
 
 <script is:inline>
   const chips = document.querySelectorAll('.chip');
   const books = document.querySelectorAll('.book');
+
+  // No hover on touch screens — tap a book to reveal its rating and takeaway.
+  if (matchMedia('(hover: none)').matches) {
+    books.forEach((b) => {
+      b.addEventListener('click', () => {
+        const wasOpen = b.classList.contains('open');
+        books.forEach((x) => x.classList.remove('open'));
+        if (!wasOpen) b.classList.add('open');
+      });
+    });
+  }
   chips.forEach((chip) => {
     chip.addEventListener('click', () => {
       chips.forEach((c) => c.classList.remove('active'));

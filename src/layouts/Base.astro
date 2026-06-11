@@ -33,6 +33,13 @@ const { title, description = 'Stephen Longo — personal site' } = Astro.props;
     --hairline: rgba(232, 228, 220, 0.14);
     --serif: 'Fraunces', Georgia, serif;
     --mono: 'JetBrains Mono', ui-monospace, monospace;
+    --pad-x: 2rem;
+  }
+
+  @media (max-width: 640px) {
+    :root {
+      --pad-x: 1.1rem;
+    }
   }
 
   * {
