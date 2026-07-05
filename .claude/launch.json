@@ -3,9 +3,10 @@
   "configurations": [
     {
       "name": "astro-dev",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
-      "port": 4321
+      "runtimeExecutable": "sh",
+      "runtimeArgs": ["-c", "exec npx astro dev --port \"${PORT:-4321}\""],
+      "port": 4321,
+      "autoPort": true
     }
   ]
 }

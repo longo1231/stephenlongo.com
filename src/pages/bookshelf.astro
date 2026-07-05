@@ -37,8 +37,8 @@ const year = (d) => (d ? d.slice(0, 4) : '');
     <nav class="filters" aria-label="Filter books">
       {SPINE_WALL && (
         <>
-          <button class="chip mono view-chip active" data-view="covers">Covers</button>
-          <button class="chip mono view-chip" data-view="spines">Spines</button>
+          <button class="chip mono view-chip active" data-view="spines">Spines</button>
+          <button class="chip mono view-chip" data-view="covers">Covers</button>
           <span class="view-divider" aria-hidden="true"></span>
         </>
       )}
@@ -48,7 +48,9 @@ const year = (d) => (d ? d.slice(0, 4) : '');
       {types.map((t) => <button class="chip mono" data-filter={`type:${t}`}>{t}</button>)}
     </nav>
 
-    <section class="grid">
+    {/* Spines are the default view, so the grid starts hidden — but only while
+        the flag is on, so SPINE_WALL=false still builds the pre-feature page. */}
+    <section class:list={['grid', { 'view-hide': SPINE_WALL }]}>
       {books.map((b) => (
         <article
           class="book"
@@ -353,8 +355,9 @@ const year = (d) => (d ? d.slice(0, 4) : '');
       } catch {}
     };
     viewChips.forEach((c) => c.addEventListener('click', () => setView(c.dataset.view)));
+    // Spines are the server-rendered default; only a stored covers preference flips it.
     try {
-      if (localStorage.getItem('bookshelf-view') === 'spines') setView('spines');
+      if (localStorage.getItem('bookshelf-view') === 'covers') setView('covers');
     } catch {}
   }
 </script>

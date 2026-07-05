@@ -5,6 +5,7 @@ import { Client } from '@notionhq/client';
 import { writeFile, mkdir, rm } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
+import { backfillCovers, slug } from './backfill-covers.mjs';
 
 const BOOKS_DS_ID = '69e03bba-77cd-44fa-9c66-f0924275795b';
 const MUSINGS_DS_ID = '18f634dd-d2f1-4013-b8d3-05787febd521';
@@ -26,9 +27,6 @@ const fileUrl = (files) => {
   if (!f) return null;
   return f.type === 'external' ? f.external.url : f.file?.url ?? null;
 };
-const slug = (title) =>
-  title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-
 // Covers are copied into the repo so the site never depends on external image hosts.
 // Existing files are kept as-is: image hosts re-encode on every request, which
 // would otherwise produce a spurious commit (and deploy) on every sync.
@@ -79,6 +77,9 @@ do {
 } while (cursor);
 
 books.sort((a, b) => (b.date ?? '').localeCompare(a.date ?? ''));
+
+// Notion covers win; Open Library fills in the rest where it can.
+await backfillCovers(books);
 
 await writeFile(
   OUT,
