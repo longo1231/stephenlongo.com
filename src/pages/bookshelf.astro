@@ -1,6 +1,11 @@
 ---
 import Base from '../layouts/Base.astro';
+import SpineWall from '../components/SpineWall.astro';
 import data from '../data/books.json';
+
+// Kill switch for the spines view — set false and the page builds exactly as it
+// did before the Spine Wall existed (see docs/SPINE-WALL-SPEC.md).
+const SPINE_WALL = true;
 
 const books = [...data.books].sort((a, b) => (b.date ?? '').localeCompare(a.date ?? ''));
 const pagesRead = books.reduce((sum, b) => sum + (b.pages ?? 0), 0);
@@ -30,6 +35,13 @@ const year = (d) => (d ? d.slice(0, 4) : '');
     </section>
 
     <nav class="filters" aria-label="Filter books">
+      {SPINE_WALL && (
+        <>
+          <button class="chip mono view-chip active" data-view="covers">Covers</button>
+          <button class="chip mono view-chip" data-view="spines">Spines</button>
+          <span class="view-divider" aria-hidden="true"></span>
+        </>
+      )}
       <button class="chip mono active" data-filter="all">All</button>
       <button class="chip mono" data-filter="five">★★★★★</button>
       <button class="chip mono" data-filter="recommend">Recommended</button>
@@ -66,6 +78,8 @@ const year = (d) => (d ? d.slice(0, 4) : '');
         </article>
       ))}
     </section>
+
+    {SPINE_WALL && <SpineWall books={books} />}
   </main>
 
   <footer class="bottom">
@@ -152,6 +166,17 @@ const year = (d) => (d ? d.slice(0, 4) : '');
     background: var(--ink);
     border-color: var(--ink);
     color: #000;
+  }
+
+  .view-divider {
+    width: 1px;
+    align-self: stretch;
+    background: var(--hairline);
+    margin: 0 0.55rem;
+  }
+
+  .grid.view-hide {
+    display: none;
   }
 
   .grid {
@@ -284,8 +309,9 @@ const year = (d) => (d ? d.slice(0, 4) : '');
 </style>
 
 <script is:inline>
-  const chips = document.querySelectorAll('.chip');
+  const chips = document.querySelectorAll('.chip[data-filter]');
   const books = document.querySelectorAll('.book');
+  const spines = document.querySelectorAll('#spine-wall .sp');
 
   // No hover on touch screens — tap a book to reveal its rating and takeaway.
   if (matchMedia('(hover: none)').matches) {
@@ -302,13 +328,33 @@ const year = (d) => (d ? d.slice(0, 4) : '');
       chips.forEach((c) => c.classList.remove('active'));
       chip.classList.add('active');
       const f = chip.dataset.filter;
-      books.forEach((b) => {
-        let show = true;
-        if (f === 'five') show = b.dataset.rating === '5';
-        else if (f === 'recommend') show = b.dataset.recommend === '1';
-        else if (f.startsWith('type:')) show = b.dataset.type === f.slice(5);
-        b.classList.toggle('hide', !show);
-      });
+      const matches = (el) => {
+        if (f === 'five') return el.dataset.rating === '5';
+        if (f === 'recommend') return el.dataset.recommend === '1';
+        if (f.startsWith('type:')) return el.dataset.type === f.slice(5);
+        return true;
+      };
+      books.forEach((b) => b.classList.toggle('hide', !matches(b)));
+      // On the shelf, non-matches dim instead of hiding so it keeps its shape.
+      spines.forEach((s) => s.classList.toggle('dim', !matches(s)));
     });
   });
+
+  const wall = document.getElementById('spine-wall');
+  if (wall) {
+    const grid = document.querySelector('.grid');
+    const viewChips = document.querySelectorAll('.view-chip');
+    const setView = (v) => {
+      viewChips.forEach((c) => c.classList.toggle('active', c.dataset.view === v));
+      grid.classList.toggle('view-hide', v === 'spines');
+      wall.classList.toggle('active', v === 'spines');
+      try {
+        localStorage.setItem('bookshelf-view', v);
+      } catch {}
+    };
+    viewChips.forEach((c) => c.addEventListener('click', () => setView(c.dataset.view)));
+    try {
+      if (localStorage.getItem('bookshelf-view') === 'spines') setView('spines');
+    } catch {}
+  }
 </script>

@@ -1,0 +1,368 @@
+---
+// Spine Wall — the bookshelf as one long shelf of spines (see docs/SPINE-WALL-SPEC.md).
+// Width encodes page count, five-stars lean out, click pulls the book off the shelf.
+const { books } = Astro.props;
+
+// Same title hash as the cover grid, so both views share tints.
+const hue = (title) => {
+  let n = 0;
+  for (const c of title) n = (n * 31 + c.charCodeAt(0)) % 360;
+  return n;
+};
+
+// Deterministic per-title jitter so the shelf looks organic but never shifts between builds.
+const jitter = (title) => {
+  let n = 0;
+  for (const c of title) n = (n * 37 + c.charCodeAt(0)) % 997;
+  return n;
+};
+
+const paged = books
+  .map((b) => b.pages)
+  .filter(Boolean)
+  .sort((a, b) => a - b);
+const median = paged[Math.floor(paged.length / 2)] ?? 300;
+
+const width = (pages) => Math.round(Math.min(44, Math.max(14, 14 + ((pages - 120) / 900) * 30)));
+const height = (title) => 170 + (jitter(title) % 61);
+const year = (d) => (d ? d.slice(0, 4) : '');
+
+const pullData = books.map((b) => ({
+  t: b.title,
+  a: b.author || 'Unknown',
+  p: b.pages,
+  r: b.rating,
+  n: b.takeaway || b.tagline || '',
+  c: b.cover,
+  rec: b.recommend ? 1 : 0,
+  y: year(b.date),
+  h: hue(b.title),
+  now: b.status === 'Reading' ? 1 : 0,
+}));
+---
+<section class="wall" id="spine-wall">
+  <p class="mono hint">Scroll →</p>
+
+  <div class="scroller">
+    <div class="shelf">
+      {books.map((b, i) => (
+        <button
+          class:list={['sp', { lean: b.rating === 5 }]}
+          style={`--w:${width(b.pages ?? median)}px;--h:${height(b.title)}px;--hue:${hue(b.title)};--lean:${b.rating === 5 ? (i % 2 ? -6 : -4) : 0}deg`}
+          data-i={i}
+          data-rating={b.rating ?? ''}
+          data-type={b.type ?? ''}
+          data-recommend={b.recommend ? '1' : ''}
+          aria-label={`${b.title} by ${b.author || 'unknown'}${b.pages ? `, ${b.pages} pages` : ''}${b.rating ? `, ${b.rating} stars` : ''}`}
+        >
+          <span class="sp-t" aria-hidden="true">{b.title}</span>
+        </button>
+      ))}
+    </div>
+  </div>
+
+  <p class="mono detail" id="spine-detail" aria-live="polite">Hover a spine · click to pull it off the shelf</p>
+
+  <div class="pull" id="spine-pull" hidden>
+    <div class="pull-jacket" id="pull-jacket"></div>
+    <div class="pull-info">
+      <h2 id="pull-title"></h2>
+      <p class="mono pull-meta" id="pull-meta"></p>
+      <p class="pull-rating" id="pull-rating"></p>
+      <p class="pull-note" id="pull-note"></p>
+      <p class="mono pull-rec" id="pull-rec" hidden>Recommended</p>
+    </div>
+    <button class="mono pull-close" id="pull-close" aria-label="Put the book back">✕</button>
+  </div>
+
+  <p class="mono legend">Width = page count · Leaning spines = five stars</p>
+</section>
+<script type="application/json" id="spine-data" set:html={JSON.stringify(pullData)}></script>
+
+<style>
+  .wall {
+    display: none;
+    padding-bottom: 8rem;
+  }
+
+  .wall.active {
+    display: block;
+  }
+
+  .hint {
+    padding-bottom: 1rem;
+  }
+
+  .scroller {
+    overflow-x: auto;
+    padding-top: 2.2rem;
+  }
+
+  .shelf {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    min-width: max-content;
+    border-bottom: 3px solid var(--hairline);
+    padding: 0 6px;
+  }
+
+  .sp {
+    flex: 0 0 auto;
+    width: var(--w);
+    height: var(--h);
+    padding: 0;
+    background: linear-gradient(180deg, hsl(var(--hue) 32% 18%), hsl(var(--hue) 40% 9%));
+    border: 1px solid hsl(var(--hue) 30% 26% / 0.6);
+    border-bottom: none;
+    border-radius: 2px 2px 0 0;
+    overflow: hidden;
+    cursor: pointer;
+    transform: rotate(var(--lean));
+    transform-origin: bottom center;
+    transition: transform 0.18s ease, opacity 0.25s ease;
+  }
+
+  .sp.lean {
+    border-top: 3px solid var(--accent);
+    margin-left: 0.5rem;
+  }
+
+  .sp:hover,
+  .sp:focus-visible,
+  .sp.pulled {
+    transform: translateY(-14px) rotate(var(--lean));
+  }
+
+  .sp:focus-visible {
+    outline: 1px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .sp.dim {
+    opacity: 0.12;
+  }
+
+  .sp-t {
+    display: block;
+    margin: 0 auto;
+    writing-mode: vertical-rl;
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 0.7rem;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    opacity: 0.85;
+    padding-top: 0.7rem;
+    max-height: calc(var(--h) - 1.4rem);
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .detail {
+    margin-top: 1.1rem;
+    min-height: 1.1em;
+  }
+
+  .detail.on {
+    color: var(--ink);
+  }
+
+  .legend {
+    margin-top: 0.8rem;
+  }
+
+  .pull {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 1.6rem;
+    max-width: 560px;
+    margin-top: 1.6rem;
+    padding: 1.4rem;
+    border: 1px solid var(--hairline);
+    border-radius: 4px;
+  }
+
+  .pull[hidden] {
+    display: none;
+  }
+
+  .pull-jacket {
+    flex: 0 0 150px;
+    aspect-ratio: 2 / 3;
+    border-radius: 3px;
+    overflow: hidden;
+    background: #141416;
+    transform-origin: left center;
+    animation: sw-flip 0.35s ease;
+  }
+
+  .pull-jacket :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .pull-jacket :global(.pull-tint) {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0.9rem;
+    background: linear-gradient(160deg, hsl(var(--hue) 32% 16%), hsl(var(--hue) 40% 8%));
+    border: 1px solid hsl(var(--hue) 30% 24% / 0.6);
+    border-radius: 3px;
+  }
+
+  .pull-jacket :global(.tint-t) {
+    font-style: italic;
+    font-size: 1rem;
+    line-height: 1.15;
+  }
+
+  @keyframes sw-flip {
+    from {
+      transform: perspective(700px) rotateY(80deg);
+    }
+  }
+
+  .pull-info h2 {
+    font-size: 1.35rem;
+    font-weight: 480;
+    line-height: 1.15;
+  }
+
+  .pull-meta {
+    margin-top: 0.45rem;
+  }
+
+  .pull-rating {
+    margin-top: 0.8rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+  }
+
+  .pull-rating :global(.off) {
+    color: var(--hairline);
+  }
+
+  .pull-note {
+    margin-top: 0.8rem;
+    font-style: italic;
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+
+  .pull-rec {
+    margin-top: 0.8rem;
+    color: var(--accent);
+  }
+
+  .pull-close {
+    position: absolute;
+    top: 0.9rem;
+    right: 0.9rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .pull-close:hover {
+    color: var(--ink);
+  }
+
+  @media (max-width: 560px) {
+    .pull {
+      flex-direction: column;
+    }
+
+    .pull-jacket {
+      flex-basis: auto;
+      width: 150px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sp {
+      transition: none;
+    }
+
+    .pull-jacket {
+      animation: none;
+    }
+  }
+</style>
+
+<script is:inline>
+  (() => {
+    const wall = document.getElementById('spine-wall');
+    if (!wall) return;
+    const data = JSON.parse(document.getElementById('spine-data').textContent);
+    const spines = wall.querySelectorAll('.sp');
+    const detail = document.getElementById('spine-detail');
+    const pull = document.getElementById('spine-pull');
+    const jacket = document.getElementById('pull-jacket');
+    const pullTitle = document.getElementById('pull-title');
+    const pullMeta = document.getElementById('pull-meta');
+    const pullRating = document.getElementById('pull-rating');
+    const pullNote = document.getElementById('pull-note');
+    const pullRec = document.getElementById('pull-rec');
+
+    const esc = (s) =>
+      String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+    const stars = (r) => '★'.repeat(r) + `<span class="off">${'★'.repeat(5 - r)}</span>`;
+    const line = (b) =>
+      `${b.t} — ${b.a}${b.p ? ` · ${b.p.toLocaleString()} pages` : ''}${b.r ? ` · ${'★'.repeat(b.r)}` : ''}`;
+
+    let open = -1;
+    const close = () => {
+      open = -1;
+      pull.hidden = true;
+      spines.forEach((s) => s.classList.remove('pulled'));
+    };
+
+    const openBook = (i, spine) => {
+      const b = data[i];
+      open = i;
+      spines.forEach((s) => s.classList.remove('pulled'));
+      spine.classList.add('pulled');
+      jacket.innerHTML = b.c
+        ? `<img src="${esc(b.c)}" alt="Cover of ${esc(b.t)}" loading="lazy">`
+        : `<div class="pull-tint" style="--hue:${b.h}"><span class="tint-t">${esc(b.t)}</span><span class="mono">${esc(b.a)}</span></div>`;
+      jacket.style.animation = 'none';
+      void jacket.offsetWidth;
+      jacket.style.animation = '';
+      pullTitle.textContent = b.t;
+      pullMeta.textContent = `${b.a}${b.y ? ` · ${b.y}` : ''}${b.now ? ' · now reading' : ''}`;
+      pullRating.innerHTML = b.r ? stars(b.r) : '';
+      pullNote.textContent = b.n ? `“${b.n}”` : '';
+      pullRec.hidden = !b.rec;
+      pull.hidden = false;
+    };
+
+    spines.forEach((s) => {
+      const i = +s.dataset.i;
+      const show = () => {
+        detail.textContent = line(data[i]);
+        detail.classList.add('on');
+      };
+      s.addEventListener('mouseenter', show);
+      s.addEventListener('focus', show);
+      s.addEventListener('click', (e) => {
+        e.stopPropagation();
+        open === i ? close() : openBook(i, s);
+      });
+    });
+
+    document.getElementById('pull-close').addEventListener('click', close);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') close();
+    });
+    document.addEventListener('click', (e) => {
+      if (open >= 0 && !pull.contains(e.target)) close();
+    });
+  })();
+</script>
