@@ -241,21 +241,7 @@
       "cover": "/covers/mastery.jpg"
     },
     {
-      "title": "Life Begins After Forty",
-      "author": "",
-      "subtitle": "",
-      "tagline": "",
-      "takeaway": "",
-      "rating": 4,
-      "status": "Read",
-      "type": null,
-      "pages": null,
-      "date": "2024-09-21",
-      "recommend": true,
-      "cover": null
-    },
-    {
-      "title": "The Stairway to Heaven",
+      "title": "Stairway to Heaven",
       "author": "Tara Springer",
       "subtitle": "",
       "tagline": "",
@@ -451,8 +437,8 @@
       "cover": "/covers/jonathan-livingston-seagull.jpg"
     },
     {
-      "title": "The Secret Language of Trees",
-      "author": "",
+      "title": "The Hidden Life of Trees",
+      "author": "Peter Wohlleben",
       "subtitle": "",
       "tagline": "",
       "takeaway": "",
@@ -462,7 +448,7 @@
       "pages": 260,
       "date": "2023-09-10",
       "recommend": false,
-      "cover": "/covers/the-secret-language-of-trees.jpg"
+      "cover": null
     },
     {
       "title": "Breakthrough",
@@ -535,9 +521,9 @@
       "cover": "/covers/becoming-animal.jpg"
     },
     {
-      "title": "Kevin Kelly Life Lessons",
+      "title": "Excellent Advice for Living",
       "author": "Kevin Kelly",
-      "subtitle": "",
+      "subtitle": "Wisdom I Wish I'd Known Earlier",
       "tagline": "",
       "takeaway": "",
       "rating": 4,
@@ -546,7 +532,7 @@
       "pages": null,
       "date": "2023-05-21",
       "recommend": true,
-      "cover": null
+      "cover": "/covers/excellent-advice-for-living.jpg"
     },
     {
       "title": "Brothers Karazamov",
@@ -827,20 +813,6 @@
       "date": "2022-04-16",
       "recommend": true,
       "cover": "/covers/turning-the-flywheel.jpg"
-    },
-    {
-      "title": "How to be Truly Productive",
-      "author": "Andres from Acquisition Lab",
-      "subtitle": "",
-      "tagline": "",
-      "takeaway": "",
-      "rating": 4,
-      "status": "Read",
-      "type": "How-To",
-      "pages": null,
-      "date": "2022-04-09",
-      "recommend": false,
-      "cover": null
     },
     {
       "title": "Traction",
@@ -1417,8 +1389,8 @@
       "cover": null
     },
     {
-      "title": "Ghengis Khan",
-      "author": "",
+      "title": "Genghis Khan and the Making of the Modern World",
+      "author": "Jack Weatherford",
       "subtitle": "And the Making of the Modern World",
       "tagline": "",
       "takeaway": "",
@@ -1428,7 +1400,7 @@
       "pages": null,
       "date": "2020-08-04",
       "recommend": false,
-      "cover": null
+      "cover": "/covers/genghis-khan-and-the-making-of-the-modern-world.jpg"
     },
     {
       "title": "Essentialism",
@@ -2187,20 +2159,6 @@
       "cover": "/covers/the-warburgs.jpg"
     },
     {
-      "title": "Salt Daddy",
-      "author": "B Rob",
-      "subtitle": "",
-      "tagline": "",
-      "takeaway": "",
-      "rating": 2,
-      "status": "Read",
-      "type": "Non Fiction",
-      "pages": 300,
-      "date": "2019-01-01",
-      "recommend": false,
-      "cover": null
-    },
-    {
       "title": "Happiest Toddler on the Block",
       "author": "Dr Harvey Karp",
       "subtitle": "",
@@ -2537,8 +2495,8 @@
       "cover": "/covers/finding-your-way-in-a-wild-new-world.jpg"
     },
     {
-      "title": "History of the World in 100 Pages",
-      "author": "",
+      "title": "A Short History of Nearly Everything",
+      "author": "Bill Bryson",
       "subtitle": "",
       "tagline": "Short history of the world",
       "takeaway": "Big themes, obviously, don�t actually remember too much�",
@@ -2548,7 +2506,7 @@
       "pages": 100,
       "date": "2018-01-01",
       "recommend": false,
-      "cover": null
+      "cover": "/covers/a-short-history-of-nearly-everything.jpg"
     },
     {
       "title": "Fortune's Children: The Fall of the House of Vanderbilt",
@@ -4161,7 +4119,7 @@
       "cover": "/covers/team-of-rivals.jpg"
     },
     {
-      "title": "Choose Yourself (Financially)",
+      "title": "The Choose Yourself Guide to Wealth",
       "author": "James Altucher",
       "subtitle": "",
       "tagline": "Entreprenuership",
@@ -4172,7 +4130,7 @@
       "pages": 274,
       "date": "2016-01-01",
       "recommend": false,
-      "cover": null
+      "cover": "/covers/the-choose-yourself-guide-to-wealth.jpg"
     },
     {
       "title": "Shadow Divers",
@@ -4217,20 +4175,6 @@
       "cover": "/covers/unscripted.jpg"
     },
     {
-      "title": "The Attention Span. \"Death Wish.\"",
-      "author": "Tom Morgan",
-      "subtitle": "",
-      "tagline": "",
-      "takeaway": "",
-      "rating": null,
-      "status": null,
-      "type": null,
-      "pages": null,
-      "date": null,
-      "recommend": false,
-      "cover": null
-    },
-    {
       "title": "Immunity",
       "author": "William E. Paul",
       "subtitle": "",
@@ -4243,20 +4187,6 @@
       "date": null,
       "recommend": false,
       "cover": "/covers/immunity.jpg"
-    },
-    {
-      "title": "Breathe",
-      "author": "",
-      "subtitle": "",
-      "tagline": "",
-      "takeaway": "",
-      "rating": 4,
-      "status": "Read",
-      "type": "Non Fiction",
-      "pages": null,
-      "date": null,
-      "recommend": false,
-      "cover": "/covers/breathe.jpg"
     },
     {
       "title": " Hedge Fund Market Wizards",
