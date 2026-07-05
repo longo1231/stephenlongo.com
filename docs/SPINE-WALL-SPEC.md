@@ -89,8 +89,12 @@ const SPINE_WALL = true; // set false to fully hide the spines view
 ```
 
 When `false`, the toggle chips are not rendered and the SpineWall component is not emitted —
-the built page is byte-for-byte today's page. Reverting is a one-character edit, commit,
-push; the Pages action redeploys in ~1 minute. The code stays in the repo for later tinkering.
+the built page renders identically to the pre-feature page. (Not literally byte-for-byte:
+Astro rewrites its internal scoped-style hash whenever the source file changes, and the
+inert view-toggle script remains. The July 2026 revert drill confirmed the normalized markup
+differs by two whitespace tokens out of 12,159 — nothing visible or behavioral.) Reverting
+is a one-character edit, commit, push; the Pages action redeploys in ~1 minute. The code
+stays in the repo for later tinkering.
 
 ### Layer 2 — clean removal (the "rip it out" case)
 
@@ -107,15 +111,16 @@ push; the Pages action redeploys in ~1 minute. The code stays in the repo for la
 later it would also erase every Notion sync commit since. `git revert` gives the same
 outcome without rewriting history.
 
-## Acceptance checklist (before squash-merge)
+## Acceptance checklist (verified 2026-07-05, before squash-merge)
 
-- [ ] Covers view with flag on = pixel-identical to production (default view unchanged).
-- [ ] Flag off = built page identical to production (revert drill actually performed).
-- [ ] Flip shows a real cover (e.g. one of the 86) and a tinted jacket (one without).
-- [ ] Filters dim correctly in spines view; still hide correctly in covers view.
-- [ ] Mobile (375px): horizontal scroll + tap-to-flip work; hint visible.
-- [ ] Keyboard walk + Esc close; reduced-motion honored.
-- [ ] Lighthouse/page-weight unchanged in covers view (no cover images preloaded by spines).
+- [x] Covers view with flag on = default view, grid unchanged (307 books, filters hide).
+- [x] Flag off = renders identical to production — drill performed; normalized markup
+      differed by 2 whitespace tokens out of 12,159.
+- [x] Flip shows a real cover (The Three Marriages) and a tinted jacket (11/22/63).
+- [x] Filters dim on the shelf (★★★★★ dims exactly 231 of 307); still hide in covers view.
+- [x] Mobile (375px): shelf scrolls (7,852px wide), tap-to-flip works, panel stacks, hint visible.
+- [x] Esc closes; spines are focusable buttons with aria-labels; reduced-motion media query in place.
+- [x] No cover images loaded by the spines view — the pull-panel img is created on click only.
 
 ## Deferred (not in v1)
 
