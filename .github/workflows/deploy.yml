@@ -36,5 +36,14 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      # The Pages API intermittently rejects deployments with "Deployment
+      # failed, try again later" (3 of 6 deploys on 2026-07-05); a short pause
+      # and a second attempt has always recovered it.
       - id: deployment
+        uses: actions/deploy-pages@v4
+        continue-on-error: true
+      - if: steps.deployment.outcome == 'failure'
+        run: sleep 30
+      - id: retry
+        if: steps.deployment.outcome == 'failure'
         uses: actions/deploy-pages@v4
