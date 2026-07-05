@@ -4,7 +4,7 @@
   "books": [
     {
       "title": "1929",
-      "author": "Adnrew Ross Sorkin",
+      "author": "Andrew Ross Sorkin",
       "subtitle": "Great Depression",
       "tagline": "",
       "takeaway": "",
@@ -14,11 +14,11 @@
       "pages": null,
       "date": "2026-02-04",
       "recommend": false,
-      "cover": null
+      "cover": "/covers/1929.jpg"
     },
     {
-      "title": "King Warrior Magician Lover",
-      "author": "",
+      "title": "King, Warrior, Magician, Lover",
+      "author": "Robert Moore & Douglas Gillette",
       "subtitle": "",
       "tagline": "",
       "takeaway": "",
@@ -32,7 +32,7 @@
     },
     {
       "title": "The Goldfinch",
-      "author": "",
+      "author": "Donna Tartt",
       "subtitle": "",
       "tagline": "",
       "takeaway": "",
@@ -46,7 +46,7 @@
     },
     {
       "title": "A Man in Full",
-      "author": "",
+      "author": "Tom Wolfe",
       "subtitle": "",
       "tagline": "",
       "takeaway": "",
@@ -87,8 +87,8 @@
       "cover": "/covers/the-cost-of-these-dreams.jpg"
     },
     {
-      "title": "THe Maniac",
-      "author": "",
+      "title": "The MANIAC",
+      "author": "Benjamín Labatut",
       "subtitle": "",
       "tagline": "",
       "takeaway": "",
@@ -130,7 +130,7 @@
     },
     {
       "title": "The Book of Life",
-      "author": "J Krishnamurti",
+      "author": "Jiddu Krishnamurti",
       "subtitle": "",
       "tagline": "",
       "takeaway": "",
@@ -140,7 +140,7 @@
       "pages": null,
       "date": "2025-01-01",
       "recommend": false,
-      "cover": null
+      "cover": "/covers/the-book-of-life.jpg"
     },
     {
       "title": "Jorge Luis Borges",
@@ -158,7 +158,7 @@
     },
     {
       "title": "The Great Gatsby",
-      "author": "",
+      "author": "F. Scott Fitzgerald",
       "subtitle": "",
       "tagline": "Audible Jake Gylenhall",
       "takeaway": "",
@@ -311,7 +311,7 @@
       "cover": "/covers/kafka-on-the-shore.jpg"
     },
     {
-      "title": "On Creativity",
+      "title": "The Creative Act: A Way of Being",
       "author": "Rick Rubin",
       "subtitle": "",
       "tagline": "",
@@ -368,7 +368,7 @@
     },
     {
       "title": "Holotropic Breathwork",
-      "author": "satnislov?",
+      "author": "Stanislav Grof & Christina Grof",
       "subtitle": "",
       "tagline": "",
       "takeaway": "",
@@ -409,8 +409,8 @@
       "cover": "/covers/elon-musk.jpg"
     },
     {
-      "title": "The Self Driven Child",
-      "author": "",
+      "title": "The Self-Driven Child",
+      "author": "William Stixrud & Ned Johnson",
       "subtitle": "",
       "tagline": "",
       "takeaway": "Let your kids live their own lives and make their own choices",
@@ -578,7 +578,7 @@
     },
     {
       "title": "Financial Hacking",
-      "author": "",
+      "author": "Philip Z. Maymin",
       "subtitle": "",
       "tagline": "",
       "takeaway": "",
@@ -606,7 +606,7 @@
     },
     {
       "title": "Systematic Trading",
-      "author": "Rob Carver",
+      "author": "Robert Carver",
       "subtitle": "",
       "tagline": "",
       "takeaway": "Really good base ",
@@ -616,11 +616,11 @@
       "pages": 300,
       "date": "2023-03-01",
       "recommend": true,
-      "cover": null
+      "cover": "/covers/systematic-trading.jpg"
     },
     {
       "title": "Chatter",
-      "author": "Ethan Cross",
+      "author": "Ethan Kross",
       "subtitle": "",
       "tagline": "",
       "takeaway": "",
@@ -630,7 +630,7 @@
       "pages": null,
       "date": "2023-02-10",
       "recommend": false,
-      "cover": null
+      "cover": "/covers/chatter.jpg"
     },
     {
       "title": "How Will You Measure Your Life",
@@ -690,7 +690,7 @@
     },
     {
       "title": "Do the Work",
-      "author": "Steve Pressfield",
+      "author": "Steven Pressfield",
       "subtitle": "",
       "tagline": "",
       "takeaway": "Overcome resistance, everyone has to",
@@ -700,7 +700,7 @@
       "pages": null,
       "date": "2023-01-02",
       "recommend": true,
-      "cover": null
+      "cover": "/covers/do-the-work.jpg"
     },
     {
       "title": "Never Finished",
@@ -718,7 +718,7 @@
     },
     {
       "title": "Shantaram",
-      "author": "Greg David",
+      "author": "Gregory David Roberts",
       "subtitle": "",
       "tagline": "",
       "takeaway": "Still don’t love it but great writing",
@@ -728,11 +728,11 @@
       "pages": 950,
       "date": "2022-10-26",
       "recommend": false,
-      "cover": null
+      "cover": "/covers/shantaram.jpg"
     },
     {
-      "title": "Investing Amid Low Exptected Returns",
-      "author": "Antti Illmanen",
+      "title": "Investing Amid Low Expected Returns",
+      "author": "Antti Ilmanen",
       "subtitle": "",
       "tagline": "",
       "takeaway": "Be patient. Diversify. Add Trend",
@@ -844,7 +844,7 @@
     },
     {
       "title": "Traction",
-      "author": "Geno Wickman",
+      "author": "Gino Wickman",
       "subtitle": "",
       "tagline": "",
       "takeaway": "",
@@ -854,11 +854,11 @@
       "pages": null,
       "date": "2022-03-28",
       "recommend": false,
-      "cover": null
+      "cover": "/covers/traction.jpg"
     },
     {
-      "title": "The Go Giver",
-      "author": "",
+      "title": "The Go-Giver",
+      "author": "Bob Burg & John David Mann",
       "subtitle": "",
       "tagline": "",
       "takeaway": "create value to get value",
@@ -871,8 +871,8 @@
       "cover": "/covers/the-go-giver.jpg"
     },
     {
-      "title": "4,000 Weeks",
-      "author": "Oliver Burke",
+      "title": "Four Thousand Weeks",
+      "author": "Oliver Burkeman",
       "subtitle": "",
       "tagline": "",
       "takeaway": "accept that time is finite",
@@ -882,11 +882,11 @@
       "pages": 250,
       "date": "2022-03-04",
       "recommend": false,
-      "cover": null
+      "cover": "/covers/four-thousand-weeks.jpg"
     },
     {
       "title": "Blue Highways",
-      "author": "",
+      "author": "William Least Heat-Moon",
       "subtitle": "",
       "tagline": "",
       "takeaway": "",
@@ -899,8 +899,8 @@
       "cover": "/covers/blue-highways.jpg"
     },
     {
-      "title": "The Art of Engineering",
-      "author": "Richard Hamming",
+      "title": "The Art of Doing Science and Engineering",
+      "author": "Richard W. Hamming",
       "subtitle": "",
       "tagline": "",
       "takeaway": "",
@@ -910,7 +910,7 @@
       "pages": 350,
       "date": "2022-02-24",
       "recommend": false,
-      "cover": null
+      "cover": "/covers/the-art-of-doing-science-and-engineering.jpg"
     },
     {
       "title": "The EOS Life",
@@ -969,8 +969,8 @@
       "cover": "/covers/becoming-trader-joe.jpg"
     },
     {
-      "title": "Upinishads",
-      "author": "",
+      "title": "The Upanishads",
+      "author": "Eknath Easwaran (tr.)",
       "subtitle": "",
       "tagline": "",
       "takeaway": "",
@@ -1012,7 +1012,7 @@
     },
     {
       "title": "Norwegian Wood",
-      "author": "",
+      "author": "Haruki Murakami",
       "subtitle": "",
       "tagline": "",
       "takeaway": "",
@@ -1039,7 +1039,7 @@
       "cover": "/covers/bluefishing.jpg"
     },
     {
-      "title": "Exhaltation",
+      "title": "Exhalation",
       "author": "Ted Chiang",
       "subtitle": "",
       "tagline": "Short Story Collection",
@@ -1050,7 +1050,7 @@
       "pages": null,
       "date": "2021-08-14",
       "recommend": true,
-      "cover": null
+      "cover": "/covers/exhalation.jpg"
     },
     {
       "title": "Project Hail Mary",
@@ -1082,7 +1082,7 @@
     },
     {
       "title": "The Fifth Science",
-      "author": "Exurbia",
+      "author": "Exurb1a",
       "subtitle": "",
       "tagline": "",
       "takeaway": "",
@@ -1092,7 +1092,7 @@
       "pages": 325,
       "date": "2021-07-18",
       "recommend": false,
-      "cover": null
+      "cover": "/covers/the-fifth-science.jpg"
     },
     {
       "title": "Breath",
@@ -1110,7 +1110,7 @@
     },
     {
       "title": "The Four Agreements",
-      "author": "",
+      "author": "Don Miguel Ruiz",
       "subtitle": "",
       "tagline": "",
       "takeaway": "",
@@ -1138,7 +1138,7 @@
     },
     {
       "title": "Complexity",
-      "author": "",
+      "author": "M. Mitchell Waldrop",
       "subtitle": "",
       "tagline": "",
       "takeaway": "Life lives between order and chaso. A place of self renewing change. I thought of it almost as running (constantly \"falling\" but moving forward.",
@@ -1152,7 +1152,7 @@
     },
     {
       "title": "Flash Crash",
-      "author": "Liam Vaughn",
+      "author": "Liam Vaughan",
       "subtitle": "",
       "tagline": "How one spoofer \"caused\" the Flash Crash",
       "takeaway": "kid builds program to spoof markets and makes 70mm!",
@@ -1162,7 +1162,7 @@
       "pages": 225,
       "date": "2021-03-28",
       "recommend": true,
-      "cover": null
+      "cover": "/covers/flash-crash.jpg"
     },
     {
       "title": "Beware of the Dog",
@@ -1179,7 +1179,7 @@
       "cover": "/covers/beware-of-the-dog.jpg"
     },
     {
-      "title": "Epigenetics",
+      "title": "Introducing Epigenetics",
       "author": "Cath Ennis",
       "subtitle": "A Graphic Guide",
       "tagline": "",
@@ -1190,7 +1190,7 @@
       "pages": 165,
       "date": "2021-03-02",
       "recommend": false,
-      "cover": null
+      "cover": "/covers/introducing-epigenetics.jpg"
     },
     {
       "title": "Total Rugby",
@@ -1222,7 +1222,7 @@
     },
     {
       "title": "The Call of Cthulhu",
-      "author": "HP Lovecraft",
+      "author": "H.P. Lovecraft",
       "subtitle": "",
       "tagline": "",
       "takeaway": "universe is weird and we know nothing",
@@ -1232,11 +1232,11 @@
       "pages": 52,
       "date": "2021-02-21",
       "recommend": true,
-      "cover": null
+      "cover": "/covers/the-call-of-cthulhu.jpg"
     },
     {
       "title": "The Richest Man in Babylon",
-      "author": "",
+      "author": "George S. Clason",
       "subtitle": "",
       "tagline": "",
       "takeaway": "",
@@ -1249,7 +1249,7 @@
       "cover": "/covers/the-richest-man-in-babylon.jpg"
     },
     {
-      "title": "Cryptonmicon",
+      "title": "Cryptonomicon",
       "author": "Neal Stephenson",
       "subtitle": "",
       "tagline": "",
@@ -1260,7 +1260,7 @@
       "pages": 1130,
       "date": "2020-12-27",
       "recommend": true,
-      "cover": null
+      "cover": "/covers/cryptonomicon.jpg"
     },
     {
       "title": "The Unfettered Mind",
@@ -1306,7 +1306,7 @@
     },
     {
       "title": "Greenlights",
-      "author": "Mathew McConaghy",
+      "author": "Matthew McConaughey",
       "subtitle": "",
       "tagline": "",
       "takeaway": "guy can tell a story",
@@ -1316,7 +1316,7 @@
       "pages": null,
       "date": "2020-11-15",
       "recommend": true,
-      "cover": null
+      "cover": "/covers/greenlights.jpg"
     },
     {
       "title": "The New Market Wizards",
@@ -1348,7 +1348,7 @@
     },
     {
       "title": "Get Together",
-      "author": "Stripe Press",
+      "author": "Bailey Richardson, Kevin Huynh & Kai Elmer Sotto",
       "subtitle": "Community Building",
       "tagline": "How to start and grow a community",
       "takeaway": "",
@@ -1358,7 +1358,7 @@
       "pages": 180,
       "date": "2020-09-26",
       "recommend": true,
-      "cover": null
+      "cover": "/covers/get-together.jpg"
     },
     {
       "title": "Positional Option Trading",
@@ -1529,7 +1529,7 @@
       "cover": "/covers/coach.jpg"
     },
     {
-      "title": "Headspace Guide to Meditaiton",
+      "title": "The Headspace Guide to Meditation and Mindfulness",
       "author": "Andy Puddicombe",
       "subtitle": "",
       "tagline": "How to apporach meditaiton rationally",
@@ -1540,7 +1540,7 @@
       "pages": 190,
       "date": "2020-06-07",
       "recommend": false,
-      "cover": null
+      "cover": "/covers/the-headspace-guide-to-meditation-and-mindfulness.jpg"
     },
     {
       "title": "Live the Best Story of Your Life",
@@ -1600,7 +1600,7 @@
     },
     {
       "title": "Running with Sherman",
-      "author": "",
+      "author": "Christopher McDougall",
       "subtitle": "",
       "tagline": "",
       "takeaway": "",
@@ -1614,7 +1614,7 @@
     },
     {
       "title": "Friendly Ambitious Nerd",
-      "author": "",
+      "author": "Visakan Veerasamy",
       "subtitle": "",
       "tagline": "",
       "takeaway": "",
@@ -1627,8 +1627,8 @@
       "cover": null
     },
     {
-      "title": "Horse Trading",
-      "author": "Ben Green",
+      "title": "Horse Tradin'",
+      "author": "Ben K. Green",
       "subtitle": "",
       "tagline": "",
       "takeaway": "",
@@ -1638,7 +1638,7 @@
       "pages": 250,
       "date": "2020-01-03",
       "recommend": true,
-      "cover": null
+      "cover": "/covers/horse-tradin.jpg"
     },
     {
       "title": "The Path of Least Resistance",
@@ -1669,7 +1669,7 @@
       "cover": "/covers/nothing-to-see-here.jpg"
     },
     {
-      "title": "Trading Volatility",
+      "title": "Volatility Trading",
       "author": "Euan Sinclair",
       "subtitle": "",
       "tagline": "",
@@ -1739,8 +1739,8 @@
       "cover": "/covers/markets-in-profile.jpg"
     },
     {
-      "title": "Molokai",
-      "author": "Alan Bennet ",
+      "title": "Moloka'i",
+      "author": "Alan Brennert",
       "subtitle": "",
       "tagline": "fiction about the leper colony in Hawaii",
       "takeaway": "",
@@ -1750,7 +1750,7 @@
       "pages": 370,
       "date": "2019-11-10",
       "recommend": true,
-      "cover": null
+      "cover": "/covers/moloka-i.jpg"
     },
     {
       "title": "Digital Minimalism",
@@ -1880,7 +1880,7 @@
     },
     {
       "title": "Soonish",
-      "author": "Kelly and Zach Weinersmi",
+      "author": "Kelly Weinersmith & Zach Weinersmith",
       "subtitle": "",
       "tagline": "boring...",
       "takeaway": "",
@@ -1890,11 +1890,11 @@
       "pages": 350,
       "date": "2019-01-01",
       "recommend": false,
-      "cover": null
+      "cover": "/covers/soonish.jpg"
     },
     {
       "title": "Can't Hurt Me",
-      "author": "David Groggins",
+      "author": "David Goggins",
       "subtitle": "",
       "tagline": "Extreme discipline",
       "takeaway": "",
@@ -1904,7 +1904,7 @@
       "pages": 350,
       "date": "2019-01-01",
       "recommend": false,
-      "cover": null
+      "cover": "/covers/can-t-hurt-me.jpg"
     },
     {
       "title": "Skunk Works",
@@ -2047,8 +2047,8 @@
       "cover": null
     },
     {
-      "title": "Ends of the World",
-      "author": "Peter Brannon",
+      "title": "The Ends of the World",
+      "author": "Peter Brannen",
       "subtitle": "",
       "tagline": "History of Mass extinctions",
       "takeaway": "life can reset...but if it doenst go to 0 it grows back",
@@ -2058,7 +2058,7 @@
       "pages": 300,
       "date": "2019-01-01",
       "recommend": false,
-      "cover": null
+      "cover": "/covers/the-ends-of-the-world.jpg"
     },
     {
       "title": "Born Standing Up",
@@ -2076,7 +2076,7 @@
     },
     {
       "title": "Making Sense of People",
-      "author": "Sam Barondes",
+      "author": "Samuel Barondes",
       "subtitle": "",
       "tagline": "",
       "takeaway": "",
@@ -2086,7 +2086,7 @@
       "pages": 180,
       "date": "2019-01-01",
       "recommend": false,
-      "cover": null
+      "cover": "/covers/making-sense-of-people.jpg"
     },
     {
       "title": "Amusing Ourselves to Death ",
@@ -2103,8 +2103,8 @@
       "cover": "/covers/amusing-ourselves-to-death.jpg"
     },
     {
-      "title": "Thinking Twice",
-      "author": "Mike Maboussin",
+      "title": "Think Twice",
+      "author": "Michael J. Mauboussin",
       "subtitle": "",
       "tagline": "",
       "takeaway": "",
@@ -2114,7 +2114,7 @@
       "pages": 140,
       "date": "2019-01-01",
       "recommend": false,
-      "cover": null
+      "cover": "/covers/think-twice.jpg"
     },
     {
       "title": "The Absent Superpower",
@@ -2160,7 +2160,7 @@
     },
     {
       "title": "The Longevity Diet",
-      "author": "Dr Valter Longo",
+      "author": "Valter Longo",
       "subtitle": "",
       "tagline": "",
       "takeaway": "",
@@ -2170,7 +2170,7 @@
       "pages": 300,
       "date": "2019-01-01",
       "recommend": false,
-      "cover": null
+      "cover": "/covers/the-longevity-diet.jpg"
     },
     {
       "title": "The Warburgs",
@@ -2243,7 +2243,7 @@
       "cover": "/covers/when-i-say-no-i-feel-guilty.jpg"
     },
     {
-      "title": "The Married Man S Primer",
+      "title": "The Married Man Sex Life Primer",
       "author": "Athol Kay",
       "subtitle": "",
       "tagline": "",
@@ -2453,8 +2453,8 @@
       "cover": "/covers/never-split-the-difference.jpg"
     },
     {
-      "title": "The Courage to be Disliked",
-      "author": "Ichiro Kashimi",
+      "title": "The Courage to Be Disliked",
+      "author": "Ichiro Kishimi & Fumitake Koga",
       "subtitle": "",
       "tagline": "Socrates Style Q&A on how to be Happy",
       "takeaway": "Everything is how you react to it.  Cannot worry or stress over others opinions",
@@ -2523,7 +2523,7 @@
       "cover": "/covers/tiger-woods.jpg"
     },
     {
-      "title": "Finding Your Way in a New World",
+      "title": "Finding Your Way in a Wild New World",
       "author": "Martha Beck",
       "subtitle": "",
       "tagline": "Boyd Varty's American Guru.  How she listens to her inner self",
@@ -2534,7 +2534,7 @@
       "pages": 300,
       "date": "2018-01-01",
       "recommend": false,
-      "cover": null
+      "cover": "/covers/finding-your-way-in-a-wild-new-world.jpg"
     },
     {
       "title": "History of the World in 100 Pages",
@@ -2551,8 +2551,8 @@
       "cover": null
     },
     {
-      "title": "Fortune's Children, Fall of House Vanderbil",
-      "author": "Arthur Vanderbilt",
+      "title": "Fortune's Children: The Fall of the House of Vanderbilt",
+      "author": "Arthur T. Vanderbilt II",
       "subtitle": "",
       "tagline": "Riches to Rags in 3 Generations",
       "takeaway": "Building gigantic mansions is a great way to destroy wealth",
@@ -2562,7 +2562,7 @@
       "pages": 544,
       "date": "2018-01-01",
       "recommend": true,
-      "cover": null
+      "cover": "/covers/fortune-s-children-the-fall-of-the-house-of-vanderbilt.jpg"
     },
     {
       "title": "Gridiron Genius",
@@ -2622,7 +2622,7 @@
     },
     {
       "title": "Fire and Fury",
-      "author": "Michael Wolffe",
+      "author": "Michael Wolff",
       "subtitle": "",
       "tagline": "Trump White House = Chaos",
       "takeaway": "Author is biased but crazy stories",
@@ -2632,7 +2632,7 @@
       "pages": 321,
       "date": "2018-01-01",
       "recommend": true,
-      "cover": null
+      "cover": "/covers/fire-and-fury.jpg"
     },
     {
       "title": "Death's End",
@@ -2692,7 +2692,7 @@
     },
     {
       "title": "The Trusted Advisor",
-      "author": "David Maistel",
+      "author": "David H. Maister",
       "subtitle": "",
       "tagline": "How to be a trusted advisor",
       "takeaway": "Actually care for clients, build trust by being honest when don�t know, etc",
@@ -2702,11 +2702,11 @@
       "pages": 200,
       "date": "2018-01-01",
       "recommend": false,
-      "cover": null
+      "cover": "/covers/the-trusted-advisor.jpg"
     },
     {
-      "title": "Bringing up Bebe",
-      "author": "Pam Druckerman",
+      "title": "Bringing Up Bébé",
+      "author": "Pamela Druckerman",
       "subtitle": "",
       "tagline": "What do french parents do differently than americans",
       "takeaway": "Chill out, let babies have some space, don�t dote immediately, teach patience",
@@ -2716,7 +2716,7 @@
       "pages": 265,
       "date": "2018-01-01",
       "recommend": true,
-      "cover": null
+      "cover": "/covers/bringing-up-b-b.jpg"
     },
     {
       "title": "Skagboys",
@@ -2748,7 +2748,7 @@
     },
     {
       "title": "Lake Success",
-      "author": "Gary Schteyngart",
+      "author": "Gary Shteyngart",
       "subtitle": "",
       "tagline": "Hedge fund master of universe has nervous breakdown across country",
       "takeaway": "Funny, a little too contrived, but a lot of interesting insights",
@@ -2758,7 +2758,7 @@
       "pages": 334,
       "date": "2018-01-01",
       "recommend": false,
-      "cover": null
+      "cover": "/covers/lake-success.jpg"
     },
     {
       "title": "Levels of the Game",
@@ -2803,7 +2803,7 @@
       "cover": "/covers/sense-of-style.jpg"
     },
     {
-      "title": "Hero with 1000 Faces",
+      "title": "The Hero with a Thousand Faces",
       "author": "Joseph Campbell",
       "subtitle": "",
       "tagline": "Why do huamns have common Myth?",
@@ -2814,7 +2814,7 @@
       "pages": 336,
       "date": "2018-01-01",
       "recommend": true,
-      "cover": null
+      "cover": "/covers/the-hero-with-a-thousand-faces.jpg"
     },
     {
       "title": "Anything You Want",
@@ -2874,7 +2874,7 @@
     },
     {
       "title": "Meaningful Work",
-      "author": "Sean Akinose",
+      "author": "Shawn Askinosie",
       "subtitle": "",
       "tagline": "Former Litigator starts chocolate company sourcing African choc",
       "takeaway": "Meaning in work is very important and can itself lead to differentiation/success",
@@ -2884,11 +2884,11 @@
       "pages": 190,
       "date": "2018-01-01",
       "recommend": true,
-      "cover": null
+      "cover": "/covers/meaningful-work.jpg"
     },
     {
-      "title": "Bricky by Brick",
-      "author": "David Roberston",
+      "title": "Brick by Brick",
+      "author": "David C. Robertson",
       "subtitle": "",
       "tagline": "Corporate history of lego",
       "takeaway": "Tried to grow, failed, had to go back to basics and restart innovation",
@@ -2898,7 +2898,7 @@
       "pages": 270,
       "date": "2018-01-01",
       "recommend": true,
-      "cover": null
+      "cover": "/covers/brick-by-brick.jpg"
     },
     {
       "title": "Legacy of Ashes",
@@ -2916,7 +2916,7 @@
     },
     {
       "title": "A Man for All Markets",
-      "author": "Ed Thorp",
+      "author": "Edward O. Thorp",
       "subtitle": "",
       "tagline": "Blackjack guy but went on to run uber successful fund",
       "takeaway": "Rational thinking, discipline and immature markets recipe for massive success",
@@ -2926,11 +2926,11 @@
       "pages": 350,
       "date": "2018-01-01",
       "recommend": true,
-      "cover": null
+      "cover": "/covers/a-man-for-all-markets.jpg"
     },
     {
       "title": "How to Change Your Mind",
-      "author": "Mike Pollian",
+      "author": "Michael Pollan",
       "subtitle": "",
       "tagline": "Omni Dilemma author  on psychedlics",
       "takeaway": "Promising area of research, can help persepctive etc",
@@ -2940,7 +2940,7 @@
       "pages": 400,
       "date": "2018-01-01",
       "recommend": true,
-      "cover": null
+      "cover": "/covers/how-to-change-your-mind.jpg"
     },
     {
       "title": "Creativity Inc",
@@ -2985,7 +2985,7 @@
       "cover": "/covers/skin-in-the-game.jpg"
     },
     {
-      "title": "I Contain Multitidues",
+      "title": "I Contain Multitudes",
       "author": "Ed Yong",
       "subtitle": "",
       "tagline": "Overview of bacteria in human body",
@@ -2996,7 +2996,7 @@
       "pages": 350,
       "date": "2018-01-01",
       "recommend": true,
-      "cover": null
+      "cover": "/covers/i-contain-multitudes.jpg"
     },
     {
       "title": "Convict Conditioning",
@@ -3014,7 +3014,7 @@
     },
     {
       "title": "Happiest Baby on the Block",
-      "author": "Harvey Karm",
+      "author": "Harvey Karp",
       "subtitle": "",
       "tagline": "How to soothe newborns",
       "takeaway": "Five S's:  Shush, swing, side, shake, suck",
@@ -3024,7 +3024,7 @@
       "pages": 235,
       "date": "2018-01-01",
       "recommend": false,
-      "cover": null
+      "cover": "/covers/happiest-baby-on-the-block.jpg"
     },
     {
       "title": "The Silk Roads:  A New History of the World",
@@ -3098,7 +3098,7 @@
     },
     {
       "title": "East of Eden",
-      "author": "John Steinback",
+      "author": "John Steinbeck",
       "subtitle": "",
       "tagline": "Trask and Hamilton Families in Salina Valley",
       "takeaway": "Cain + Abel original sin and how people have both good and bad in them",
@@ -3108,7 +3108,7 @@
       "pages": 691,
       "date": "2017-01-01",
       "recommend": true,
-      "cover": null
+      "cover": "/covers/east-of-eden.jpg"
     },
     {
       "title": "The Politics of Resentment",
@@ -3251,7 +3251,7 @@
       "cover": "/covers/billion-dollar-spy.jpg"
     },
     {
-      "title": "Winning Bond Strategy",
+      "title": "The Only Guide to a Winning Bond Strategy You'll Ever Need",
       "author": "Larry Swedroe",
       "subtitle": "",
       "tagline": "How to use bonds in portfolio (ladder, rolldown)",
@@ -3262,7 +3262,7 @@
       "pages": 272,
       "date": "2017-01-01",
       "recommend": false,
-      "cover": null
+      "cover": "/covers/the-only-guide-to-a-winning-bond-strategy-you-ll-ever-need.jpg"
     },
     {
       "title": "The Course of Love",
@@ -3335,7 +3335,7 @@
       "cover": "/covers/investing-the-last-liberal-art.jpg"
     },
     {
-      "title": "Eloquence",
+      "title": "The Elements of Eloquence",
       "author": "Mark Forsyth",
       "subtitle": "",
       "tagline": "Looks at what makes a phrase memorable",
@@ -3346,10 +3346,10 @@
       "pages": 256,
       "date": "2017-01-01",
       "recommend": false,
-      "cover": null
+      "cover": "/covers/the-elements-of-eloquence.jpg"
     },
     {
-      "title": "Other People's Money: The Biz of Finance",
+      "title": "Other People's Money",
       "author": "John Kay",
       "subtitle": "",
       "tagline": "Housing Crisis and banking overview",
@@ -3360,11 +3360,11 @@
       "pages": 350,
       "date": "2017-01-01",
       "recommend": true,
-      "cover": null
+      "cover": "/covers/other-people-s-money.jpg"
     },
     {
-      "title": "The Best Investment Writing ",
-      "author": "Marc Faber",
+      "title": "The Best Investment Writing",
+      "author": "Meb Faber (ed.)",
       "subtitle": "",
       "tagline": "Collection of Investment Essays",
       "takeaway": "Hard to remember specifics but many very good",
@@ -3392,7 +3392,7 @@
     },
     {
       "title": "HBR Guide to Buying a Small Business",
-      "author": "Rich Ruback",
+      "author": "Richard S. Ruback & Royce Yudkoff",
       "subtitle": "",
       "tagline": "All about small business valuations",
       "takeaway": "make money when you buy not grow/sell.  Compare to boostrap",
@@ -3402,7 +3402,7 @@
       "pages": 320,
       "date": "2017-01-01",
       "recommend": true,
-      "cover": null
+      "cover": "/covers/hbr-guide-to-buying-a-small-business.jpg"
     },
     {
       "title": "Homo Deus",
@@ -3447,7 +3447,7 @@
       "cover": "/covers/requiem-for-the-american-dream.jpg"
     },
     {
-      "title": "The Inevetible",
+      "title": "The Inevitable",
       "author": "Kevin Kelly",
       "subtitle": "",
       "tagline": "12 Tech Forces to Shape our Future",
@@ -3458,10 +3458,10 @@
       "pages": 336,
       "date": "2017-01-01",
       "recommend": true,
-      "cover": null
+      "cover": "/covers/the-inevitable.jpg"
     },
     {
-      "title": "Super Sad Love Story",
+      "title": "Super Sad True Love Story",
       "author": "Gary Shteyngart",
       "subtitle": "",
       "tagline": "Love Story in Future - jew and Korean",
@@ -3472,10 +3472,10 @@
       "pages": 334,
       "date": "2017-01-01",
       "recommend": true,
-      "cover": null
+      "cover": "/covers/super-sad-true-love-story.jpg"
     },
     {
-      "title": "The Brain the Changes Itself",
+      "title": "The Brain That Changes Itself",
       "author": "Norman Doidge",
       "subtitle": "",
       "tagline": "Brain chemistry and changing physical things",
@@ -3486,11 +3486,11 @@
       "pages": 427,
       "date": "2017-01-01",
       "recommend": true,
-      "cover": null
+      "cover": "/covers/the-brain-that-changes-itself.jpg"
     },
     {
-      "title": "Chaos Monkey",
-      "author": "Antonio Martinez",
+      "title": "Chaos Monkeys",
+      "author": "Antonio García Martínez",
       "subtitle": "",
       "tagline": "Bro on Wall St then Facebook",
       "takeaway": "all same game -- facebook stuff (algos for ads) really interesting",
@@ -3500,11 +3500,11 @@
       "pages": 533,
       "date": "2017-01-01",
       "recommend": true,
-      "cover": null
+      "cover": "/covers/chaos-monkeys.jpg"
     },
     {
-      "title": "Transatlantic",
-      "author": "Colum Mcann",
+      "title": "TransAtlantic",
+      "author": "Colum McCann",
       "subtitle": "",
       "tagline": "Fiction - 3 crossing stories to Ireland",
       "takeaway": "Like the author, cant remember much of story�was decent read",
@@ -3514,11 +3514,11 @@
       "pages": 336,
       "date": "2017-01-01",
       "recommend": false,
-      "cover": null
+      "cover": "/covers/transatlantic.jpg"
     },
     {
       "title": "Dark Money",
-      "author": "Jane Meyer",
+      "author": "Jane Mayer",
       "subtitle": "",
       "tagline": "Where does political money come from",
       "takeaway": "Not good�corporations and Super Pacs�Billionaires",
@@ -3528,7 +3528,7 @@
       "pages": 576,
       "date": "2017-01-01",
       "recommend": true,
-      "cover": null
+      "cover": "/covers/dark-money.jpg"
     },
     {
       "title": "The Subtle Art of Not Giving a F*ck",
@@ -3559,7 +3559,7 @@
       "cover": "/covers/born-to-run.jpg"
     },
     {
-      "title": "How to Fail at Everything and Still Win Big",
+      "title": "How to Fail at Almost Everything and Still Win Big",
       "author": "Scott Adams",
       "subtitle": "",
       "tagline": "Dilbert Creator on being anti-fragile, persuasion",
@@ -3570,7 +3570,7 @@
       "pages": 256,
       "date": "2017-01-01",
       "recommend": false,
-      "cover": null
+      "cover": "/covers/how-to-fail-at-almost-everything-and-still-win-big.jpg"
     },
     {
       "title": "The Practicing Mind",
@@ -3601,8 +3601,8 @@
       "cover": "/covers/the-three-body-problem.jpg"
     },
     {
-      "title": "The Omnivore Dilemma",
-      "author": "Mike Pollan",
+      "title": "The Omnivore's Dilemma",
+      "author": "Michael Pollan",
       "subtitle": "",
       "tagline": "4 meals to illustrate food",
       "takeaway": "Simple stuff�should eat locally grown real food",
@@ -3615,7 +3615,7 @@
       "cover": null
     },
     {
-      "title": "Atlas Cloud",
+      "title": "Cloud Atlas",
       "author": "David Mitchell",
       "subtitle": "",
       "tagline": "Modern Nested stories within stories",
@@ -3626,10 +3626,10 @@
       "pages": 528,
       "date": "2017-01-01",
       "recommend": true,
-      "cover": null
+      "cover": "/covers/cloud-atlas.jpg"
     },
     {
-      "title": "The Foundation",
+      "title": "Foundation",
       "author": "Isaac Asimov",
       "subtitle": "",
       "tagline": "Classic Sci Fi novel about Galactic empire",
@@ -3640,10 +3640,10 @@
       "pages": 296,
       "date": "2017-01-01",
       "recommend": true,
-      "cover": null
+      "cover": "/covers/foundation.jpg"
     },
     {
-      "title": "The $100 Dollar Startup",
+      "title": "The $100 Startup",
       "author": "Chris Guillebeau",
       "subtitle": "",
       "tagline": "About starting cheap companies",
@@ -3654,11 +3654,11 @@
       "pages": 304,
       "date": "2017-01-01",
       "recommend": false,
-      "cover": null
+      "cover": "/covers/the-100-startup.jpg"
     },
     {
       "title": "The Hidden Life of Trees",
-      "author": "Peter Wohelleben",
+      "author": "Peter Wohlleben",
       "subtitle": "",
       "tagline": "The Forest is a Social Network",
       "takeaway": "how trees feel, communicate�much deeper life than expected",
@@ -3685,7 +3685,7 @@
       "cover": null
     },
     {
-      "title": "The Psychadelic Explorer's Guide",
+      "title": "The Psychedelic Explorer's Guide",
       "author": "James Fadiman",
       "subtitle": "",
       "tagline": "Reivew of value for psychadelics",
@@ -3696,7 +3696,7 @@
       "pages": 352,
       "date": "2017-01-01",
       "recommend": true,
-      "cover": null
+      "cover": "/covers/the-psychedelic-explorer-s-guide.jpg"
     },
     {
       "title": "Devil's Bargain",
@@ -3769,8 +3769,8 @@
       "cover": "/covers/shoe-dog.jpg"
     },
     {
-      "title": "Door",
-      "author": "Magda Szab",
+      "title": "The Door",
+      "author": "Magda Szabó",
       "subtitle": "",
       "tagline": "Fiction - housekeeper and wife develop relationship",
       "takeaway": "short but powerful, big themes",
@@ -3780,11 +3780,11 @@
       "pages": 272,
       "date": "2016-01-01",
       "recommend": true,
-      "cover": null
+      "cover": "/covers/the-door.jpg"
     },
     {
       "title": "Lone Survivor",
-      "author": "Marcus Lattrell",
+      "author": "Marcus Luttrell",
       "subtitle": "",
       "tagline": "Navy sSeal talking about IRAQ war",
       "takeaway": "quick easy ready, nothing groundbreaking",
@@ -3794,7 +3794,7 @@
       "pages": 464,
       "date": "2016-01-01",
       "recommend": false,
-      "cover": null
+      "cover": "/covers/lone-survivor.jpg"
     },
     {
       "title": "The Patriarch",
@@ -3853,8 +3853,8 @@
       "cover": "/covers/a-little-life.jpg"
     },
     {
-      "title": "Extreme Leadership",
-      "author": "Jacko Willink",
+      "title": "Extreme Ownership",
+      "author": "Jocko Willink & Leif Babin",
       "subtitle": "",
       "tagline": "Navy Seals teach Leadership",
       "takeaway": "Absolutely everything is up to you as the leader",
@@ -3864,7 +3864,7 @@
       "pages": 320,
       "date": "2016-01-01",
       "recommend": false,
-      "cover": null
+      "cover": "/covers/extreme-ownership.jpg"
     },
     {
       "title": "The Orphan Masters Son",
@@ -3881,7 +3881,7 @@
       "cover": "/covers/the-orphan-masters-son.jpg"
     },
     {
-      "title": "All the Evils of This World",
+      "title": "All the Evil of This World",
       "author": "Jared Dillian",
       "subtitle": "",
       "tagline": "Dirt Nap guy wrote fiction book about wall st pit trading",
@@ -3909,7 +3909,7 @@
       "cover": "/covers/red-notice.jpg"
     },
     {
-      "title": "The 1% Doctrine",
+      "title": "The One Percent Doctrine",
       "author": "Ron Suskind",
       "subtitle": "",
       "tagline": "Every 1% threat treated like sure thing",
@@ -3920,7 +3920,7 @@
       "pages": 400,
       "date": "2016-01-01",
       "recommend": false,
-      "cover": null
+      "cover": "/covers/the-one-percent-doctrine.jpg"
     },
     {
       "title": "QB: My Life Behind the Spiral",
@@ -4049,8 +4049,8 @@
       "cover": "/covers/the-courage-to-act.jpg"
     },
     {
-      "title": "But What if We're Wrong",
-      "author": "Chuck Closterman",
+      "title": "But What If We're Wrong?",
+      "author": "Chuck Klosterman",
       "subtitle": "",
       "tagline": "The nature of changing reality.  What do we really know",
       "takeaway": "like most of his stuff fun to think about",
@@ -4060,11 +4060,11 @@
       "pages": 288,
       "date": "2016-01-01",
       "recommend": true,
-      "cover": null
+      "cover": "/covers/but-what-if-we-re-wrong.jpg"
     },
     {
       "title": "Capital Returns",
-      "author": "Edward Chancelor",
+      "author": "Edward Chancellor",
       "subtitle": "",
       "tagline": "Collection of investment essays  by marathon Capital",
       "takeaway": "Value works over long cycles",
@@ -4091,8 +4091,8 @@
       "cover": null
     },
     {
-      "title": "The New Age of Computing",
-      "author": "Erik Brynjolfsson",
+      "title": "The Second Machine Age",
+      "author": "Erik Brynjolfsson & Andrew McAfee",
       "subtitle": "",
       "tagline": "technology�",
       "takeaway": "dotn remember",
@@ -4102,7 +4102,7 @@
       "pages": 250,
       "date": "2016-01-01",
       "recommend": false,
-      "cover": null
+      "cover": "/covers/the-second-machine-age.jpg"
     },
     {
       "title": "The Tiger",
@@ -4134,7 +4134,7 @@
     },
     {
       "title": "Iza's Ballad",
-      "author": "Magda Szab",
+      "author": "Magda Szabó",
       "subtitle": "",
       "tagline": "Same author as the door, about a daughter and parents",
       "takeaway": "not as good but ok",
@@ -4144,7 +4144,7 @@
       "pages": 176,
       "date": "2016-01-01",
       "recommend": false,
-      "cover": null
+      "cover": "/covers/iza-s-ballad.jpg"
     },
     {
       "title": "Team of Rivals",
@@ -4189,8 +4189,8 @@
       "cover": "/covers/shadow-divers.jpg"
     },
     {
-      "title": "No Place to Hide (Ed Snowden)",
-      "author": "Glenn Greenwall",
+      "title": "No Place to Hide",
+      "author": "Glenn Greenwald",
       "subtitle": "",
       "tagline": "Ed Snowdens CIA leak",
       "takeaway": "believes govt overstepping bounds",
@@ -4200,11 +4200,11 @@
       "pages": 304,
       "date": "2016-01-01",
       "recommend": true,
-      "cover": null
+      "cover": "/covers/no-place-to-hide.jpg"
     },
     {
       "title": "Unscripted",
-      "author": "",
+      "author": "James B. Stewart & Rachel Abrams",
       "subtitle": "",
       "tagline": "",
       "takeaway": "",
@@ -4232,7 +4232,7 @@
     },
     {
       "title": "Immunity",
-      "author": "",
+      "author": "William E. Paul",
       "subtitle": "",
       "tagline": "",
       "takeaway": "",
@@ -4242,7 +4242,7 @@
       "pages": null,
       "date": null,
       "recommend": false,
-      "cover": null
+      "cover": "/covers/immunity.jpg"
     },
     {
       "title": "Breathe",
