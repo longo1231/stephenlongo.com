@@ -1,5 +1,5 @@
 {
-  "syncedAt": "2026-07-05",
+  "syncedAt": "2026-07-06",
   "source": "notion-api",
   "books": [
     {
@@ -535,8 +535,8 @@
       "cover": "/covers/excellent-advice-for-living.jpg"
     },
     {
-      "title": "Brothers Karazamov",
-      "author": "Leo Tolstoy",
+      "title": "The Brothers Karamazov",
+      "author": "Fyodor Dostoevsky",
       "subtitle": "",
       "tagline": "",
       "takeaway": "Holy shit. This book is just about life.",
@@ -546,7 +546,7 @@
       "pages": null,
       "date": "2023-05-10",
       "recommend": true,
-      "cover": "/covers/brothers-karazamov.jpg"
+      "cover": "/covers/the-brothers-karamazov.jpg"
     },
     {
       "title": "Outlive",
