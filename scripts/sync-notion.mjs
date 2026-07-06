@@ -232,5 +232,38 @@ try {
   console.warn(`Shakespeare play log skipped (shared with the integration?): ${err.message}`);
 }
 
+// "Run your own" principles: the numbered list under the "Run your own"
+// heading on the Misogi page itself.
+const MISOGI_PAGE_ID = '395eccc1-8462-81c3-861f-d4ca8ecb394b';
+try {
+  const blocks = [];
+  let cur2;
+  do {
+    const res = await notion.blocks.children.list({
+      block_id: MISOGI_PAGE_ID,
+      start_cursor: cur2,
+      page_size: 100,
+    });
+    blocks.push(...res.results);
+    cur2 = res.has_more ? res.next_cursor : undefined;
+  } while (cur2);
+  const items = [];
+  let inList = false;
+  for (const b of blocks) {
+    const t = b.type;
+    if (t.startsWith('heading_')) inList = /run your own/i.test(plain(b[t]?.rich_text));
+    else if (inList && (t === 'numbered_list_item' || t === 'bulleted_list_item')) {
+      const text = plain(b[t].rich_text).trim();
+      if (text) items.push(text);
+    }
+  }
+  if (items.length) {
+    misogi.principles = items;
+    console.log(`Synced ${items.length} misogi principles`);
+  }
+} catch (err) {
+  console.warn(`misogi principles skipped: ${err.message}`);
+}
+
 await writeFile(MISOGI_OUT, JSON.stringify(misogi, null, 2) + '\n');
 console.log(`Wrote ${path.relative(process.cwd(), MISOGI_OUT)}`);
