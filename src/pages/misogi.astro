@@ -16,6 +16,14 @@ const hue = (title) => {
 };
 
 const glyph = { done: '●', now: '◐', up: '○' };
+
+// Collapsed-state summary for the route toggle: progress + current position.
+const allPlays = data.route.flatMap((m) => m.plays);
+const routeStats = {
+  total: allPlays.length,
+  done: allPlays.filter((p) => p.status === 'done').length,
+  now: allPlays.find((p) => p.status === 'now')?.name ?? '',
+};
 ---
 <Base title="Reading Misogi — Stephen Longo" description="One deliberately hard reading project a year: Karamazov, the Bible, Borges, Shakespeare. The method, not just the list.">
   <header class="top">
@@ -85,8 +93,11 @@ const glyph = { done: '●', now: '◐', up: '○' };
         )}
 
         {y.id === '2026' && (
-          <div class="route">
-            <p class="mono route-head">The route · steal this syllabus</p>
+          <details class="route" open={y.spine.pulled}>
+            <summary class="mono route-head">
+              <span class="tri" aria-hidden="true">▸</span>
+              The route · {routeStats.done}/{routeStats.total} plays read{routeStats.now && ` · now: ${routeStats.now}`} · steal this syllabus
+            </summary>
             {data.route.map((m) => (
               <div class="month">
                 <p class="mono month-h">{m.month} — {m.theme}</p>
@@ -103,7 +114,7 @@ const glyph = { done: '●', now: '◐', up: '○' };
               </div>
             ))}
             <p class="mono route-key">● read · ◐ now · ○ ahead — verdicts appear as they're written</p>
-          </div>
+          </details>
         )}
       </article>
     ))}
@@ -351,6 +362,32 @@ const glyph = { done: '●', now: '◐', up: '○' };
   .route-head {
     color: var(--accent);
     padding-bottom: 0.6rem;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .route-head::-webkit-details-marker {
+    display: none;
+  }
+
+  .route-head:hover {
+    color: var(--ink);
+  }
+
+  .tri {
+    display: inline-block;
+    margin-right: 0.45rem;
+    transition: transform 0.15s ease;
+  }
+
+  .route[open] .tri {
+    transform: rotate(90deg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tri {
+      transition: none;
+    }
   }
 
   .month {
