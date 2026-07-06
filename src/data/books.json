@@ -154,7 +154,8 @@
       "pages": null,
       "date": "2025-01-01",
       "recommend": false,
-      "cover": "/covers/jorge-luis-borges.jpg"
+      "cover": "/covers/jorge-luis-borges.jpg",
+      "misogi": true
     },
     {
       "title": "The Great Gatsby",
@@ -336,7 +337,8 @@
       "pages": null,
       "date": "2024-01-01",
       "recommend": false,
-      "cover": "/covers/the-bible.jpg"
+      "cover": "/covers/the-bible.jpg",
+      "misogi": true
     },
     {
       "title": "Crossing the Unknown Sea",
@@ -546,7 +548,8 @@
       "pages": null,
       "date": "2023-05-10",
       "recommend": true,
-      "cover": "/covers/the-brothers-karamazov.jpg"
+      "cover": "/covers/the-brothers-karamazov.jpg",
+      "misogi": true
     },
     {
       "title": "Outlive",

@@ -71,6 +71,7 @@ do {
       pages: p['Pages']?.number ?? null,
       date: p['Date']?.date?.start ?? null,
       recommend: p['Recommend']?.checkbox ?? false,
+      misogi: p['Misogi']?.checkbox ?? false,
       cover: await localCover(fileUrl(p['Cover']?.files), title),
     });
   }

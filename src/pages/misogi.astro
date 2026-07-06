@@ -2,10 +2,9 @@
 import Base from '../layouts/Base.astro';
 import data from '../data/misogi.json';
 
-// DRAFT — visible in `npm run dev` only. In production this builds as a
-// redirect to home and is linked from nowhere. To publish: set LIVE = true
-// and add the index row on the homepage (see docs/MISOGI-SPEC.md).
-const LIVE = false;
+// Kill switch: set false to unpublish — /misogi builds as a noindex redirect
+// to home and the page only renders in dev (see docs/MISOGI-SPEC.md).
+const LIVE = true;
 if (!LIVE && !import.meta.env.DEV) return Astro.redirect('/');
 
 // Same title hash as the bookshelf, so the misogi spines share tints with

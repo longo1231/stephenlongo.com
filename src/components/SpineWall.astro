@@ -36,6 +36,7 @@ const pullData = books.map((b) => ({
   n: b.takeaway || b.tagline || '',
   c: b.cover,
   rec: b.recommend ? 1 : 0,
+  mis: b.misogi && b.date ? b.date.slice(0, 4) : '',
   y: year(b.date),
   h: hue(b.title),
   now: b.status === 'Reading' ? 1 : 0,
@@ -73,6 +74,7 @@ const pullData = books.map((b) => ({
         <p class="pull-rating" id="pull-rating"></p>
         <p class="pull-note" id="pull-note"></p>
         <p class="mono pull-rec" id="pull-rec" hidden>Recommended</p>
+        <a class="mono pull-mis" id="pull-mis" hidden></a>
       </div>
       <button class="mono pull-close" id="pull-close" aria-label="Put the book back">✕</button>
     </div>
@@ -288,6 +290,17 @@ const pullData = books.map((b) => ({
     color: var(--accent);
   }
 
+  .pull-mis {
+    display: inline-block;
+    margin-top: 0.8rem;
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .pull-mis:hover {
+    text-decoration: underline;
+  }
+
   .pull-close {
     position: absolute;
     top: 0.9rem;
@@ -338,6 +351,7 @@ const pullData = books.map((b) => ({
     const pullRating = document.getElementById('pull-rating');
     const pullNote = document.getElementById('pull-note');
     const pullRec = document.getElementById('pull-rec');
+    const pullMis = document.getElementById('pull-mis');
     const closeBtn = document.getElementById('pull-close');
 
     const esc = (s) =>
@@ -370,6 +384,13 @@ const pullData = books.map((b) => ({
       pullRating.innerHTML = b.r ? stars(b.r) : '';
       pullNote.textContent = b.n ? `“${b.n}”` : '';
       pullRec.hidden = !b.rec;
+      if (b.mis) {
+        pullMis.textContent = `Misogi ’${b.mis.slice(2)} →`;
+        pullMis.setAttribute('href', `/misogi#y${b.mis}`);
+        pullMis.hidden = false;
+      } else {
+        pullMis.hidden = true;
+      }
       wrap.hidden = false;
       document.body.style.overflow = 'hidden';
       lastSpine = spine;

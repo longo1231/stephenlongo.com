@@ -71,6 +71,7 @@ const year = (d) => (d ? d.slice(0, 4) : '');
               {b.rating && <span class="rating">{'★'.repeat(b.rating)}<span class="off">{'★'.repeat(5 - b.rating)}</span></span>}
               {(b.takeaway || b.tagline) && <p class="note">“{b.takeaway || b.tagline}”</p>}
               {b.recommend && <span class="rec mono">Recommended</span>}
+              {b.misogi && b.date && <a class="mis mono" href={`/misogi#y${year(b.date)}`}>Misogi ’{b.date.slice(2, 4)} →</a>}
             </div>
           </div>
           <h2 class="title">{b.title}</h2>
@@ -276,6 +277,15 @@ const year = (d) => (d ? d.slice(0, 4) : '');
 
   .rec {
     color: var(--accent);
+  }
+
+  .mis {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .mis:hover {
+    text-decoration: underline;
   }
 
   .title {
