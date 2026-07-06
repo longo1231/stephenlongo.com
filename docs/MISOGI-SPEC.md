@@ -92,18 +92,22 @@ Shakespeare route.
   for the three completed books), one line in `sync-notion.mjs` to carry it into
   books.json. (Shakespeare gets a shelf entry + checkbox when 2026 wraps.)
 
-## Content model
+## Content model (v1.1 implemented 2026-07-06 — Notion is the editing surface)
 
-- **v1: in-repo.** `src/data/misogi.json` (years, protocols, route) + `src/pages/misogi.astro`.
-  No new sync coupling — the page can't be broken by the nightly bot, same clean-rollback
-  property as the Spine Wall.
-- **v1.1 (when reviews start flowing): sync the play ladder from Notion.** The
-  `Shakespeare Play Reading` database already exists (data source
-  `2daeccc1-8462-806b-a137-000b6e74c298`; schema Name / Start Date / Status). Add a
-  `Verdict` text property there for the 2–3 sentence reviews; a small section in
-  `sync-notion.mjs` (same pattern as musings) emits `src/data/shakespeare.json`. Stephen
-  writes verdicts in Notion as he finishes plays; the site updates nightly. Borges can
-  get the same treatment later if wanted.
+- **Prose lives in Notion.** A `Misogi` page under the website page holds a `Misogi`
+  database (data source `17797c7c-93ad-4e65-b239-ccb1acfb8d97`): one row per year with
+  `Work / Year / Kicker / Why / Cadence / Route / Scaffolding / Rules / What it gave me`.
+  Edit a cell → nightly sync updates the site.
+- **Play state lives where Stephen already logs.** The existing `Shakespeare Play Reading`
+  database (data source `2daeccc1-8462-806b-a137-000b6e74c298`) gained a `Verdict` text
+  property; its `Status` (Not started / In progress / Done) drives the route ladder's
+  dots and "now" highlight. Plays are matched by normalized title. **Requires the
+  Shakespeare 2026 page tree to be shared with the site's sync integration** — until
+  then the sync warns and keeps the repo values.
+- **Skeleton stays in-repo.** `src/data/misogi.json` keeps the route months, one-line
+  play notes, spine design, and the "run your own" principles; the sync merges Notion
+  values into it and rewrites the file. Empty Notion fields fall back to repo values —
+  except `What it gave me`, where empty is meaningful (hides the line).
 
 ## Content needed from Stephen (page ships with placeholders marked TODO)
 

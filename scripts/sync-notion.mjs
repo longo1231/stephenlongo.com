@@ -1,8 +1,9 @@
-// Pulls site content from Notion: the Bookshelf into src/data/books.json and
-// published Musings into src/content/musings/*.md.
+// Pulls site content from Notion: the Bookshelf into src/data/books.json,
+// published Musings into src/content/musings/*.md, and the Reading Misogi
+// protocols + Shakespeare play log into src/data/misogi.json.
 // Requires NOTION_TOKEN (internal integration with access to the website page).
 import { Client } from '@notionhq/client';
-import { writeFile, mkdir, rm } from 'node:fs/promises';
+import { readFile, writeFile, mkdir, rm } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { backfillCovers, slug } from './backfill-covers.mjs';
@@ -162,3 +163,74 @@ do {
   cursor = res.has_more ? res.next_cursor : undefined;
 } while (cursor);
 console.log(`Synced ${musingsCount} musings to ${path.relative(process.cwd(), MUSINGS_DIR)}`);
+
+// --- Reading Misogi: Notion carries the prose and the live reading state; the
+// repo file keeps the skeleton (route months/notes, spine design, principles).
+// Each part degrades gracefully so a permissions hiccup can't break the sync.
+
+const MISOGI_DS_ID = '17797c7c-93ad-4e65-b239-ccb1acfb8d97'; // "Misogi" DB under the website page
+const PLAYS_DS_ID = '2daeccc1-8462-806b-a137-000b6e74c298'; // "Shakespeare Play Reading" log
+const MISOGI_OUT = path.join(import.meta.dirname, '..', 'src', 'data', 'misogi.json');
+
+const misogi = JSON.parse(await readFile(MISOGI_OUT, 'utf8'));
+
+async function queryAll(data_source_id) {
+  const rows = [];
+  let cur;
+  do {
+    const res = await notion.dataSources.query({ data_source_id, start_cursor: cur, page_size: 100 });
+    rows.push(...res.results);
+    cur = res.has_more ? res.next_cursor : undefined;
+  } while (cur);
+  return rows;
+}
+
+try {
+  let years = 0;
+  for (const page of await queryAll(MISOGI_DS_ID)) {
+    const p = page.properties;
+    const y = misogi.years.find((x) => x.id === String(p['Year']?.number ?? ''));
+    if (!y) continue;
+    y.title = plain(p['Work']?.title) || y.title;
+    y.kicker = plain(p['Kicker']?.rich_text) || y.kicker;
+    y.why = plain(p['Why']?.rich_text) || y.why;
+    y.protocol.cadence = plain(p['Cadence']?.rich_text) || y.protocol.cadence;
+    y.protocol.route = plain(p['Route']?.rich_text) || y.protocol.route;
+    y.protocol.scaffolding = plain(p['Scaffolding']?.rich_text) || y.protocol.scaffolding;
+    y.protocol.rules = plain(p['Rules']?.rich_text) || y.protocol.rules;
+    y.gave = plain(p['What it gave me']?.rich_text); // empty is meaningful: hides the line
+    years++;
+  }
+  console.log(`Synced ${years} misogi protocols`);
+} catch (err) {
+  console.warn(`misogi protocols skipped: ${err.message}`);
+}
+
+try {
+  const statusMap = { Done: 'done', 'In progress': 'now', 'Not started': 'up' };
+  const key = (s) => s.toLowerCase().replace(/^(the|a|an) /, '').replace(/[^a-z0-9]+/g, ' ').trim();
+  const log = new Map();
+  for (const page of await queryAll(PLAYS_DS_ID)) {
+    const p = page.properties;
+    log.set(key(plain(p['Name']?.title)), {
+      status: statusMap[p['Status']?.status?.name],
+      verdict: plain(p['Verdict']?.rich_text),
+    });
+  }
+  let matched = 0;
+  for (const month of misogi.route) {
+    for (const play of month.plays) {
+      const row = log.get(key(play.name));
+      if (!row) continue;
+      if (row.status) play.status = row.status;
+      if (row.verdict) play.verdict = row.verdict;
+      matched++;
+    }
+  }
+  console.log(`Synced ${matched} plays from the Shakespeare log (${log.size} log rows)`);
+} catch (err) {
+  console.warn(`Shakespeare play log skipped (shared with the integration?): ${err.message}`);
+}
+
+await writeFile(MISOGI_OUT, JSON.stringify(misogi, null, 2) + '\n');
+console.log(`Wrote ${path.relative(process.cwd(), MISOGI_OUT)}`);

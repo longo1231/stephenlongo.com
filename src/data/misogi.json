@@ -5,7 +5,11 @@
       "year": "2023",
       "title": "The Brothers Karamazov",
       "kicker": "2023 · The Brothers Karamazov · one big Russian novel",
-      "spine": { "label": "The Brothers Karamazov", "w": 40, "h": 225 },
+      "spine": {
+        "label": "The Brothers Karamazov",
+        "w": 40,
+        "h": 225
+      },
       "why": "The starter misogi, before it had a name. One deliberately heavy book, read like a project instead of a paperback — to find out whether a big, structured read would hold for months. It did more than that.",
       "protocol": {
         "cadence": "Most mornings until it was done — the habit came first, the finish line second.",
@@ -20,7 +24,11 @@
       "year": "2024",
       "title": "The Bible",
       "kicker": "2024 · The Bible · cover to cover · 366 days",
-      "spine": { "label": "The Bible", "w": 72, "h": 260 },
+      "spine": {
+        "label": "The Bible",
+        "w": 72,
+        "h": 260
+      },
       "why": "The obvious next mountain: the most-referenced book in the civilization I live in, and I had never read it straight through. Chosen precisely because it does not fit inside a year of casual effort.",
       "protocol": {
         "cadence": "Twenty minutes, every day, first thing.",
@@ -35,7 +43,11 @@
       "year": "2025",
       "title": "Jorge Luis Borges",
       "kicker": "2025 · Jorge Luis Borges · the complete works",
-      "spine": { "label": "Borges — Complete Works", "w": 56, "h": 240 },
+      "spine": {
+        "label": "Borges — Complete Works",
+        "w": 56,
+        "h": 240
+      },
       "why": "After the Bible's single long road, the opposite terrain: dozens of short, dense, perfect objects. And the first misogi where an AI reading partner became part of the method.",
       "protocol": {
         "cadence": "Morning reading, same slot the Bible built. [todo: confirm minutes]",
@@ -50,7 +62,12 @@
       "year": "2026",
       "title": "Shakespeare",
       "kicker": "2026 · Shakespeare · the complete plays · in progress",
-      "spine": { "label": "Shakespeare — Complete Plays", "w": 84, "h": 280, "pulled": true },
+      "spine": {
+        "label": "Shakespeare — Complete Plays",
+        "w": 84,
+        "h": 280,
+        "pulled": true
+      },
       "why": "Interior work with the whole canon: fathers and sons, control, the need to be right, anger, reconciliation. Coming off Borges and the Bible, the through-line stays the same — how does it work, what does it mean, what should we do.",
       "protocol": {
         "cadence": "Twenty-five to thirty minutes each morning; one sonnet a day interleaved.",
@@ -61,116 +78,309 @@
       "gave": ""
     }
   ],
-  "ghost": { "year": "2027", "label": "?" },
+  "ghost": {
+    "year": "2027",
+    "label": "?"
+  },
   "route": [
     {
       "month": "January",
       "theme": "Foundations",
       "plays": [
-        { "name": "The Comedy of Errors", "note": "Shortest play. Farcical. Warm-up.", "status": "done", "verdict": "" },
-        { "name": "The Two Gentlemen of Verona", "note": "Early, slight. Friendship vs. love.", "status": "done", "verdict": "" },
-        { "name": "The Taming of the Shrew", "note": "Problematic but psychologically interesting. Control dynamics.", "status": "done", "verdict": "" },
-        { "name": "Love's Labour's Lost", "note": "Dense wordplay. Youthful cleverness confronting mortality.", "status": "done", "verdict": "" },
-        { "name": "A Midsummer Night's Dream", "note": "First major comedy. Dreams, transformation, what we can't see in ourselves.", "status": "done", "verdict": "The play-within-the-play is a tragedy played as comedy — Shakespeare showing you what this story could have been." }
+        {
+          "name": "The Comedy of Errors",
+          "note": "Shortest play. Farcical. Warm-up.",
+          "status": "done",
+          "verdict": ""
+        },
+        {
+          "name": "The Two Gentlemen of Verona",
+          "note": "Early, slight. Friendship vs. love.",
+          "status": "done",
+          "verdict": ""
+        },
+        {
+          "name": "The Taming of the Shrew",
+          "note": "Problematic but psychologically interesting. Control dynamics.",
+          "status": "done",
+          "verdict": ""
+        },
+        {
+          "name": "Love's Labour's Lost",
+          "note": "Dense wordplay. Youthful cleverness confronting mortality.",
+          "status": "done",
+          "verdict": ""
+        },
+        {
+          "name": "A Midsummer Night's Dream",
+          "note": "First major comedy. Dreams, transformation, what we can't see in ourselves.",
+          "status": "done",
+          "verdict": "The play-within-the-play is a tragedy played as comedy — Shakespeare showing you what this story could have been."
+        }
       ]
     },
     {
       "month": "February",
       "theme": "Early histories",
       "plays": [
-        { "name": "Henry VI, Part 1", "note": "Collaborative, episodic. France, Joan of Arc.", "status": "done", "verdict": "" },
-        { "name": "Henry VI, Part 2", "note": "York emerges. Political chaos.", "status": "done", "verdict": "" },
-        { "name": "Henry VI, Part 3", "note": "Brutality. Richard of Gloucester rises.", "status": "done", "verdict": "" },
-        { "name": "Richard III", "note": "First great villain study. Seduction and self-deception.", "status": "done", "verdict": "" }
+        {
+          "name": "Henry VI, Part 1",
+          "note": "Collaborative, episodic. France, Joan of Arc.",
+          "status": "done",
+          "verdict": ""
+        },
+        {
+          "name": "Henry VI, Part 2",
+          "note": "York emerges. Political chaos.",
+          "status": "done",
+          "verdict": ""
+        },
+        {
+          "name": "Henry VI, Part 3",
+          "note": "Brutality. Richard of Gloucester rises.",
+          "status": "done",
+          "verdict": ""
+        },
+        {
+          "name": "Richard III",
+          "note": "First great villain study. Seduction and self-deception.",
+          "status": "done",
+          "verdict": ""
+        }
       ]
     },
     {
       "month": "March",
       "theme": "Comedy deepens",
       "plays": [
-        { "name": "King John", "note": "Minor history. The Bastard Faulconbridge is interesting.", "status": "done", "verdict": "" },
-        { "name": "The Merchant of Venice", "note": "Control from beyond the grave. Shylock's complexity.", "status": "done", "verdict": "" },
-        { "name": "Much Ado About Nothing", "note": "Wit as defense mechanism.", "status": "done", "verdict": "" },
-        { "name": "As You Like It", "note": "The forest as transformative space.", "status": "done", "verdict": "" },
-        { "name": "Twelfth Night", "note": "Peak comedy. Feste's wisdom.", "status": "done", "verdict": "" }
+        {
+          "name": "King John",
+          "note": "Minor history. The Bastard Faulconbridge is interesting.",
+          "status": "done",
+          "verdict": ""
+        },
+        {
+          "name": "The Merchant of Venice",
+          "note": "Control from beyond the grave. Shylock's complexity.",
+          "status": "done",
+          "verdict": ""
+        },
+        {
+          "name": "Much Ado About Nothing",
+          "note": "Wit as defense mechanism.",
+          "status": "done",
+          "verdict": ""
+        },
+        {
+          "name": "As You Like It",
+          "note": "The forest as transformative space.",
+          "status": "done",
+          "verdict": ""
+        },
+        {
+          "name": "Twelfth Night",
+          "note": "Peak comedy. Feste's wisdom.",
+          "status": "done",
+          "verdict": ""
+        }
       ]
     },
     {
       "month": "April",
       "theme": "The Henriad",
       "plays": [
-        { "name": "Richard II", "note": "The lyric king. Identity dissolved with the crown.", "status": "done", "verdict": "" },
-        { "name": "Henry IV, Part 1", "note": "Key play. Hal between two fathers.", "status": "done", "verdict": "" },
-        { "name": "Henry IV, Part 2", "note": "Deeper, sadder. “I know thee not, old man.”", "status": "done", "verdict": "" }
+        {
+          "name": "Richard II",
+          "note": "The lyric king. Identity dissolved with the crown.",
+          "status": "done",
+          "verdict": ""
+        },
+        {
+          "name": "Henry IV, Part 1",
+          "note": "Key play. Hal between two fathers.",
+          "status": "done",
+          "verdict": ""
+        },
+        {
+          "name": "Henry IV, Part 2",
+          "note": "Deeper, sadder. “I know thee not, old man.”",
+          "status": "done",
+          "verdict": ""
+        }
       ]
     },
     {
       "month": "May",
       "theme": "The arc completes, Rome begins",
       "plays": [
-        { "name": "Henry V", "note": "Hal becomes king. Propaganda and genuine heroism.", "status": "done", "verdict": "" },
-        { "name": "The Merry Wives of Windsor", "note": "Falstaff resurrected for comedy. Light.", "status": "done", "verdict": "" },
-        { "name": "Julius Caesar", "note": "Rhetoric and self-deception.", "status": "done", "verdict": "" },
-        { "name": "Titus Andronicus", "note": "The revenge-play template. Complete works means complete.", "status": "done", "verdict": "" }
+        {
+          "name": "Henry V",
+          "note": "Hal becomes king. Propaganda and genuine heroism.",
+          "status": "done",
+          "verdict": ""
+        },
+        {
+          "name": "The Merry Wives of Windsor",
+          "note": "Falstaff resurrected for comedy. Light.",
+          "status": "done",
+          "verdict": ""
+        },
+        {
+          "name": "Julius Caesar",
+          "note": "Rhetoric and self-deception.",
+          "status": "done",
+          "verdict": ""
+        },
+        {
+          "name": "Titus Andronicus",
+          "note": "The revenge-play template. Complete works means complete.",
+          "status": "done",
+          "verdict": ""
+        }
       ]
     },
     {
       "month": "June",
       "theme": "Problem plays",
       "plays": [
-        { "name": "Troilus and Cressida", "note": "War as degradation. Anti-romantic.", "status": "done", "verdict": "" },
-        { "name": "Measure for Measure", "note": "Control, judgment, mercy. Who gets to judge?", "status": "done", "verdict": "" },
-        { "name": "All's Well That Ends Well", "note": "The uncomfortable resolution.", "status": "done", "verdict": "" }
+        {
+          "name": "Troilus and Cressida",
+          "note": "War as degradation. Anti-romantic.",
+          "status": "done",
+          "verdict": ""
+        },
+        {
+          "name": "Measure for Measure",
+          "note": "Control, judgment, mercy. Who gets to judge?",
+          "status": "done",
+          "verdict": ""
+        },
+        {
+          "name": "All's Well That Ends Well",
+          "note": "The uncomfortable resolution.",
+          "status": "done",
+          "verdict": ""
+        }
       ]
     },
     {
       "month": "July",
       "theme": "Into the great tragedies",
       "plays": [
-        { "name": "Romeo and Juliet", "note": "Young tragedy. The contrast for what comes next.", "status": "now", "verdict": "" },
-        { "name": "Hamlet", "note": "The mountain. The father/son play. Take your time.", "status": "up", "verdict": "" }
+        {
+          "name": "Romeo and Juliet",
+          "note": "Young tragedy. The contrast for what comes next.",
+          "status": "now",
+          "verdict": ""
+        },
+        {
+          "name": "Hamlet",
+          "note": "The mountain. The father/son play. Take your time.",
+          "status": "up",
+          "verdict": ""
+        }
       ]
     },
     {
       "month": "August",
       "theme": "Peak tragedy",
       "plays": [
-        { "name": "Othello", "note": "Jealousy as self-destruction.", "status": "up", "verdict": "" },
-        { "name": "King Lear", "note": "Fathers and children. Giving up control. Madness as stripping away.", "status": "up", "verdict": "" }
+        {
+          "name": "Othello",
+          "note": "Jealousy as self-destruction.",
+          "status": "up",
+          "verdict": ""
+        },
+        {
+          "name": "King Lear",
+          "note": "Fathers and children. Giving up control. Madness as stripping away.",
+          "status": "up",
+          "verdict": ""
+        }
       ]
     },
     {
       "month": "September",
       "theme": "Late tragedies",
       "plays": [
-        { "name": "Macbeth", "note": "Ambition, guilt. Lady Macbeth as shadow.", "status": "up", "verdict": "" },
-        { "name": "Antony and Cleopatra", "note": "Grandeur and ruin. Middle-aged passion.", "status": "up", "verdict": "" },
-        { "name": "Coriolanus", "note": "The need to be right. Mother and son.", "status": "up", "verdict": "" },
-        { "name": "Timon of Athens", "note": "Rage after betrayal. Brief.", "status": "up", "verdict": "" }
+        {
+          "name": "Macbeth",
+          "note": "Ambition, guilt. Lady Macbeth as shadow.",
+          "status": "up",
+          "verdict": ""
+        },
+        {
+          "name": "Antony and Cleopatra",
+          "note": "Grandeur and ruin. Middle-aged passion.",
+          "status": "up",
+          "verdict": ""
+        },
+        {
+          "name": "Coriolanus",
+          "note": "The need to be right. Mother and son.",
+          "status": "up",
+          "verdict": ""
+        },
+        {
+          "name": "Timon of Athens",
+          "note": "Rage after betrayal. Brief.",
+          "status": "up",
+          "verdict": ""
+        }
       ]
     },
     {
       "month": "October",
       "theme": "Toward the romances",
       "plays": [
-        { "name": "Henry VIII", "note": "Late pageantry. Katherine's dignity.", "status": "up", "verdict": "" },
-        { "name": "The Two Noble Kinsmen", "note": "Completist.", "status": "up", "verdict": "" },
-        { "name": "Pericles", "note": "First romance. The recognition scene is the template.", "status": "up", "verdict": "" }
+        {
+          "name": "Henry VIII",
+          "note": "Late pageantry. Katherine's dignity.",
+          "status": "up",
+          "verdict": ""
+        },
+        {
+          "name": "The Two Noble Kinsmen",
+          "note": "Completist.",
+          "status": "up",
+          "verdict": ""
+        },
+        {
+          "name": "Pericles",
+          "note": "First romance. The recognition scene is the template.",
+          "status": "up",
+          "verdict": ""
+        }
       ]
     },
     {
       "month": "November",
       "theme": "The romances",
       "plays": [
-        { "name": "Cymbeline", "note": "Forgiveness despite nothing being earned.", "status": "up", "verdict": "" },
-        { "name": "The Winter's Tale", "note": "After you've broken it completely, is restoration possible?", "status": "up", "verdict": "" }
+        {
+          "name": "Cymbeline",
+          "note": "Forgiveness despite nothing being earned.",
+          "status": "up",
+          "verdict": ""
+        },
+        {
+          "name": "The Winter's Tale",
+          "note": "After you've broken it completely, is restoration possible?",
+          "status": "up",
+          "verdict": ""
+        }
       ]
     },
     {
       "month": "December",
       "theme": "The culmination",
       "plays": [
-        { "name": "The Tempest", "note": "Control, letting go. “Every third thought shall be my grave.” Read slowly.", "status": "up", "verdict": "" }
+        {
+          "name": "The Tempest",
+          "note": "Control, letting go. “Every third thought shall be my grave.” Read slowly.",
+          "status": "up",
+          "verdict": ""
+        }
       ]
     }
   ],
