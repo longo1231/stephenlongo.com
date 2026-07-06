@@ -335,17 +335,40 @@ const year = (d) => (d ? d.slice(0, 4) : '');
       });
     });
   }
+  // Filters combine: types OR together (Fiction + Biography = either), and
+  // ★★★★★ / Recommended AND with them (★★★★★ + Fiction = five-star fiction).
+  // "All" clears the selection and re-lights itself when nothing is active.
+  const sel = { five: false, recommend: false, types: new Set() };
   chips.forEach((chip) => {
     chip.addEventListener('click', () => {
-      chips.forEach((c) => c.classList.remove('active'));
-      chip.classList.add('active');
       const f = chip.dataset.filter;
-      const matches = (el) => {
-        if (f === 'five') return el.dataset.rating === '5';
-        if (f === 'recommend') return el.dataset.recommend === '1';
-        if (f.startsWith('type:')) return el.dataset.type === f.slice(5);
-        return true;
-      };
+      if (f === 'all') {
+        sel.five = false;
+        sel.recommend = false;
+        sel.types.clear();
+      } else if (f === 'five') {
+        sel.five = !sel.five;
+      } else if (f === 'recommend') {
+        sel.recommend = !sel.recommend;
+      } else {
+        const t = f.slice(5);
+        sel.types.has(t) ? sel.types.delete(t) : sel.types.add(t);
+      }
+      const empty = !sel.five && !sel.recommend && sel.types.size === 0;
+      chips.forEach((c) => {
+        const cf = c.dataset.filter;
+        c.classList.toggle(
+          'active',
+          cf === 'all' ? empty
+          : cf === 'five' ? sel.five
+          : cf === 'recommend' ? sel.recommend
+          : sel.types.has(cf.slice(5)),
+        );
+      });
+      const matches = (el) =>
+        (!sel.five || el.dataset.rating === '5') &&
+        (!sel.recommend || el.dataset.recommend === '1') &&
+        (sel.types.size === 0 || sel.types.has(el.dataset.type));
       books.forEach((b) => b.classList.toggle('hide', !matches(b)));
       // On the shelf, non-matches dim instead of hiding so it keeps its shape.
       spines.forEach((s) => s.classList.toggle('dim', !matches(s)));

@@ -251,3 +251,13 @@ the v2 squash commit = back to v1.
       `#spine-wall` markup, no spine-data JSON, and the grid renders plain
       `class="grid"` (visible).
 - [x] Zero `/covers/` requests before the first pull in spines view.
+
+---
+
+# Filters v2 — multi-select (2026-07-06)
+
+Chips toggle independently in both views. Combination semantics: **types OR together**
+(Fiction + Biography = either), **★★★★★ and Recommended AND across** (★★★★★ + Fiction =
+five-star fiction). `All` clears the selection and re-lights itself whenever nothing is
+selected. Verified: Fiction 41 · Fiction∪Spiritual 65 · ∩ ★★★★★ 19 · deselect-all restores
+302; grid hides and shelf dims stay in lockstep.
