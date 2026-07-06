@@ -256,8 +256,8 @@ try {
   console.warn(`Shakespeare play log skipped (shared with the integration?): ${err.message}`);
 }
 
-// "Run your own" principles: the numbered list under the "Run your own"
-// heading on the Misogi page itself.
+// From the Misogi page body: the "Run your own" numbered list, and the intro
+// paragraph under the "Intro" heading (italic runs render as the orange em).
 const MISOGI_PAGE_ID = '395eccc1-8462-81c3-861f-d4ca8ecb394b';
 try {
   const blocks = [];
@@ -272,21 +272,25 @@ try {
     cur2 = res.has_more ? res.next_cursor : undefined;
   } while (cur2);
   const items = [];
-  let inList = false;
+  const introSegs = [];
+  let section = '';
   for (const b of blocks) {
     const t = b.type;
-    if (t.startsWith('heading_')) inList = /run your own/i.test(plain(b[t]?.rich_text));
-    else if (inList && (t === 'numbered_list_item' || t === 'bulleted_list_item')) {
+    if (t.startsWith('heading_')) section = plain(b[t]?.rich_text).toLowerCase();
+    else if (section.includes('run your own') && (t === 'numbered_list_item' || t === 'bulleted_list_item')) {
       const text = plain(b[t].rich_text).trim();
       if (text) items.push(text);
+    } else if (section.includes('intro') && t === 'paragraph' && introSegs.length === 0) {
+      for (const r of b.paragraph?.rich_text ?? []) {
+        if (r.plain_text) introSegs.push({ t: r.plain_text, em: !!r.annotations?.italic });
+      }
     }
   }
-  if (items.length) {
-    misogi.principles = items;
-    console.log(`Synced ${items.length} misogi principles`);
-  }
+  if (items.length) misogi.principles = items;
+  if (introSegs.length) misogi.intro = introSegs;
+  console.log(`Synced ${items.length} misogi principles, intro: ${introSegs.length ? 'yes' : 'kept repo copy'}`);
 } catch (err) {
-  console.warn(`misogi principles skipped: ${err.message}`);
+  console.warn(`misogi page content skipped: ${err.message}`);
 }
 
 await writeFile(MISOGI_OUT, JSON.stringify(misogi, null, 2) + '\n');

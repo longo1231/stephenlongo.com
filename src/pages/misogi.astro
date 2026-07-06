@@ -34,12 +34,10 @@ const routeStats = {
   <main>
     <section class="head">
       <h1>Reading <em>Misogi</em></h1>
+      {/* Edited in Notion: the paragraph under "Intro" on the Misogi page.
+          Italic runs there render as the orange em here. */}
       <p class="intro">
-        One deliberately oversized reading project a year. I pick it intentionally and
-        make it a daily habit. I scaffold shamelessly — whatever keeps the momentum.
-        A misogi is the one hard thing you do each year; this is my reading version.
-        The point is as much having read it as
-        <em>what the year spent reading it does to you.</em>
+        {data.intro.map((s) => (s.em ? <em>{s.t}</em> : s.t))}
       </p>
     </section>
 

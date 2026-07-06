@@ -392,5 +392,15 @@
     "Order the route around your seasons — save the summit for when you'll have the most capacity. Schedule in slack and use it when you need it.",
     "Keep a log, but don’t go crazy. A checkbox a day is enough.",
     "Let it end. December is for re-reading and reflection. If you’re moved or motivated to do more, you wont have to foce it."
+  ],
+  "intro": [
+    {
+      "t": "One deliberately oversized reading project a year. I pick it intentionally and make it a daily habit. I scaffold shamelessly, whatever keeps the momentum. A misogi is the one hard thing you do each year; this is my reading version. The point is as much having read it as ",
+      "em": false
+    },
+    {
+      "t": "what the year spent reading it does to you.",
+      "em": true
+    }
   ]
 }
