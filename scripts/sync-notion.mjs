@@ -208,7 +208,21 @@ try {
 
 try {
   const statusMap = { Done: 'done', 'In progress': 'now', 'Not started': 'up' };
-  const key = (s) => s.toLowerCase().replace(/^(the|a|an) /, '').replace(/[^a-z0-9]+/g, ' ').trim();
+  // Forgiving title match: articles, punctuation, possessives/plurals,
+  // labour/labor, and roman vs arabic part numbers all normalize away
+  // ("Henry IV Part I" == "Henry IV, Part 1", "Love's Labor Lost" ==
+  // "Love's Labour's Lost"). Applied to both sides, so mangling is harmless
+  // as long as distinct plays stay distinct.
+  const key = (s) =>
+    s
+      .toLowerCase()
+      .replace(/['’]/g, '')
+      .replace(/^(the|a|an) /, '')
+      .replace(/labour/g, 'labor')
+      .replace(/[^a-z0-9]+/g, ' ')
+      .trim()
+      .replace(/\bpart (i{1,3})\b/g, (_, r) => `part ${r.length}`)
+      .replace(/s\b/g, '');
   const log = new Map();
   for (const page of await queryAll(PLAYS_DS_ID)) {
     const p = page.properties;
@@ -220,7 +234,16 @@ try {
   let matched = 0;
   for (const month of misogi.route) {
     for (const play of month.plays) {
-      const row = log.get(key(play.name));
+      const k = key(play.name);
+      let row = log.get(k);
+      // Shorthand fallback ("Two Gentlemen"): accept a log row whose key is a
+      // fragment of this play's key (or vice versa) only if it's unambiguous.
+      if (!row) {
+        const hits = [...log.keys()].filter(
+          (lk) => lk.length >= 8 && (k.includes(lk) || lk.includes(k)),
+        );
+        if (hits.length === 1) row = log.get(hits[0]);
+      }
       if (!row) continue;
       if (row.status) play.status = row.status;
       if (row.verdict) play.verdict = row.verdict;
