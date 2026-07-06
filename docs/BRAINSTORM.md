@@ -19,6 +19,10 @@ discovery. Every idea below is scored against that bar.
 ## Tier 1 — Flagship candidates (unique to you AND useful to others)
 
 ### 1. Annual Deep Reads — the Bible → Borges → Shakespeare arc
+
+> **→ Spec'd July 2026 as "Reading Misogi"** (docs/MISOGI-SPEC.md): renamed to Stephen's
+> own term, re-aimed method-first — the protocol is the focal point, per-play reviews
+> trickle in via the Notion play log rather than being load-bearing.
 The single most distinctive thing in the workspace. One author/text per year, read daily,
 25–30 min a morning: **Bible (2024), Borges (2025), Shakespeare (2026)**, with Dante /
 Leaves of Grass on deck. The Shakespeare 2026 plan in Notion is already publishable: a
