@@ -52,7 +52,7 @@
       "protocol": {
         "cadence": "Short story format was fun, could choose based on how much time I had but generally 2-20 minutes daily.",
         "route": "Collected Fictions.    Selected Non Fiction",
-        "scaffolding": "AI as the standing reading partner —helping untangling the labyrinths, chasing the references, testing my readings against the text.",
+        "scaffolding": "AI as the standing reading partner, helping untangle the labyrinths, chasing the references, testing my readings against the text.",
         "rules": "No rules. Read all of Borges in any order you want. "
       },
       "gave": "Reading Borges is like walking on a mobius strip or looking at a magic eye picture. "
@@ -115,7 +115,7 @@
           "name": "A Midsummer Night's Dream",
           "note": "First major comedy. Dreams, transformation, what we can't see in ourselves.",
           "status": "done",
-          "verdict": "The play-within-the-play is a tragedy played as comedy — Shakespeare showing you what this story could have been."
+          "verdict": "The play-within-the-play is a tragedy played as comedy. Shakespeare showing you what this story could have been."
         }
       ]
     },
@@ -386,10 +386,10 @@
   ],
   "principles": [
     "Pick one mountain, only one, a year.",
-    "Make it slightly too big — the point is that it doesn't fit inside casual effort.",
+    "Make it slightly too big; the point is that it doesn't fit inside casual effort.",
     "Set a daily minimum dose and keep it small. Twenty minutes you do beats two hours you won't.",
     "Scaffold shamelessly: podcasts, critic companions, film versions, AI. Anything that gives you momentum is not only allowed but encouraged.",
-    "Order the route around your seasons — save the summit for when you'll have the most capacity. Schedule in slack and use it when you need it.",
+    "Order the route around your seasons; save the summit for when you'll have the most capacity. Schedule in slack and use it when you need it.",
     "Keep a log, but don’t go crazy. A checkbox a day is enough.",
     "Let it end. December is for re-reading and reflection. If you’re moved or motivated to do more, you wont have to foce it."
   ],
