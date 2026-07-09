@@ -29,13 +29,20 @@ seeded so the scene is stable across loads), stone wall, saltbox house, foregrou
 - **Time dial**: 24h clock face; the orange arc is the daylight window, which stretches and
   shrinks with the date slider. Drag or use arrow keys.
 - **Day of year slider** with month ticks.
-- **Temp slider**: auto-follows the climatological normal; drag to override. Precipitation
-  phase always follows the thermometer: 34°F is the rain/snow line, and the pressed
-  Rain/Snow button flips itself if the temp crosses it.
-- **Sky**: clear / clouds / rain / snow / storm / fog. Picking Snow nudges the temp to 28°F,
-  picking Rain nudges it above freezing. Storm is heavy wind-driven rain with lightning,
-  racing clouds, and a darker sky; a cold storm renders as a blizzard (no lightning).
+- **Sky**: clear / clouds / rain / snow / storm / fog. Storm is heavy wind-driven rain with
+  lightning, racing clouds, and a darker sky; a storm on a cold date renders as a blizzard
+  (no lightning).
+- **Temperature is told, not dialed** (the slider was removed as redundant): live reading
+  when current, otherwise climatology adjusted for the chosen sky (Snow caps it below
+  freezing, Rain keeps it above). The readout shows the deviation from normal in sigma,
+  live readings only. 34°F stays the rain/snow line.
 - **Now**: snaps back to the current local date, time, and (if fetched) live weather.
+- **Play year**: sweeps the full year in about 28 seconds; foliage waves through, the
+  daylight arc breathes, snow comes and goes. Any other control stops it. Hidden under
+  prefers-reduced-motion.
+
+The readout also names the moment in New England vernacular: mud season, leaf-out,
+high summer, peak foliage, stick season, the dead of winter.
 
 On load the diorama shows the real conditions right now: one Open-Meteo fetch (no key,
 3.5s timeout, silent fallback to normals). Source shows as LIVE / NORMALS / DIALED in

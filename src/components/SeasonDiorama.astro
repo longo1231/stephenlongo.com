@@ -43,11 +43,6 @@ const shelf = data.books
         </span>
       </label>
 
-      <label class="dio-slider dio-temp">
-        <span class="mono" id="dio-temp-label">Temp</span>
-        <input type="range" id="dio-t" min="-10" max="102" step="1" value="72" />
-      </label>
-
       <div class="dio-sky" role="group" aria-label="Sky conditions">
         <button type="button" class="mono" data-sky="clear" aria-pressed="true">Clear</button>
         <button type="button" class="mono" data-sky="clouds" aria-pressed="false">Clouds</button>
@@ -58,6 +53,7 @@ const shelf = data.books
       </div>
 
       <button type="button" class="mono dio-now" id="dio-now">Now</button>
+      <button type="button" class="mono dio-now" id="dio-play">Play year</button>
     </div>
 
     <div class="dio-footline">
@@ -206,10 +202,6 @@ const shelf = data.books
 
   .dio-date {
     flex: 1 1 240px;
-  }
-
-  .dio-temp {
-    flex: 0 1 170px;
   }
 
   .dio-months {
@@ -427,8 +419,7 @@ const shelf = data.books
     const S = {
       N: 185,
       h: 12,
-      temp: 72,
-      tempTouched: false,
+      temp: 72, // derived; never user-set
       sky: 'clear',
       touched: false,
       live: null, // {temp, sky} once fetched
@@ -450,7 +441,7 @@ const shelf = data.books
     const $ = (id) => document.getElementById(id);
     const canvas = $('dio-canvas');
     const ctx = canvas.getContext('2d');
-    const elN = $('dio-n'), elT = $('dio-t');
+    const elN = $('dio-n');
     const dial = $('dio-dial'), dialArc = $('dial-arc'), dialHand = $('dial-hand'), dialKnob = $('dial-knob');
     const readL = $('dio-read-l'), readR = $('dio-read-r');
     const quoteEl = $('dio-quote'), bookEl = $('dio-book'), chip = $('dio-chip');
@@ -590,6 +581,15 @@ const shelf = data.books
       D.el = sunEl(S.N, S.h - off);
       D.cloud = S.sky === 'clear' ? 0.1 : S.sky === 'clouds' ? 0.62 : S.sky === 'fog' ? 0.75 : S.sky === 'storm' ? 1 : 0.92;
       D.precip = S.sky === 'rain' || S.sky === 'snow' ? 1 : S.sky === 'storm' ? 2 : 0;
+      // temperature is told, not dialed: live reading when current, else climatology + condition
+      const base = normalTemp(S.N, S.h, D.cloud);
+      S.temp =
+        S.source === 'LIVE' && S.live ? S.live.temp
+        : S.sky === 'snow' ? Math.min(base - 5, 29)
+        : S.sky === 'rain' ? Math.max(base - 5, 36)
+        : S.sky === 'storm' ? base - 6
+        : S.sky === 'fog' ? base - 2
+        : base;
       D.isSnow = D.precip > 0 && S.temp <= 34;
       D.fog = S.sky === 'fog' ? 1 : 0;
       D.L = clamp(smooth(-9, 10, D.el), 0.16, 1) * (1 - 0.28 * D.cloud);
@@ -643,15 +643,29 @@ const shelf = data.books
         const sa = (1 - D.cloud * 0.75) * (1 - D.fog * 0.85);
         if (sa > 0.03) {
           const low = smooth(18, 2, el);
-          const sc = mix([242, 233, 216], [255, 130, 70], low);
-          const glow = ctx.createRadialGradient(sunX, sunY, 2, sunX, sunY, 60 + low * 30);
-          glow.addColorStop(0, css(sc, 0.5 * sa));
+          const high = smooth(8, 35, el);
+          const heat = smooth(58, 86, S.temp);
+          const sc = mix([248, 240, 220], [255, 130, 70], low);
+          const r = 9 + low * 3.5 + high * 2 + heat * 1.5;
+          const gr = 90 + low * 40 + high * 30 + heat * 60;
+          const halo = ctx.createRadialGradient(sunX, sunY, gr * 0.7, sunX, sunY, gr * 2);
+          halo.addColorStop(0, css([255, 205, 145], (0.05 + 0.07 * heat) * sa));
+          halo.addColorStop(1, css([255, 205, 145], 0));
+          ctx.fillStyle = halo;
+          ctx.fillRect(sunX - gr * 2, sunY - gr * 2, gr * 4, gr * 4);
+          const glow = ctx.createRadialGradient(sunX, sunY, r * 0.4, sunX, sunY, gr);
+          glow.addColorStop(0, css(sc, 0.6 * sa));
+          glow.addColorStop(0.35, css(sc, 0.2 * sa));
           glow.addColorStop(1, css(sc, 0));
           ctx.fillStyle = glow;
-          ctx.fillRect(sunX - 95, sunY - 95, 190, 190);
-          ctx.fillStyle = css(sc, 0.95 * sa);
+          ctx.fillRect(sunX - gr, sunY - gr, gr * 2, gr * 2);
+          ctx.fillStyle = css(sc, sa);
           ctx.beginPath();
-          ctx.arc(sunX, sunY, 8 + low * 3, 0, TAU);
+          ctx.arc(sunX, sunY, r, 0, TAU);
+          ctx.fill();
+          ctx.fillStyle = css([255, 249, 235], 0.85 * sa);
+          ctx.beginPath();
+          ctx.arc(sunX, sunY, r * 0.6, 0, TAU);
           ctx.fill();
         }
       }
@@ -1159,15 +1173,29 @@ const shelf = data.books
       }, 220);
     };
 
+    const seasonWord = (N) =>
+      N >= 339 || N <= 45 ? 'the dead of winter'
+      : N <= 79 ? 'late winter'
+      : N <= 115 ? 'mud season'
+      : N <= 145 ? 'leaf-out'
+      : N <= 171 ? 'late spring'
+      : N <= 227 ? 'high summer'
+      : N <= 264 ? 'late summer'
+      : N <= 283 ? 'early fall'
+      : N <= 309 ? 'peak foliage'
+      : 'stick season';
+
     const updateReadout = () => {
       const { m, d } = dateOfN(S.N);
-      const normal = normalTemp(S.N, S.h, D.cloud);
-      const dev = S.temp - normal;
-      const sigma = dev / 8;
-      const devTxt = Math.abs(sigma) >= 0.2 ? ` (${sigma > 0 ? '+' : '−'}${Math.abs(sigma).toFixed(1)}σ)` : '';
+      // sigma vs climatological normal, shown only for real (live) readings
+      let devTxt = '';
+      if (S.source === 'LIVE' && S.live) {
+        const sigma = (S.temp - normalTemp(S.N, S.h, D.cloud)) / 8;
+        if (Math.abs(sigma) >= 0.2) devTxt = ` (${sigma > 0 ? '+' : '−'}${Math.abs(sigma).toFixed(1)}σ)`;
+      }
       let cond = S.sky === 'storm' ? (D.isSnow ? 'blizzard' : 'storm') : S.sky;
       const misogi = S.h >= 5 && S.h <= 6.25 ? ' · the misogi hour' : '';
-      readL.textContent = `${MONTHS[m]} ${d} · ${fmtClock(S.h)} · ${S.temp}°F${devTxt} · ${cond}${misogi}`;
+      readL.textContent = `${MONTHS[m]} ${d} · ${fmtClock(S.h)} · ${S.temp}°F${devTxt} · ${cond} · ${seasonWord(Math.round(S.N))}${misogi}`;
       const dayLen = set - rise;
       const dh = Math.floor(dayLen), dm = Math.round((dayLen - dh) * 60);
       readR.textContent = `sun ${fmtClock(rise)} → ${fmtClock(set)} · daylight ${dh}h ${String(dm).padStart(2, '0')}m · ${S.source}`;
@@ -1198,18 +1226,6 @@ const shelf = data.books
     let paintFrame = () => {};
     const apply = (opts = {}) => {
       derive();
-      if (!S.tempTouched && !opts.keepTemp) {
-        S.temp = S.live && !S.touched ? S.live.temp : normalTemp(S.N, S.h, D.cloud);
-        elT.value = S.temp;
-        derive();
-      }
-      if (S.sky === 'rain' && S.temp <= 34) {
-        S.sky = 'snow';
-        setSkyButtons();
-      } else if (S.sky === 'snow' && S.temp > 34) {
-        S.sky = 'rain';
-        setSkyButtons();
-      }
       elN.value = Math.round(S.N);
       updateReadout();
       updateQuote();
@@ -1219,38 +1235,42 @@ const shelf = data.books
       paintFrame();
     };
 
+    // ------- play the year -------
+    const playBtn = $('dio-play');
+    let playing = false, lastPlayDay = 0;
+    const setPlayLabel = () => (playBtn.textContent = playing ? 'Stop' : 'Play year');
+    const stopPlay = () => {
+      if (playing) {
+        playing = false;
+        setPlayLabel();
+      }
+    };
+    playBtn.addEventListener('click', () => {
+      playing = !playing;
+      if (playing) {
+        S.touched = true;
+        if (S.source === 'LIVE') S.source = 'NORMALS';
+      }
+      setPlayLabel();
+    });
+    if (reduced) playBtn.hidden = true;
+
     // ------- inputs -------
     elN.addEventListener('input', () => {
+      stopPlay();
       S.N = +elN.value;
       S.touched = true;
-      S.tempTouched = false;
       S.source = 'NORMALS';
       apply();
     });
-    elT.addEventListener('input', () => {
-      S.temp = +elT.value;
-      S.tempTouched = true;
-      S.touched = true;
-      S.source = 'DIALED';
-      apply({ keepTemp: true, books: false });
-    });
     for (const b of skyBtns) {
       b.addEventListener('click', () => {
+        stopPlay();
         S.sky = b.dataset.sky;
         S.touched = true;
         S.source = S.source === 'LIVE' ? 'DIALED' : S.source;
-        // precipitation phase follows the thermometer, so Snow and Rain nudge it
-        if (S.sky === 'snow' && S.temp > 34) {
-          S.temp = 28;
-          S.tempTouched = true;
-          elT.value = S.temp;
-        } else if (S.sky === 'rain' && S.temp <= 34) {
-          S.temp = 38;
-          S.tempTouched = true;
-          elT.value = S.temp;
-        }
         for (const x of skyBtns) x.setAttribute('aria-pressed', x === b ? 'true' : 'false');
-        apply({ keepTemp: true, books: false });
+        apply({ books: false });
       });
     }
     const setSkyButtons = () => {
@@ -1258,10 +1278,11 @@ const shelf = data.books
     };
 
     // time dial: pointer + keyboard
-    const setH = (h, keepTemp) => {
+    const setH = (h) => {
+      stopPlay();
       S.h = ((h % 24) + 24) % 24;
       S.touched = true;
-      apply({ keepTemp, books: false });
+      apply({ books: false });
     };
     let dragging = false;
     const dialPoint = (e) => {
@@ -1270,7 +1291,7 @@ const shelf = data.books
       const dy = e.clientY - (r.top + r.height / 2);
       let h = ((Math.atan2(dy, dx) + Math.PI / 2) / TAU) * 24 + 12;
       h = Math.round(h * 12) / 12;
-      setH(h, false);
+      setH(h);
     };
     dial.addEventListener('pointerdown', (e) => {
       dragging = true;
@@ -1283,15 +1304,15 @@ const shelf = data.books
       const step = e.key === 'ArrowRight' || e.key === 'ArrowUp' ? 0.25 : e.key === 'ArrowLeft' || e.key === 'ArrowDown' ? -0.25 : e.key === 'PageUp' ? 2 : e.key === 'PageDown' ? -2 : 0;
       if (!step) return;
       e.preventDefault();
-      setH(S.h + step, false);
+      setH(S.h + step);
     });
 
     $('dio-now').addEventListener('click', () => {
+      stopPlay();
       const now = nyNow();
       S.N = now.N;
       S.h = now.h;
       S.touched = false;
-      S.tempTouched = false;
       if (S.live) {
         S.sky = S.live.sky;
         S.source = 'LIVE';
@@ -1323,11 +1344,9 @@ const shelf = data.books
         S.live = { temp: Math.round(c.temperature_2m), sky };
         if (!S.touched) {
           S.sky = sky;
-          S.temp = S.live.temp;
-          elT.value = S.temp;
           S.source = 'LIVE';
           setSkyButtons();
-          apply({ keepTemp: true });
+          apply();
         }
       } catch {
         /* normals it is */
@@ -1363,6 +1382,19 @@ const shelf = data.books
       running = true;
       const dt = Math.min((t - last) / 1000, 0.05);
       last = t;
+      if (playing) {
+        S.N = ((S.N - 1 + dt * 13) % 365) + 1;
+        derive();
+        const day = Math.floor(S.N);
+        if (day !== lastPlayDay) {
+          lastPlayDay = day;
+          elN.value = day;
+          updateReadout();
+          updateQuote();
+          arcPath();
+          if (day % 14 === 0) updateBooks();
+        }
+      }
       snowCover += clamp(D.snowTarget - snowCover, -0.004, 0.0025) * (dt * 60);
       snowCover = clamp(snowCover, 0, 1);
       draw(t);
@@ -1408,13 +1440,13 @@ const shelf = data.books
     // for tinkering in the console
     window.__dio = {
       set(o) {
+        stopPlay();
         if (o.N != null) S.N = o.N;
         if (o.h != null) S.h = o.h;
         if (o.sky != null) { S.sky = o.sky; setSkyButtons(); }
         S.touched = true;
-        if (o.temp != null) { S.temp = o.temp; S.tempTouched = true; elT.value = o.temp; }
-        else S.tempTouched = false;
-        apply({ keepTemp: o.temp != null });
+        S.source = 'NORMALS';
+        apply();
       },
       state: S,
     };
