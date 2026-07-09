@@ -1,7 +1,12 @@
 ---
 import Base from '../layouts/Base.astro';
+import SeasonDiorama from '../components/SeasonDiorama.astro';
 import { getCollection } from 'astro:content';
 import data from '../data/books.json';
+
+// Experiment toggle: set false to drop the seasonal diorama from the build.
+// Runtime kill switch on the live site: append ?diorama=0 to the URL.
+const SHOW_DIORAMA = true;
 
 const bookCount = data.books.length;
 const fiveStars = data.books.filter((b) => b.rating === 5).length;
@@ -15,7 +20,9 @@ const musingsCount = (await getCollection('musings')).length;
     <span class="mono">Index — 001</span>
   </header>
 
-  <main>
+  {SHOW_DIORAMA && <SeasonDiorama />}
+
+  <main class={SHOW_DIORAMA ? 'has-diorama' : ''}>
     <section class="hero">
       <h1 class="quote" aria-label="The basis of optimism is sheer terror. Oscar Wilde.">
         <span class="line"><span class="w" style="--i:0">The</span> <span class="w" style="--i:1">basis</span> <span class="w" style="--i:2">of</span></span>
@@ -105,6 +112,11 @@ const musingsCount = (await getCollection('musings')).length;
     flex-direction: column;
     justify-content: center;
     padding: 4rem 0 3rem;
+  }
+
+  .has-diorama .hero {
+    min-height: 42vh;
+    padding: 3rem 0 2.5rem;
   }
 
   .quote {

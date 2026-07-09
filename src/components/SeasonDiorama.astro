@@ -1,0 +1,1353 @@
+---
+// Seasonal diorama of Greenwich, CT. Experiment; toggled by SHOW_DIORAMA in index.astro.
+// Runtime kill switch: ?diorama=0. Spec: docs/DIORAMA-SPEC.md
+import data from '../data/books.json';
+
+const MONTH_DAYS = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
+const shelf = data.books
+  .filter((b) => b.date && b.rating >= 4)
+  .map((b) => {
+    const [y, m, d] = b.date.split('-').map(Number);
+    return { t: b.title, y, n: MONTH_DAYS[m - 1] + d, r: b.rating, mi: b.misogi ? 1 : 0 };
+  });
+---
+<section id="diorama" aria-label="A seasonal diorama of Greenwich, Connecticut">
+  <div class="dio-stage">
+    <canvas id="dio-canvas" role="img" aria-label="Seasonal landscape of Greenwich, Connecticut"></canvas>
+    <span class="mono dio-plate">Field Station · Greenwich, CT · 41.03° N</span>
+    <span class="mono dio-chip" id="dio-chip">the runner goes out anyway</span>
+  </div>
+
+  <div class="dio-panel">
+    <div class="dio-readout">
+      <span class="mono" id="dio-read-l">·</span>
+      <span class="mono" id="dio-read-r">·</span>
+    </div>
+
+    <div class="dio-controls">
+      <svg id="dio-dial" viewBox="0 0 76 76" width="76" height="76" role="slider" tabindex="0"
+        aria-label="Time of day" aria-valuemin="0" aria-valuemax="24" aria-valuenow="12" aria-valuetext="noon">
+        <circle cx="38" cy="38" r="33" class="dial-face"></circle>
+        <g id="dial-ticks"></g>
+        <path id="dial-arc" class="dial-arc" d=""></path>
+        <line id="dial-hand" class="dial-hand" x1="38" y1="38" x2="38" y2="10"></line>
+        <circle id="dial-knob" class="dial-knob" cx="38" cy="10" r="4"></circle>
+        <circle cx="38" cy="38" r="2" class="dial-hub"></circle>
+      </svg>
+
+      <label class="dio-slider dio-date">
+        <span class="mono">Day of year</span>
+        <input type="range" id="dio-n" min="1" max="365" step="1" value="185" />
+        <span class="dio-months mono" aria-hidden="true">
+          <i>J</i><i>F</i><i>M</i><i>A</i><i>M</i><i>J</i><i>J</i><i>A</i><i>S</i><i>O</i><i>N</i><i>D</i>
+        </span>
+      </label>
+
+      <label class="dio-slider dio-temp">
+        <span class="mono" id="dio-temp-label">Temp</span>
+        <input type="range" id="dio-t" min="-10" max="102" step="1" value="72" />
+      </label>
+
+      <div class="dio-sky" role="group" aria-label="Sky conditions">
+        <button type="button" class="mono" data-sky="clear" aria-pressed="true">Clear</button>
+        <button type="button" class="mono" data-sky="clouds" aria-pressed="false">Clouds</button>
+        <button type="button" class="mono" data-sky="rain" aria-pressed="false" id="dio-rainbtn">Rain</button>
+        <button type="button" class="mono" data-sky="fog" aria-pressed="false">Fog</button>
+      </div>
+
+      <button type="button" class="mono dio-now" id="dio-now">Now</button>
+    </div>
+
+    <div class="dio-footline">
+      <a class="mono dio-quote" id="dio-quote" href="/misogi"></a>
+      <a class="mono dio-book" id="dio-book" href="/bookshelf" hidden></a>
+    </div>
+  </div>
+</section>
+
+<script id="dio-shelf" type="application/json" set:html={JSON.stringify(shelf)}></script>
+
+<style is:global>
+  #diorama {
+    position: relative;
+    z-index: 1;
+    border-bottom: 1px solid var(--hairline);
+    background: var(--bg);
+  }
+
+  .dio-stage {
+    position: relative;
+    height: clamp(280px, 40vh, 430px);
+    overflow: hidden;
+  }
+
+  #dio-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .dio-plate {
+    position: absolute;
+    top: 0.9rem;
+    left: var(--pad-x);
+    color: var(--ink);
+    opacity: 0.85;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+  }
+
+  .dio-chip {
+    position: absolute;
+    bottom: 0.8rem;
+    left: var(--pad-x);
+    text-transform: none;
+    letter-spacing: 0.08em;
+    color: var(--ink);
+    opacity: 0;
+    transition: opacity 1.2s ease;
+    pointer-events: none;
+  }
+
+  .dio-chip.on {
+    opacity: 0.75;
+  }
+
+  .dio-panel {
+    padding: 0.9rem var(--pad-x) 1rem;
+    border-top: 1px solid var(--hairline);
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .dio-readout {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .dio-readout .mono {
+    color: var(--dim);
+  }
+
+  .dio-readout #dio-read-l {
+    color: var(--ink);
+  }
+
+  .dio-controls {
+    display: flex;
+    align-items: center;
+    gap: 1.6rem;
+    flex-wrap: wrap;
+  }
+
+  #dio-dial {
+    flex: none;
+    cursor: grab;
+    touch-action: none;
+    outline-offset: 4px;
+  }
+
+  #dio-dial:focus-visible {
+    outline: 1px solid var(--accent);
+  }
+
+  .dial-face {
+    fill: none;
+    stroke: var(--hairline);
+    stroke-width: 1;
+  }
+
+  #dial-ticks line {
+    stroke: rgba(232, 228, 220, 0.22);
+    stroke-width: 1;
+  }
+
+  .dial-arc {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 2;
+    opacity: 0.85;
+  }
+
+  .dial-hand {
+    stroke: var(--ink);
+    stroke-width: 1;
+    opacity: 0.7;
+  }
+
+  .dial-knob {
+    fill: var(--accent);
+    transition: fill 0.4s ease;
+  }
+
+  .dial-knob.night {
+    fill: var(--ink);
+  }
+
+  .dial-hub {
+    fill: var(--dim);
+  }
+
+  .dio-slider {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    min-width: 130px;
+  }
+
+  .dio-slider > .mono {
+    font-size: 0.62rem;
+  }
+
+  .dio-date {
+    flex: 1 1 240px;
+  }
+
+  .dio-temp {
+    flex: 0 1 170px;
+  }
+
+  .dio-months {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.55rem;
+    opacity: 0.65;
+    padding: 0 2px;
+  }
+
+  .dio-months i {
+    font-style: normal;
+  }
+
+  #diorama input[type='range'] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 18px;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  #diorama input[type='range']::-webkit-slider-runnable-track {
+    height: 1px;
+    background: rgba(232, 228, 220, 0.28);
+  }
+
+  #diorama input[type='range']::-moz-range-track {
+    height: 1px;
+    background: rgba(232, 228, 220, 0.28);
+  }
+
+  #diorama input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-top: -5px;
+  }
+
+  #diorama input[type='range']::-moz-range-thumb {
+    width: 11px;
+    height: 11px;
+    border: none;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .dio-sky {
+    display: flex;
+    gap: 0;
+    border: 1px solid var(--hairline);
+  }
+
+  .dio-sky button,
+  .dio-now {
+    background: transparent;
+    border: none;
+    padding: 0.55em 0.85em;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  .dio-sky button + button {
+    border-left: 1px solid var(--hairline);
+  }
+
+  .dio-sky button[aria-pressed='true'] {
+    background: var(--accent);
+    color: #000;
+  }
+
+  .dio-sky button:hover:not([aria-pressed='true']),
+  .dio-now:hover {
+    color: var(--ink);
+  }
+
+  .dio-now {
+    border: 1px solid var(--hairline);
+    color: var(--ink);
+  }
+
+  .dio-footline {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .dio-footline a {
+    text-decoration: none;
+    transition: color 0.2s ease, opacity 0.4s ease;
+  }
+
+  .dio-footline a:hover {
+    color: var(--accent);
+  }
+
+  .dio-quote {
+    color: var(--dim);
+    text-transform: none;
+    letter-spacing: 0.08em;
+  }
+
+  .dio-quote em {
+    font-style: normal;
+    color: var(--ink);
+  }
+
+  .dio-book {
+    color: var(--dim);
+  }
+
+  .dio-fade {
+    opacity: 0;
+  }
+
+  @media (max-width: 720px) {
+    .dio-stage {
+      height: clamp(220px, 34vh, 300px);
+    }
+    .dio-controls {
+      gap: 1rem;
+    }
+    .dio-readout #dio-read-r {
+      display: none;
+    }
+  }
+</style>
+
+<script is:inline>
+  (() => {
+    'use strict';
+    const root = document.getElementById('diorama');
+    if (!root) return;
+    if (new URLSearchParams(location.search).get('diorama') === '0') {
+      root.remove();
+      return;
+    }
+
+    // ------- helpers -------
+    const TAU = Math.PI * 2;
+    const clamp = (x, a, b) => Math.min(b, Math.max(a, x));
+    const lerp = (a, b, t) => a + (b - a) * t;
+    const smooth = (e0, e1, x) => {
+      const t = clamp((x - e0) / (e1 - e0), 0, 1);
+      return t * t * (3 - 2 * t);
+    };
+    const mix = (a, b, t) => [lerp(a[0], b[0], t), lerp(a[1], b[1], t), lerp(a[2], b[2], t)];
+    const css = (c, a = 1) => `rgba(${c[0] | 0},${c[1] | 0},${c[2] | 0},${a})`;
+    const mul = (c, k) => [c[0] * k, c[1] * k, c[2] * k];
+    let seed = 20260709;
+    const rnd = () => {
+      seed = (seed + 0x6d2b79f5) | 0;
+      let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+
+    const MONTHS = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+    const MDAYS = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    const CUM = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
+    const dateOfN = (N) => {
+      let m = 11;
+      while (CUM[m] >= N) m--;
+      return { m, d: N - CUM[m] };
+    };
+
+    // ------- astronomy, latitude 41.03 N -------
+    const LAT = (41.03 * Math.PI) / 180;
+    const decl = (N) => ((23.44 * Math.PI) / 180) * Math.sin((TAU * (284 + N)) / 365);
+    const sunEl = (N, h) => {
+      const d = decl(N);
+      const H = ((h - 12) / 24) * TAU;
+      return Math.asin(Math.sin(LAT) * Math.sin(d) + Math.cos(LAT) * Math.cos(d) * Math.cos(H)) * (180 / Math.PI);
+    };
+    const sunTimes = (N) => {
+      let rise = 6, set = 18;
+      for (let h = 0; h < 12; h += 1 / 60) if (sunEl(N, h) > -0.83) { rise = h; break; }
+      for (let h = 24; h > 12; h -= 1 / 60) if (sunEl(N, h) > -0.83) { set = h; break; }
+      return { rise, set };
+    };
+    // clock runs on Eastern time; approximate DST window mid-Mar to early Nov
+    const dstOff = (N) => (N >= 68 && N <= 308 ? 1 : 0);
+    const moonAge = (N) => {
+      const ms = Date.UTC(new Date().getFullYear(), 0, 1) + (N - 1) * 86400000;
+      const days = (ms - Date.UTC(2000, 0, 6, 18, 14)) / 86400000;
+      return ((days / 29.53059) % 1 + 1) % 1;
+    };
+
+    // ------- Greenwich climatology -------
+    const seasonalMean = (N) => 52.5 + 22.5 * Math.cos((TAU * (N - 201)) / 365);
+    const normalTemp = (N, h, cloud) => {
+      const warm = (seasonalMean(N) - 30) / 45;
+      const dr = (5.5 + 2.5 * warm) * (1 - 0.5 * cloud);
+      return Math.round(seasonalMean(N) + dr * Math.cos((TAU * (h - 15)) / 24));
+    };
+    const grassGreen = (N) => Math.min(smooth(85, 118, N), 1 - smooth(300, 335, N));
+    const canopy = (N, off) => {
+      const density = Math.min(smooth(105 + off, 138 + off, N), 1 - smooth(295 + off, 322 + off, N));
+      const turn = smooth(262 + off, 296 + off, N);
+      const fresh = 1 - smooth(138, 178, N);
+      return { density, turn, fresh };
+    };
+
+    // ------- state -------
+    const S = {
+      N: 185,
+      h: 12,
+      temp: 72,
+      tempTouched: false,
+      sky: 'clear',
+      touched: false,
+      live: null, // {temp, sky} once fetched
+      source: 'NORMALS',
+    };
+    let rise = 6, set = 18;
+    let snowCover = 0;
+
+    const nyNow = () => {
+      const parts = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'America/New_York', month: 'numeric', day: 'numeric',
+        hour: 'numeric', minute: 'numeric', hour12: false,
+      }).formatToParts(new Date());
+      const g = (t) => +parts.find((p) => p.type === t).value;
+      return { N: CUM[g('month') - 1] + g('day'), h: (g('hour') % 24) + g('minute') / 60 };
+    };
+
+    // ------- DOM -------
+    const $ = (id) => document.getElementById(id);
+    const canvas = $('dio-canvas');
+    const ctx = canvas.getContext('2d');
+    const elN = $('dio-n'), elT = $('dio-t');
+    const dial = $('dio-dial'), dialArc = $('dial-arc'), dialHand = $('dial-hand'), dialKnob = $('dial-knob');
+    const readL = $('dio-read-l'), readR = $('dio-read-r');
+    const quoteEl = $('dio-quote'), bookEl = $('dio-book'), chip = $('dio-chip');
+    const rainBtn = $('dio-rainbtn');
+    const skyBtns = [...root.querySelectorAll('.dio-sky button')];
+    const shelf = JSON.parse($('dio-shelf').textContent || '[]');
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // dial ticks
+    {
+      const g = $('dial-ticks');
+      let ticks = '';
+      for (let i = 0; i < 24; i++) {
+        const a = (i / 24) * TAU - Math.PI / 2 + Math.PI; // 0h at top after +PI? no: below maps h->angle
+        const major = i % 6 === 0;
+        const r1 = major ? 28.5 : 30.5, r2 = 33;
+        const x1 = 38 + r1 * Math.cos(a), y1 = 38 + r1 * Math.sin(a);
+        const x2 = 38 + r2 * Math.cos(a), y2 = 38 + r2 * Math.sin(a);
+        ticks += `<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}"/>`;
+      }
+      g.innerHTML = ticks;
+    }
+    // hour -> dial angle. noon at top, midnight at bottom, clockwise.
+    const hAngle = (h) => ((h - 12) / 24) * TAU - Math.PI / 2;
+
+    // ------- scene geometry (seeded, fixed per load) -------
+    let W = 900, H = 380, DPR = 1;
+    const AUTUMN = [[194, 106, 46], [168, 68, 46], [209, 154, 63], [143, 91, 42], [186, 82, 38]];
+    const trees = [];
+    {
+      const xs = [0.045, 0.10, 0.165, 0.245, 0.33, 0.415, 0.50, 0.575, 0.635, 0.80, 0.875, 0.95];
+      for (const fx of xs) {
+        const pine = fx === 0.245 || fx === 0.875;
+        const t = {
+          fx, pine,
+          fy: 0.735 + rnd() * 0.045,
+          hgt: pine ? 46 + rnd() * 12 : 36 + rnd() * 20,
+          off: (rnd() - 0.5) * 18,
+          col: AUTUMN[(rnd() * AUTUMN.length) | 0],
+          puffs: [],
+          limbs: [],
+        };
+        const np = 5 + ((rnd() * 2) | 0);
+        for (let i = 0; i < np; i++) {
+          t.puffs.push({
+            dx: (rnd() - 0.5) * 0.9,
+            dy: -1 - (rnd() - 0.5) * 0.55,
+            r: 0.30 + rnd() * 0.17,
+            sh: 0.85 + rnd() * 0.3,
+          });
+        }
+        // bare-branch skeleton, unit height
+        t.limbs.push([0, 0, 0, -1]);
+        for (let i = 0; i < 4; i++) {
+          const y0 = -(0.45 + rnd() * 0.5);
+          const ang = -Math.PI / 2 + (rnd() - 0.5) * 1.6;
+          const len = 0.28 + rnd() * 0.22;
+          const x1 = Math.cos(ang) * len, y1 = y0 + Math.sin(ang) * len;
+          t.limbs.push([0, y0, x1, y1]);
+          t.limbs.push([x1, y1, x1 + Math.cos(ang - 0.5) * len * 0.5, y1 + Math.sin(ang - 0.5) * len * 0.5]);
+          t.limbs.push([x1, y1, x1 + Math.cos(ang + 0.5) * len * 0.5, y1 + Math.sin(ang + 0.5) * len * 0.5]);
+        }
+        trees.push(t);
+      }
+    }
+    const stones = [];
+    for (let i = 0; i < 90; i++) {
+      stones.push({ fx: i / 90 + (rnd() - 0.5) * 0.004, w: 6 + rnd() * 9, h: 2.4 + rnd() * 2.2, row: rnd() > 0.5 ? 1 : 0, sh: 0.8 + rnd() * 0.5 });
+    }
+    const stars = [];
+    for (let i = 0; i < 110; i++) {
+      stars.push({ fx: rnd(), fy: rnd() * 0.58, r: 0.4 + rnd() * 1.0, a: 0.25 + rnd() * 0.6, ph: rnd() * TAU });
+    }
+    const clouds = [];
+    for (let i = 0; i < 9; i++) {
+      const puffs = [];
+      const np = 3 + ((rnd() * 3) | 0);
+      for (let j = 0; j < np; j++) puffs.push({ dx: (rnd() - 0.5) * 90, dy: (rnd() - 0.5) * 14, rx: 26 + rnd() * 34, ry: 7 + rnd() * 7 });
+      clouds.push({ fx: rnd(), fy: 0.08 + rnd() * 0.30, v: 0.06 + rnd() * 0.1, puffs });
+    }
+    const shimmer = [];
+    for (let i = 0; i < 40; i++) shimmer.push({ fx: rnd(), fy: rnd(), w: 6 + rnd() * 22, ph: rnd() * TAU, sp: 0.5 + rnd() });
+    const farShore = [];
+    for (let i = 0; i <= 24; i++) farShore.push(0.5 + rnd() * 3.2);
+
+    // particles
+    let rain = [], snow = [], leaves = [], flies = [], smoke = [];
+    const resetParticles = () => {
+      rain = Array.from({ length: 150 }, () => ({ x: Math.random() * W, y: Math.random() * H, l: 8 + Math.random() * 7, v: 520 + Math.random() * 240 }));
+      snow = Array.from({ length: 120 }, () => ({ x: Math.random() * W, y: Math.random() * H, r: 0.8 + Math.random() * 1.7, v: 28 + Math.random() * 34, ph: Math.random() * TAU }));
+      leaves = Array.from({ length: 11 }, () => ({ x: Math.random() * W, y: Math.random() * H * 0.8, v: 18 + Math.random() * 26, ph: Math.random() * TAU, col: AUTUMN[(Math.random() * AUTUMN.length) | 0] }));
+      flies = Array.from({ length: 14 }, () => ({ x: Math.random() * W, y: H * (0.74 + Math.random() * 0.18), ph: Math.random() * TAU, sp: 0.6 + Math.random() * 1.1 }));
+      smoke = Array.from({ length: 6 }, (_, i) => ({ t: i / 6 }));
+    };
+
+    const runner = { active: false, x: 0, dir: 1, next: 7000 };
+    const birds = { active: false, x: 0, dir: 1, y: 0, next: 15000, n: 6 };
+
+    // ------- palettes -------
+    const SKY = [
+      [-18, [11, 11, 13], [19, 20, 27]],
+      [-9, [15, 16, 25], [39, 35, 49]],
+      [-3, [29, 26, 39], [122, 63, 45]],
+      [4, [68, 74, 94], [198, 122, 72]],
+      [12, [95, 117, 141], [187, 186, 178]],
+      [30, [106, 129, 152], [196, 203, 200]],
+    ];
+    const skyColors = (el, coldness, cloud, L) => {
+      let top = SKY[0][1], hor = SKY[0][2];
+      if (el >= SKY[SKY.length - 1][0]) {
+        top = SKY[SKY.length - 1][1]; hor = SKY[SKY.length - 1][2];
+      } else {
+        for (let i = 0; i < SKY.length - 1; i++) {
+          if (el >= SKY[i][0] && el < SKY[i + 1][0]) {
+            const t = (el - SKY[i][0]) / (SKY[i + 1][0] - SKY[i][0]);
+            top = mix(SKY[i][1], SKY[i + 1][1], t);
+            hor = mix(SKY[i][2], SKY[i + 1][2], t);
+            break;
+          }
+        }
+      }
+      const grayT = mul([1, 1, 1], (top[0] + top[1] + top[2]) / 3);
+      const grayH = mul([1, 1, 1], (hor[0] + hor[1] + hor[2]) / 3);
+      top = mix(top, grayT, 0.4 * coldness * smooth(0, 10, el));
+      hor = mix(hor, grayH, 0.4 * coldness * smooth(0, 10, el));
+      top = mix(top, mul([70, 74, 80], Math.max(L, 0.25)), 0.5 * cloud);
+      hor = mix(hor, mul([92, 94, 98], Math.max(L, 0.25)), 0.5 * cloud);
+      return { top, hor };
+    };
+
+    // ------- derived -------
+    const D = {};
+    const derive = () => {
+      const off = dstOff(S.N);
+      const st = sunTimes(S.N);
+      rise = st.rise + off; set = st.set + off;
+      D.el = sunEl(S.N, S.h - off);
+      D.cloud = S.sky === 'clear' ? 0.1 : S.sky === 'clouds' ? 0.62 : S.sky === 'fog' ? 0.75 : 0.95;
+      D.precip = S.sky === 'rain' ? 1 : 0;
+      D.isSnow = D.precip > 0 && S.temp <= 34;
+      D.fog = S.sky === 'fog' ? 1 : 0;
+      D.L = clamp(smooth(-9, 10, D.el), 0.16, 1) * (1 - 0.28 * D.cloud);
+      D.coldness = clamp((75 - seasonalMean(S.N)) / 45, 0, 1);
+      D.grass = grassGreen(S.N);
+      const snowTarget = D.isSnow ? 1 : S.temp <= 33 && (S.N <= 75 || S.N >= 340) ? 0.55 : 0;
+      if (reduced) snowCover = snowTarget;
+      D.snowTarget = snowTarget;
+      D.fireflies = S.N >= 152 && S.N <= 227 && S.temp >= 62 && D.el < -5 && D.precip === 0 && !D.fog;
+      D.moon = moonAge(S.N);
+    };
+
+    // ------- draw -------
+    const groundY = () => H * 0.70;
+    const horizonY = () => H * 0.52;
+
+    function draw(t) {
+      const el = D.el, L = D.L;
+      const { top, hor } = skyColors(el, D.coldness, D.cloud, L);
+      const hy = horizonY(), gy = groundY();
+
+      const g = ctx.createLinearGradient(0, 0, 0, hy * 1.15);
+      g.addColorStop(0, css(top));
+      g.addColorStop(1, css(hor));
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, W, hy + 2);
+
+      // stars
+      const dark = smooth(-4, -14, el) * (1 - D.cloud * 0.9) * (1 - D.fog);
+      if (dark > 0.02) {
+        for (const s of stars) {
+          const tw = reduced ? 1 : 0.75 + 0.25 * Math.sin(t / 900 + s.ph);
+          ctx.fillStyle = css([232, 228, 220], s.a * dark * tw);
+          ctx.beginPath();
+          ctx.arc(s.fx * W, s.fy * H, s.r, 0, TAU);
+          ctx.fill();
+        }
+      }
+
+      // sun
+      let sunX = -100, sunY = -100;
+      if (el > -1 && set > rise) {
+        const frac = clamp((S.h - rise) / (set - rise), 0, 1);
+        sunX = W * (0.06 + 0.88 * frac);
+        sunY = hy - (Math.max(el, 0) / 72) * (hy - H * 0.07);
+        const sa = (1 - D.cloud * 0.75) * (1 - D.fog * 0.85);
+        if (sa > 0.03) {
+          const low = smooth(18, 2, el);
+          const sc = mix([242, 233, 216], [255, 130, 70], low);
+          const glow = ctx.createRadialGradient(sunX, sunY, 2, sunX, sunY, 60 + low * 30);
+          glow.addColorStop(0, css(sc, 0.5 * sa));
+          glow.addColorStop(1, css(sc, 0));
+          ctx.fillStyle = glow;
+          ctx.fillRect(sunX - 95, sunY - 95, 190, 190);
+          ctx.fillStyle = css(sc, 0.95 * sa);
+          ctx.beginPath();
+          ctx.arc(sunX, sunY, 8 + low * 3, 0, TAU);
+          ctx.fill();
+        }
+      }
+
+      // moon
+      let moonX = -100, moonY = -100, moonUp = false;
+      if (el < -1) {
+        const nightLen = 24 - (set - rise);
+        const since = (S.h - set + 24) % 24;
+        const fm = since / nightLen;
+        if (fm > 0.02 && fm < 0.98) {
+          moonUp = true;
+          moonX = W * (0.06 + 0.88 * fm);
+          moonY = hy - Math.sin(Math.PI * fm) * (hy - H * 0.10);
+          const r = 8.5;
+          const k = (1 - Math.cos(TAU * D.moon)) / 2;
+          const ma = (1 - D.cloud * 0.8) * (1 - D.fog * 0.9);
+          if (ma > 0.03 && k > 0.03) {
+            ctx.save();
+            ctx.beginPath();
+            ctx.arc(moonX, moonY, r, 0, TAU);
+            ctx.clip();
+            ctx.fillStyle = css([40, 41, 48], ma * 0.85);
+            ctx.fillRect(moonX - r, moonY - r, 2 * r, 2 * r);
+            const side = D.moon < 0.5 ? 1 : -1;
+            ctx.fillStyle = css([226, 222, 210], ma * 0.95);
+            ctx.beginPath();
+            ctx.arc(moonX + side * (1 - k) * 1.15 * r, moonY, r * Math.min(1, k + 0.55), 0, TAU);
+            ctx.fill();
+            ctx.restore();
+          }
+        }
+      }
+
+      // clouds
+      if (D.cloud > 0.03 || D.fog > 0) {
+        const dayCol = mix([188, 185, 176], [206, 203, 194], smooth(30, 60, S.temp));
+        const cCol = mix([30, 31, 37], dayCol, Math.max(L, 0.12));
+        const n = D.precip ? clouds.length : D.cloud > 0.4 ? 7 : 3;
+        for (let i = 0; i < n; i++) {
+          const c = clouds[i];
+          const cx = ((c.fx + (reduced ? 0 : (t / 1000) * c.v * 0.01)) % 1.3 - 0.15) * W;
+          const cy = c.fy * hy;
+          const alpha = (D.precip ? 0.75 : D.cloud > 0.4 ? 0.4 : 0.24) * (0.5 + 0.5 * Math.max(L, 0.2));
+          ctx.fillStyle = css(D.precip ? mul(cCol, 0.55) : cCol, alpha);
+          for (const p of c.puffs) {
+            ctx.beginPath();
+            ctx.ellipse(cx + p.dx, cy + p.dy, p.rx, p.ry, 0, 0, TAU);
+            ctx.fill();
+          }
+        }
+        if (D.precip || D.cloud > 0.85) {
+          ctx.fillStyle = css(mul(cCol, 0.5), 0.5);
+          ctx.fillRect(0, 0, W, hy * 0.22);
+        }
+      }
+
+      // far shore (Long Island), hidden by fog
+      const shoreA = (1 - D.fog) * 0.9;
+      if (shoreA > 0.02) {
+        ctx.fillStyle = css(mix(hor, [6, 7, 9], 0.55), shoreA);
+        ctx.beginPath();
+        ctx.moveTo(0, hy);
+        for (let i = 0; i <= 24; i++) ctx.lineTo((i / 24) * W, hy - farShore[i]);
+        ctx.lineTo(W, hy);
+        ctx.closePath();
+        ctx.fill();
+      }
+
+      // water
+      const wg = ctx.createLinearGradient(0, hy, 0, gy + 8);
+      wg.addColorStop(0, css(mix(hor, [12, 16, 24], 0.62)));
+      wg.addColorStop(1, css(mix(hor, [8, 10, 16], 0.85)));
+      ctx.fillStyle = wg;
+      ctx.fillRect(0, hy, W, gy - hy + 8);
+      const shimA = Math.max(L, 0.25) * (1 - D.fog * 0.8);
+      for (const s of shimmer) {
+        const a = (0.05 + 0.06 * (reduced ? 0.6 : 0.5 + 0.5 * Math.sin(t / 700 * s.sp + s.ph))) * shimA;
+        ctx.fillStyle = css([232, 228, 220], a);
+        ctx.fillRect(s.fx * W, hy + 4 + s.fy * (gy - hy - 10), s.w, 1);
+      }
+      const gsrc = el > 1 ? sunX : moonUp ? moonX : -1;
+      if (gsrc > 0 && D.cloud < 0.7 && !D.fog) {
+        const ga = (el > 1 ? 0.14 : 0.08) * (1 - D.cloud);
+        for (let i = 0; i < 22; i++) {
+          const fy = (i / 22);
+          const y = hy + 5 + fy * (gy - hy - 12);
+          const spread = 6 + fy * 34;
+          const x = gsrc + (((i * 2654435761) % 100) / 100 - 0.5) * spread;
+          const fl = reduced ? 0.7 : 0.5 + 0.5 * Math.sin(t / 300 + i * 1.7);
+          ctx.fillStyle = css([240, 230, 210], ga * fl);
+          ctx.fillRect(x, y, 4 + fy * 6, 1);
+        }
+      }
+
+      // land
+      const dead = [58, 54, 46], green = [40, 57, 43], fresh = [50, 66, 44];
+      let grass = mix(dead, mix(green, fresh, 1 - smooth(130, 180, S.N)), D.grass);
+      const fall = smooth(255, 295, S.N) * (1 - smooth(310, 330, S.N));
+      grass = mix(grass, [74, 58, 34], fall * 0.55);
+      const snowCol = [216, 221, 228];
+      const landL = Math.max(L, snowCover > 0.3 ? 0.34 : 0.2);
+      const back = mul(mix(grass, snowCol, snowCover), landL);
+      const front = mul(back, 0.82);
+      ctx.fillStyle = css(back);
+      ctx.beginPath();
+      ctx.moveTo(0, gy + 6);
+      ctx.quadraticCurveTo(W * 0.3, gy - 6, W * 0.55, gy + 2);
+      ctx.quadraticCurveTo(W * 0.8, gy + 8, W, gy - 2);
+      ctx.lineTo(W, H);
+      ctx.lineTo(0, H);
+      ctx.closePath();
+      ctx.fill();
+      ctx.fillStyle = css(front);
+      ctx.beginPath();
+      ctx.moveTo(0, H * 0.885);
+      ctx.quadraticCurveTo(W * 0.4, H * 0.862, W, H * 0.89);
+      ctx.lineTo(W, H);
+      ctx.lineTo(0, H);
+      ctx.closePath();
+      ctx.fill();
+
+      // stone wall
+      const wy = H * 0.83;
+      for (const s of stones) {
+        ctx.fillStyle = css(mul([32, 32, 36], s.sh * Math.max(landL, 0.3)));
+        ctx.fillRect(s.fx * W, wy + s.row * 3.1, s.w, s.h);
+      }
+      if (snowCover > 0.05) {
+        ctx.fillStyle = css(mul(snowCol, landL), snowCover * 0.9);
+        ctx.fillRect(0, wy - 1, W, 1.6);
+      }
+
+      // trees
+      for (const tr of trees) {
+        const tx = tr.fx * W, ty = tr.fy * H, hgt = tr.hgt * (H / 340);
+        if (tr.pine) {
+          ctx.fillStyle = css(mul(mix([30, 44, 35], [24, 34, 30], D.coldness), Math.max(landL, 0.26)));
+          for (let i = 0; i < 3; i++) {
+            const w0 = hgt * (0.55 - i * 0.14), y0 = ty - hgt * (0.30 + i * 0.26);
+            ctx.beginPath();
+            ctx.moveTo(tx - w0 / 2, y0);
+            ctx.lineTo(tx + w0 / 2, y0);
+            ctx.lineTo(tx, y0 - hgt * 0.38);
+            ctx.closePath();
+            ctx.fill();
+            if (snowCover > 0.1) {
+              ctx.strokeStyle = css(mul(snowCol, landL), snowCover * 0.8);
+              ctx.lineWidth = 1.4;
+              ctx.beginPath();
+              ctx.moveTo(tx - w0 / 2, y0);
+              ctx.lineTo(tx, y0 - hgt * 0.38);
+              ctx.stroke();
+            }
+          }
+          continue;
+        }
+        const c = canopy(S.N, tr.off);
+        ctx.strokeStyle = css(mul([26, 25, 28], Math.max(landL, 0.24)));
+        ctx.lineWidth = Math.max(1, hgt * 0.045);
+        ctx.lineCap = 'round';
+        const limbAlpha = 1 - c.density * 0.75;
+        for (let i = 0; i < tr.limbs.length; i++) {
+          if (i > 0 && limbAlpha < 0.3) break;
+          const [x0, y0, x1, y1] = tr.limbs[i];
+          ctx.globalAlpha = i === 0 ? 1 : limbAlpha;
+          ctx.beginPath();
+          ctx.moveTo(tx + x0 * hgt * 0.4, ty + y0 * hgt);
+          ctx.lineTo(tx + x1 * hgt * 0.4, ty + y1 * hgt);
+          ctx.stroke();
+        }
+        ctx.globalAlpha = 1;
+        if (c.density > 0.04) {
+          const springCol = [122, 158, 96], summerCol = [62, 100, 68];
+          let leafCol = mix(summerCol, springCol, c.fresh);
+          leafCol = mix(leafCol, tr.col, c.turn);
+          for (const p of tr.puffs) {
+            ctx.fillStyle = css(mul(leafCol, p.sh * Math.max(landL, 0.26)), 0.96);
+            ctx.beginPath();
+            ctx.arc(tx + p.dx * hgt * 0.55, ty + p.dy * hgt * 0.72, p.r * hgt * c.density, 0, TAU);
+            ctx.fill();
+          }
+          if (snowCover > 0.3 && c.density > 0.5) {
+            // rare; snow on leaves only if forced snow in leaf season
+            ctx.fillStyle = css(mul(snowCol, landL), 0.25 * snowCover);
+            ctx.beginPath();
+            ctx.arc(tx, ty - hgt * 1.0, hgt * 0.4 * c.density, 0, TAU);
+            ctx.fill();
+          }
+        }
+      }
+
+      // house
+      {
+        const hx = W * 0.705, hb = H * 0.80, sc = H / 360;
+        const bw = 40 * sc, bh = 20 * sc;
+        const hCol = mul([24, 24, 27], Math.max(landL, 0.3));
+        ctx.fillStyle = css(hCol);
+        ctx.fillRect(hx, hb - bh, bw, bh);
+        ctx.beginPath();
+        ctx.moveTo(hx - 3 * sc, hb - bh);
+        ctx.lineTo(hx + bw * 0.42, hb - bh - 14 * sc);
+        ctx.lineTo(hx + bw + 3 * sc, hb - bh);
+        ctx.closePath();
+        ctx.fill();
+        ctx.fillRect(hx + bw * 0.66, hb - bh - 15 * sc, 4.5 * sc, 10 * sc);
+        if (snowCover > 0.08) {
+          ctx.strokeStyle = css(mul(snowCol, landL), snowCover);
+          ctx.lineWidth = 1.6 * sc;
+          ctx.beginPath();
+          ctx.moveTo(hx - 3 * sc, hb - bh);
+          ctx.lineTo(hx + bw * 0.42, hb - bh - 14 * sc);
+          ctx.lineTo(hx + bw + 3 * sc, hb - bh);
+          ctx.stroke();
+        }
+        const darkness = smooth(2, -8, el);
+        const misogi = S.h >= 5 && S.h <= 6.25 ? 1 : 0;
+        const wa = Math.min(1, darkness + misogi * 0.9);
+        if (wa > 0.05) {
+          const wx = hx + 8 * sc, wyy = hb - bh + 6 * sc;
+          const halo = ctx.createRadialGradient(wx + 3 * sc, wyy + 4 * sc, 1, wx + 3 * sc, wyy + 4 * sc, 16 * sc);
+          halo.addColorStop(0, css([255, 177, 94], 0.35 * wa));
+          halo.addColorStop(1, css([255, 177, 94], 0));
+          ctx.fillStyle = halo;
+          ctx.fillRect(wx - 14 * sc, wyy - 12 * sc, 34 * sc, 32 * sc);
+          ctx.fillStyle = css([255, 183, 106], 0.9 * wa);
+          ctx.fillRect(wx, wyy, 6 * sc, 8 * sc);
+        }
+        // chimney smoke
+        if (S.temp < 48 && !reduced) {
+          const cx0 = hx + bw * 0.66 + 2.2 * sc;
+          for (const p of smoke) {
+            p.t += 0.0016;
+            if (p.t > 1) p.t -= 1;
+            const sy = hb - bh - 15 * sc - p.t * 34 * sc;
+            const sx = cx0 + Math.sin(p.t * 9) * 3 + p.t * 10;
+            ctx.fillStyle = css([160, 160, 165], 0.16 * (1 - p.t) * Math.max(L, 0.3));
+            ctx.beginPath();
+            ctx.arc(sx, sy, 2 + p.t * 6, 0, TAU);
+            ctx.fill();
+          }
+        }
+      }
+
+      return { sunX, sunY, gy };
+    }
+
+    function drawParticles(t, dt) {
+      const gy = groundY();
+      if (D.precip && !D.isSnow) {
+        ctx.strokeStyle = css([172, 182, 196], 0.22 + 0.18 * D.L);
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        for (const p of rain) {
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(p.x - 2.5, p.y + p.l);
+          p.y += p.v * dt;
+          p.x -= p.v * 0.22 * dt;
+          if (p.y > H) { p.y = -10; p.x = Math.random() * (W + 60); }
+        }
+        ctx.stroke();
+      }
+      if (D.precip && D.isSnow) {
+        ctx.fillStyle = css([234, 238, 244], 0.8);
+        for (const p of snow) {
+          ctx.beginPath();
+          ctx.arc(p.x + Math.sin(t / 900 + p.ph) * 9, p.y, p.r, 0, TAU);
+          ctx.fill();
+          p.y += p.v * dt;
+          if (p.y > H) { p.y = -4; p.x = Math.random() * W; }
+        }
+      }
+      const leafSeason = S.N >= 268 && S.N <= 326;
+      if (leafSeason && !D.fog) {
+        for (const p of leaves) {
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate(Math.sin(t / 500 + p.ph) * 1.1);
+          ctx.fillStyle = css(mul(p.col, Math.max(D.L, 0.3)), 0.9);
+          ctx.fillRect(-2.2, -1.4, 4.4, 2.8);
+          ctx.restore();
+          p.y += p.v * dt;
+          p.x += (Math.sin(t / 700 + p.ph) * 14 + 8) * dt;
+          if (p.y > H * 0.93) { p.y = H * (0.55 + Math.random() * 0.2); p.x = Math.random() * W; }
+        }
+      }
+      if (D.fireflies) {
+        for (const f of flies) {
+          f.x += Math.sin(t / 1300 * f.sp + f.ph) * 0.25;
+          f.y += Math.cos(t / 1100 * f.sp + f.ph) * 0.18;
+          const blink = Math.max(0, Math.sin(t / 650 * f.sp + f.ph * 3));
+          if (blink > 0.15) {
+            ctx.fillStyle = css([214, 255, 140], blink * 0.85);
+            ctx.beginPath();
+            ctx.arc(f.x, f.y, 1.3, 0, TAU);
+            ctx.fill();
+          }
+        }
+      }
+      // geese
+      const springM = S.N >= 58 && S.N <= 140, fallM = S.N >= 244 && S.N <= 330;
+      if ((springM || fallM) && D.el > 0 && !D.fog) {
+        if (!birds.active && t > birds.next) {
+          birds.active = true;
+          birds.dir = springM ? 1 : -1;
+          birds.x = birds.dir > 0 ? -80 : W + 80;
+          birds.y = H * (0.18 + Math.random() * 0.2);
+          birds.n = 5 + ((Math.random() * 3) | 0);
+        }
+        if (birds.active) {
+          birds.x += birds.dir * 42 * dt;
+          ctx.strokeStyle = css([12, 12, 15], 0.85);
+          ctx.lineWidth = 1.2;
+          for (let i = 0; i < birds.n; i++) {
+            const bx = birds.x - birds.dir * i * 13;
+            const by = birds.y + i * 5.5;
+            const flap = Math.sin(t / 130 + i) * 2.2;
+            ctx.beginPath();
+            ctx.moveTo(bx - 4, by - flap);
+            ctx.lineTo(bx, by + 1.5);
+            ctx.lineTo(bx + 4, by - flap);
+            ctx.stroke();
+          }
+          if (birds.x < -220 || birds.x > W + 220) {
+            birds.active = false;
+            birds.next = t + 30000 + Math.random() * 60000;
+          }
+        }
+      }
+      // the runner
+      if (D.el > -6) {
+        if (!runner.active && t > runner.next) {
+          runner.active = true;
+          runner.dir = Math.random() > 0.5 ? 1 : -1;
+          runner.x = runner.dir > 0 ? -20 : W + 20;
+          if (D.precip) chip.classList.add('on');
+        }
+        if (runner.active) {
+          runner.x += runner.dir * 58 * dt;
+          const ry = H * 0.915;
+          const ph = runner.x * 0.09;
+          const c = css([9, 9, 11], 0.95);
+          ctx.strokeStyle = c;
+          ctx.fillStyle = c;
+          ctx.lineWidth = 1.7;
+          ctx.lineCap = 'round';
+          const lean = runner.dir * 2.6;
+          const hipX = runner.x, hipY = ry - 10;
+          const shX = runner.x + lean, shY = ry - 16.5;
+          ctx.beginPath();
+          ctx.arc(shX + lean * 0.5, shY - 3.4, 2.1, 0, TAU);
+          ctx.fill();
+          ctx.beginPath();
+          ctx.moveTo(shX, shY);
+          ctx.lineTo(hipX, hipY);
+          ctx.stroke();
+          for (const s of [0, Math.PI]) {
+            const a = Math.PI / 2 + Math.sin(ph + s) * 0.75 * runner.dir;
+            const kx = hipX + Math.cos(a) * 5.5, ky = hipY + Math.sin(a) * 5.5;
+            const bend = Math.max(0, Math.sin(ph + s + 0.7)) * 0.9;
+            const a2 = a + bend * runner.dir;
+            ctx.beginPath();
+            ctx.moveTo(hipX, hipY);
+            ctx.lineTo(kx, ky);
+            ctx.lineTo(kx + Math.cos(a2) * 5, ky + Math.sin(a2) * 5);
+            ctx.stroke();
+            const aa = Math.PI / 2 + Math.sin(ph + s + Math.PI) * 0.6 * runner.dir;
+            ctx.beginPath();
+            ctx.moveTo(shX, shY);
+            ctx.lineTo(shX + Math.cos(aa) * 4.5, shY + Math.sin(aa) * 4.5);
+            ctx.stroke();
+          }
+          if (runner.x < -30 || runner.x > W + 30) {
+            runner.active = false;
+            runner.next = t + 26000 + Math.random() * 44000;
+            chip.classList.remove('on');
+          }
+        }
+      } else if (runner.active) {
+        runner.active = false;
+        chip.classList.remove('on');
+      }
+    }
+
+    function drawOverlays() {
+      if (D.fog > 0) {
+        const fogCol = mix([36, 38, 42], [148, 150, 153], Math.max(D.L, 0.15));
+        ctx.fillStyle = css(fogCol, 0.34);
+        ctx.fillRect(0, 0, W, H);
+        const fg = ctx.createLinearGradient(0, H * 0.42, 0, H * 0.78);
+        fg.addColorStop(0, css(fogCol, 0));
+        fg.addColorStop(0.55, css(fogCol, 0.5));
+        fg.addColorStop(1, css(fogCol, 0.15));
+        ctx.fillStyle = fg;
+        ctx.fillRect(0, H * 0.42, W, H * 0.36);
+      }
+      const v = ctx.createRadialGradient(W / 2, H * 0.5, H * 0.35, W / 2, H * 0.5, W * 0.72);
+      v.addColorStop(0, 'rgba(5,5,7,0)');
+      v.addColorStop(1, 'rgba(5,5,7,0.26)');
+      ctx.fillStyle = v;
+      ctx.fillRect(0, 0, W, H);
+    }
+
+    // ------- readouts -------
+    const fmtClock = (h) => {
+      let hh = Math.floor(h) % 24;
+      const mm = Math.round((h - Math.floor(h)) * 60);
+      let m2 = mm, h2 = hh;
+      if (m2 === 60) { m2 = 0; h2 = (h2 + 1) % 24; }
+      const ap = h2 >= 12 ? 'PM' : 'AM';
+      const hr = h2 % 12 === 0 ? 12 : h2 % 12;
+      return `${hr}:${String(m2).padStart(2, '0')} ${ap}`;
+    };
+
+    const QUOTES = [
+      { test: () => D.fog, q: 'Hover through the fog and filthy air.', src: 'MACBETH' },
+      { test: () => D.precip && D.isSnow, q: 'When icicles hang by the wall.', src: "LOVE'S LABOUR'S LOST" },
+      { test: () => D.precip, q: 'The rain it raineth every day.', src: 'TWELFTH NIGHT' },
+      { test: () => S.temp <= 14, q: 'Blow, blow, thou winter wind.', src: 'AS YOU LIKE IT' },
+      { test: () => S.temp >= 90, q: 'Sometime too hot the eye of heaven shines.', src: 'SONNET 18' },
+      { test: () => D.el < -8, q: 'How sweet the moonlight sleeps upon this bank.', src: 'THE MERCHANT OF VENICE' },
+      { test: () => S.N <= 74 || S.N >= 340, q: "A sad tale's best for winter.", src: "THE WINTER'S TALE" },
+      { test: () => S.N <= 165, q: 'From you have I been absent in the spring.', src: 'SONNET 98' },
+      { test: () => S.N <= 255, q: 'Shall I compare thee to a summer’s day?', src: 'SONNET 18' },
+      { test: () => true, q: 'That time of year thou mayst in me behold.', src: 'SONNET 73' },
+    ];
+    let lastQuote = '';
+    const updateQuote = () => {
+      const q = QUOTES.find((x) => x.test());
+      if (q.q === lastQuote) return;
+      lastQuote = q.q;
+      quoteEl.classList.add('dio-fade');
+      setTimeout(() => {
+        quoteEl.innerHTML = `<em>“${q.q}”</em> · ${q.src} · the year of Shakespeare ↗`;
+        quoteEl.classList.remove('dio-fade');
+      }, 220);
+    };
+
+    let bookMatches = [], bookIdx = 0, bookTimer = 0;
+    const updateBooks = () => {
+      const win = 8;
+      bookMatches = shelf
+        .map((b) => {
+          let d = Math.abs(b.n - S.N);
+          d = Math.min(d, 365 - d);
+          return { ...b, d };
+        })
+        .filter((b) => b.d <= win)
+        .sort((a, b) => a.d - b.d || b.r - a.r)
+        .slice(0, 6);
+      bookIdx = 0;
+      renderBook();
+    };
+    const renderBook = () => {
+      if (!bookMatches.length) {
+        bookEl.hidden = true;
+        return;
+      }
+      const b = bookMatches[bookIdx % bookMatches.length];
+      const stars5 = '★'.repeat(b.r) + '☆'.repeat(5 - b.r);
+      bookEl.hidden = false;
+      bookEl.classList.add('dio-fade');
+      setTimeout(() => {
+        bookEl.textContent = `From the shelf, this week in ${b.y} · ${b.t} ${stars5}${b.mi ? ' · misogi' : ''}`;
+        bookEl.classList.remove('dio-fade');
+      }, 220);
+    };
+
+    const updateReadout = () => {
+      const { m, d } = dateOfN(S.N);
+      const normal = normalTemp(S.N, S.h, D.cloud);
+      const dev = S.temp - normal;
+      const sigma = dev / 8;
+      const devTxt = Math.abs(sigma) >= 0.2 ? ` (${sigma > 0 ? '+' : '−'}${Math.abs(sigma).toFixed(1)}σ)` : '';
+      let cond = S.sky === 'rain' ? (D.isSnow ? 'snow' : 'rain') : S.sky;
+      const misogi = S.h >= 5 && S.h <= 6.25 ? ' · the misogi hour' : '';
+      readL.textContent = `${MONTHS[m]} ${d} · ${fmtClock(S.h)} · ${S.temp}°F${devTxt} · ${cond}${misogi}`;
+      const dayLen = set - rise;
+      const dh = Math.floor(dayLen), dm = Math.round((dayLen - dh) * 60);
+      readR.textContent = `sun ${fmtClock(rise)} → ${fmtClock(set)} · daylight ${dh}h ${String(dm).padStart(2, '0')}m · ${S.source}`;
+      rainBtn.textContent = S.temp <= 34 ? 'Snow' : 'Rain';
+      canvas.setAttribute(
+        'aria-label',
+        `Greenwich, Connecticut: ${MONTHS[m]} ${d}, ${fmtClock(S.h)}, ${S.temp} degrees, ${cond}.`
+      );
+      dial.setAttribute('aria-valuenow', S.h.toFixed(2));
+      dial.setAttribute('aria-valuetext', fmtClock(S.h));
+    };
+
+    const arcPath = () => {
+      const r = 33;
+      const a0 = hAngle(rise), a1 = hAngle(set);
+      const x0 = 38 + r * Math.cos(a0), y0 = 38 + r * Math.sin(a0);
+      const x1 = 38 + r * Math.cos(a1), y1 = 38 + r * Math.sin(a1);
+      const large = set - rise > 12 ? 1 : 0;
+      dialArc.setAttribute('d', `M ${x0.toFixed(1)} ${y0.toFixed(1)} A ${r} ${r} 0 ${large} 1 ${x1.toFixed(1)} ${y1.toFixed(1)}`);
+      const ah = hAngle(S.h);
+      dialHand.setAttribute('x2', (38 + 27 * Math.cos(ah)).toFixed(1));
+      dialHand.setAttribute('y2', (38 + 27 * Math.sin(ah)).toFixed(1));
+      dialKnob.setAttribute('cx', (38 + 27 * Math.cos(ah)).toFixed(1));
+      dialKnob.setAttribute('cy', (38 + 27 * Math.sin(ah)).toFixed(1));
+      dialKnob.classList.toggle('night', D.el < -1);
+    };
+
+    // ------- state application -------
+    let paintFrame = () => {};
+    const apply = (opts = {}) => {
+      derive();
+      if (!S.tempTouched && !opts.keepTemp) {
+        S.temp = S.live && !S.touched ? S.live.temp : normalTemp(S.N, S.h, D.cloud);
+        elT.value = S.temp;
+        derive();
+      }
+      elN.value = Math.round(S.N);
+      updateReadout();
+      updateQuote();
+      arcPath();
+      if (opts.books !== false) updateBooks();
+      if (!D.precip) chip.classList.remove('on');
+      paintFrame();
+    };
+
+    // ------- inputs -------
+    elN.addEventListener('input', () => {
+      S.N = +elN.value;
+      S.touched = true;
+      S.tempTouched = false;
+      S.source = 'NORMALS';
+      apply();
+    });
+    elT.addEventListener('input', () => {
+      S.temp = +elT.value;
+      S.tempTouched = true;
+      S.touched = true;
+      S.source = 'DIALED';
+      apply({ keepTemp: true, books: false });
+    });
+    for (const b of skyBtns) {
+      b.addEventListener('click', () => {
+        S.sky = b.dataset.sky;
+        S.touched = true;
+        S.source = S.source === 'LIVE' ? 'DIALED' : S.source;
+        for (const x of skyBtns) x.setAttribute('aria-pressed', x === b ? 'true' : 'false');
+        apply({ keepTemp: true, books: false });
+      });
+    }
+    const setSkyButtons = () => {
+      for (const x of skyBtns) x.setAttribute('aria-pressed', x.dataset.sky === S.sky ? 'true' : 'false');
+    };
+
+    // time dial: pointer + keyboard
+    const setH = (h, keepTemp) => {
+      S.h = ((h % 24) + 24) % 24;
+      S.touched = true;
+      apply({ keepTemp, books: false });
+    };
+    let dragging = false;
+    const dialPoint = (e) => {
+      const r = dial.getBoundingClientRect();
+      const dx = e.clientX - (r.left + r.width / 2);
+      const dy = e.clientY - (r.top + r.height / 2);
+      let h = ((Math.atan2(dy, dx) + Math.PI / 2) / TAU) * 24 + 12;
+      h = Math.round(h * 12) / 12;
+      setH(h, false);
+    };
+    dial.addEventListener('pointerdown', (e) => {
+      dragging = true;
+      dial.setPointerCapture(e.pointerId);
+      dialPoint(e);
+    });
+    dial.addEventListener('pointermove', (e) => dragging && dialPoint(e));
+    dial.addEventListener('pointerup', () => (dragging = false));
+    dial.addEventListener('keydown', (e) => {
+      const step = e.key === 'ArrowRight' || e.key === 'ArrowUp' ? 0.25 : e.key === 'ArrowLeft' || e.key === 'ArrowDown' ? -0.25 : e.key === 'PageUp' ? 2 : e.key === 'PageDown' ? -2 : 0;
+      if (!step) return;
+      e.preventDefault();
+      setH(S.h + step, false);
+    });
+
+    $('dio-now').addEventListener('click', () => {
+      const now = nyNow();
+      S.N = now.N;
+      S.h = now.h;
+      S.touched = false;
+      S.tempTouched = false;
+      if (S.live) {
+        S.sky = S.live.sky;
+        S.source = 'LIVE';
+      } else {
+        S.source = 'NORMALS';
+      }
+      setSkyButtons();
+      apply();
+    });
+
+    // ------- live weather (one shot, silent fallback) -------
+    (async () => {
+      try {
+        const ac = new AbortController();
+        setTimeout(() => ac.abort(), 3500);
+        const r = await fetch(
+          'https://api.open-meteo.com/v1/forecast?latitude=41.03&longitude=-73.63&current=temperature_2m,cloud_cover,precipitation,weather_code&temperature_unit=fahrenheit&timezone=America%2FNew_York',
+          { signal: ac.signal }
+        );
+        const j = await r.json();
+        const c = j.current;
+        const code = c.weather_code;
+        let sky = 'clear';
+        if (code === 45 || code === 48) sky = 'fog';
+        else if ((code >= 51 && code <= 86) || c.precipitation > 0.01) sky = 'rain';
+        else if (c.cloud_cover > 55) sky = 'clouds';
+        S.live = { temp: Math.round(c.temperature_2m), sky };
+        if (!S.touched) {
+          S.sky = sky;
+          S.temp = S.live.temp;
+          elT.value = S.temp;
+          S.source = 'LIVE';
+          setSkyButtons();
+          apply({ keepTemp: true });
+        }
+      } catch {
+        /* normals it is */
+      }
+    })();
+
+    // ------- sizing + loop -------
+    const resize = () => {
+      DPR = Math.min(devicePixelRatio || 1, 2);
+      W = canvas.clientWidth;
+      H = canvas.clientHeight;
+      canvas.width = W * DPR;
+      canvas.height = H * DPR;
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      resetParticles();
+      paintFrame();
+    };
+    const ro = new ResizeObserver(resize);
+    ro.observe(canvas);
+
+    let visible = true;
+    new IntersectionObserver((es) => {
+      visible = es[0].isIntersecting;
+      if (visible && !reduced) requestAnimationFrame(tick);
+    }).observe(root);
+    let running = false;
+    let last = 0;
+    function tick(t) {
+      if (!visible || document.hidden) {
+        running = false;
+        return;
+      }
+      running = true;
+      const dt = Math.min((t - last) / 1000, 0.05);
+      last = t;
+      snowCover += clamp(D.snowTarget - snowCover, -0.004, 0.0025) * (dt * 60);
+      snowCover = clamp(snowCover, 0, 1);
+      draw(t);
+      drawParticles(t, dt);
+      drawOverlays();
+      requestAnimationFrame(tick);
+    }
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden && visible && !reduced && !running) requestAnimationFrame(tick);
+    });
+
+    paintFrame = () => {
+      if (canvas.width !== Math.round(canvas.clientWidth * DPR)) {
+        W = canvas.clientWidth;
+        H = canvas.clientHeight;
+        canvas.width = W * DPR;
+        canvas.height = H * DPR;
+        ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      }
+      if (reduced || !running) snowCover = D.snowTarget;
+      const now = performance.now();
+      draw(now);
+      if (!reduced) drawParticles(now, 0);
+      drawOverlays();
+    };
+
+    // book cycling
+    setInterval(() => {
+      if (bookMatches.length > 1 && visible && !document.hidden) {
+        bookIdx++;
+        renderBook();
+      }
+    }, 9000);
+
+    // ------- boot -------
+    const now = nyNow();
+    S.N = now.N;
+    S.h = now.h;
+    resize();
+    apply();
+    if (!reduced) requestAnimationFrame(tick);
+
+    // for tinkering in the console
+    window.__dio = {
+      set(o) {
+        if (o.N != null) S.N = o.N;
+        if (o.h != null) S.h = o.h;
+        if (o.sky != null) { S.sky = o.sky; setSkyButtons(); }
+        S.touched = true;
+        if (o.temp != null) { S.temp = o.temp; S.tempTouched = true; elT.value = o.temp; }
+        else S.tempTouched = false;
+        apply({ keepTemp: o.temp != null });
+      },
+      state: S,
+    };
+  })();
+</script>
