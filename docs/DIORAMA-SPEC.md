@@ -1,21 +1,23 @@
-# Seasonal Diorama · "Field Station, Greenwich CT"
+# Seasonal Diorama · "Field Station, The Northeast"
 
-*July 2026. An experiment: a living diorama of Greenwich seasons as the homepage header.*
+*July 2026. An experiment: a living diorama of northeastern seasons as the homepage header.
+No real place names or coordinates are displayed anywhere; the models run on a generic
+lat-41 northeastern shoreline.*
 
 ## What it is
 
 A single self-contained Astro component ([src/components/SeasonDiorama.astro](../src/components/SeasonDiorama.astro)),
-no libraries, one canvas plus an instrument panel. It renders a flat-silhouette landscape of the
-Long Island Sound shoreline: water, far shore, treeline (procedural deciduous trees and pines,
+no libraries, one canvas plus an instrument panel. It renders a flat-silhouette landscape of a
+northeastern shoreline: water, far shore, treeline (procedural deciduous trees and pines,
 seeded so the scene is stable across loads), stone wall, saltbox house, foreground field.
 
 ## The models (real, not faked)
 
-- **Solar geometry** for 41.03° N: declination + hour angle drive sun elevation, sunrise/sunset,
+- **Solar geometry** for 41° N: declination + hour angle drive sun elevation, sunrise/sunset,
   and sky palette. Winter sun arcs low and sets before 5 PM; June sun runs high past 8:30 PM.
   Clock times are DST-aware (approximate mid-Mar to early-Nov window).
 - **Moon phase** computed from the synodic month, follows the scrubbed date.
-- **Climatology**: sinusoidal fit to Greenwich normals (Jan mean ~30°F, Jul ~75°F) plus a
+- **Climatology**: sinusoidal fit to coastal southern New England normals (Jan mean ~30°F, Jul ~75°F) plus a
   diurnal curve. The temp slider tracks the normal until touched; the readout shows the
   deviation in sigma (sigma = 8°F).
 - **Foliage calendar**: bud break mid-April, full canopy mid-May, turn from late September,
@@ -27,13 +29,17 @@ seeded so the scene is stable across loads), stone wall, saltbox house, foregrou
 - **Time dial**: 24h clock face; the orange arc is the daylight window, which stretches and
   shrinks with the date slider. Drag or use arrow keys.
 - **Day of year slider** with month ticks.
-- **Temp slider**: auto-follows the climatological normal; drag to override. Rain becomes
-  snow at 34°F or below (the Rain button relabels itself).
-- **Sky**: clear / clouds / rain / fog.
-- **Now**: snaps back to Greenwich's current date, time, and (if fetched) live weather.
+- **Temp slider**: auto-follows the climatological normal; drag to override. Precipitation
+  phase always follows the thermometer: 34°F is the rain/snow line, and the pressed
+  Rain/Snow button flips itself if the temp crosses it.
+- **Sky**: clear / clouds / rain / snow / storm / fog. Picking Snow nudges the temp to 28°F,
+  picking Rain nudges it above freezing. Storm is heavy wind-driven rain with lightning,
+  racing clouds, and a darker sky; a cold storm renders as a blizzard (no lightning).
+- **Now**: snaps back to the current local date, time, and (if fetched) live weather.
 
-On load the diorama shows Greenwich right now: one Open-Meteo fetch (no key, 3.5s timeout,
-silent fallback to normals). Source shows as LIVE / NORMALS / DIALED in the readout.
+On load the diorama shows the real conditions right now: one Open-Meteo fetch (no key,
+3.5s timeout, silent fallback to normals). Source shows as LIVE / NORMALS / DIALED in
+the readout.
 
 ## Content tie-ins
 

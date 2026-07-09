@@ -1,5 +1,5 @@
 ---
-// Seasonal diorama of Greenwich, CT. Experiment; toggled by SHOW_DIORAMA in index.astro.
+// Seasonal diorama of a northeastern shoreline. Experiment; toggled by SHOW_DIORAMA in index.astro.
 // Runtime kill switch: ?diorama=0. Spec: docs/DIORAMA-SPEC.md
 import data from '../data/books.json';
 
@@ -11,10 +11,10 @@ const shelf = data.books
     return { t: b.title, y, n: MONTH_DAYS[m - 1] + d, r: b.rating, mi: b.misogi ? 1 : 0 };
   });
 ---
-<section id="diorama" aria-label="A seasonal diorama of Greenwich, Connecticut">
+<section id="diorama" aria-label="A seasonal diorama of the Northeast">
   <div class="dio-stage">
-    <canvas id="dio-canvas" role="img" aria-label="Seasonal landscape of Greenwich, Connecticut"></canvas>
-    <span class="mono dio-plate">Field Station · Greenwich, CT · 41.03° N</span>
+    <canvas id="dio-canvas" role="img" aria-label="Seasonal landscape of a northeastern shoreline"></canvas>
+    <span class="mono dio-plate">Field Station · The Northeast · 41° N</span>
     <span class="mono dio-chip" id="dio-chip">the runner goes out anyway</span>
   </div>
 
@@ -51,7 +51,9 @@ const shelf = data.books
       <div class="dio-sky" role="group" aria-label="Sky conditions">
         <button type="button" class="mono" data-sky="clear" aria-pressed="true">Clear</button>
         <button type="button" class="mono" data-sky="clouds" aria-pressed="false">Clouds</button>
-        <button type="button" class="mono" data-sky="rain" aria-pressed="false" id="dio-rainbtn">Rain</button>
+        <button type="button" class="mono" data-sky="rain" aria-pressed="false">Rain</button>
+        <button type="button" class="mono" data-sky="snow" aria-pressed="false">Snow</button>
+        <button type="button" class="mono" data-sky="storm" aria-pressed="false">Storm</button>
         <button type="button" class="mono" data-sky="fog" aria-pressed="false">Fog</button>
       </div>
 
@@ -261,6 +263,7 @@ const shelf = data.books
 
   .dio-sky {
     display: flex;
+    flex-wrap: wrap;
     gap: 0;
     border: 1px solid var(--hairline);
   }
@@ -338,6 +341,10 @@ const shelf = data.books
     .dio-readout #dio-read-r {
       display: none;
     }
+    .dio-sky button {
+      padding: 0.5em 0.55em;
+      font-size: 0.62rem;
+    }
   }
 </style>
 
@@ -379,8 +386,8 @@ const shelf = data.books
       return { m, d: N - CUM[m] };
     };
 
-    // ------- astronomy, latitude 41.03 N -------
-    const LAT = (41.03 * Math.PI) / 180;
+    // ------- astronomy, latitude 41 N -------
+    const LAT = (41.0 * Math.PI) / 180;
     const decl = (N) => ((23.44 * Math.PI) / 180) * Math.sin((TAU * (284 + N)) / 365);
     const sunEl = (N, h) => {
       const d = decl(N);
@@ -401,7 +408,7 @@ const shelf = data.books
       return ((days / 29.53059) % 1 + 1) % 1;
     };
 
-    // ------- Greenwich climatology -------
+    // ------- coastal southern New England climatology -------
     const seasonalMean = (N) => 52.5 + 22.5 * Math.cos((TAU * (N - 201)) / 365);
     const normalTemp = (N, h, cloud) => {
       const warm = (seasonalMean(N) - 30) / 45;
@@ -447,7 +454,6 @@ const shelf = data.books
     const dial = $('dio-dial'), dialArc = $('dial-arc'), dialHand = $('dial-hand'), dialKnob = $('dial-knob');
     const readL = $('dio-read-l'), readR = $('dio-read-r');
     const quoteEl = $('dio-quote'), bookEl = $('dio-book'), chip = $('dio-chip');
-    const rainBtn = $('dio-rainbtn');
     const skyBtns = [...root.querySelectorAll('.dio-sky button')];
     const shelf = JSON.parse($('dio-shelf').textContent || '[]');
     const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -532,8 +538,8 @@ const shelf = data.books
     // particles
     let rain = [], snow = [], leaves = [], flies = [], smoke = [];
     const resetParticles = () => {
-      rain = Array.from({ length: 150 }, () => ({ x: Math.random() * W, y: Math.random() * H, l: 8 + Math.random() * 7, v: 520 + Math.random() * 240 }));
-      snow = Array.from({ length: 120 }, () => ({ x: Math.random() * W, y: Math.random() * H, r: 0.8 + Math.random() * 1.7, v: 28 + Math.random() * 34, ph: Math.random() * TAU }));
+      rain = Array.from({ length: 240 }, () => ({ x: Math.random() * W, y: Math.random() * H, l: 8 + Math.random() * 7, v: 520 + Math.random() * 240 }));
+      snow = Array.from({ length: 210 }, () => ({ x: Math.random() * W, y: Math.random() * H, r: 0.8 + Math.random() * 1.7, v: 28 + Math.random() * 34, ph: Math.random() * TAU }));
       leaves = Array.from({ length: 11 }, () => ({ x: Math.random() * W, y: Math.random() * H * 0.8, v: 18 + Math.random() * 26, ph: Math.random() * TAU, col: AUTUMN[(Math.random() * AUTUMN.length) | 0] }));
       flies = Array.from({ length: 14 }, () => ({ x: Math.random() * W, y: H * (0.74 + Math.random() * 0.18), ph: Math.random() * TAU, sp: 0.6 + Math.random() * 1.1 }));
       smoke = Array.from({ length: 6 }, (_, i) => ({ t: i / 6 }));
@@ -541,6 +547,7 @@ const shelf = data.books
 
     const runner = { active: false, x: 0, dir: 1, next: 7000 };
     const birds = { active: false, x: 0, dir: 1, y: 0, next: 15000, n: 6 };
+    const bolt = { next: 2500, until: 0, flash: 0, path: null };
 
     // ------- palettes -------
     const SKY = [
@@ -581,8 +588,8 @@ const shelf = data.books
       const st = sunTimes(S.N);
       rise = st.rise + off; set = st.set + off;
       D.el = sunEl(S.N, S.h - off);
-      D.cloud = S.sky === 'clear' ? 0.1 : S.sky === 'clouds' ? 0.62 : S.sky === 'fog' ? 0.75 : 0.95;
-      D.precip = S.sky === 'rain' ? 1 : 0;
+      D.cloud = S.sky === 'clear' ? 0.1 : S.sky === 'clouds' ? 0.62 : S.sky === 'fog' ? 0.75 : S.sky === 'storm' ? 1 : 0.92;
+      D.precip = S.sky === 'rain' || S.sky === 'snow' ? 1 : S.sky === 'storm' ? 2 : 0;
       D.isSnow = D.precip > 0 && S.temp <= 34;
       D.fog = S.sky === 'fog' ? 1 : 0;
       D.L = clamp(smooth(-9, 10, D.el), 0.16, 1) * (1 - 0.28 * D.cloud);
@@ -601,7 +608,12 @@ const shelf = data.books
 
     function draw(t) {
       const el = D.el, L = D.L;
-      const { top, hor } = skyColors(el, D.coldness, D.cloud, L);
+      let { top, hor } = skyColors(el, D.coldness, D.cloud, L);
+      if (D.precip === 2) {
+        const g = Math.max(L, 0.22);
+        top = mix(top, mul([40, 44, 54], g), 0.45);
+        hor = mix(hor, mul([54, 58, 68], g), 0.45);
+      }
       const hy = horizonY(), gy = groundY();
 
       const g = ctx.createLinearGradient(0, 0, 0, hy * 1.15);
@@ -681,7 +693,7 @@ const shelf = data.books
         const n = D.precip ? clouds.length : D.cloud > 0.4 ? 7 : 3;
         for (let i = 0; i < n; i++) {
           const c = clouds[i];
-          const cx = ((c.fx + (reduced ? 0 : (t / 1000) * c.v * 0.01)) % 1.3 - 0.15) * W;
+          const cx = ((c.fx + (reduced ? 0 : (t / 1000) * c.v * (D.precip === 2 ? 0.045 : 0.01))) % 1.3 - 0.15) * W;
           const cy = c.fy * hy;
           const alpha = (D.precip ? 0.75 : D.cloud > 0.4 ? 0.4 : 0.24) * (0.5 + 0.5 * Math.max(L, 0.2));
           ctx.fillStyle = css(D.precip ? mul(cCol, 0.55) : cCol, alpha);
@@ -889,27 +901,65 @@ const shelf = data.books
 
     function drawParticles(t, dt) {
       const gy = groundY();
+      const storm = D.precip === 2;
       if (D.precip && !D.isSnow) {
-        ctx.strokeStyle = css([172, 182, 196], 0.22 + 0.18 * D.L);
+        const slant = storm ? 0.55 : 0.22;
+        const spd = storm ? 1.7 : 1;
+        const nR = storm ? rain.length : 140;
+        ctx.strokeStyle = css([172, 182, 196], (0.22 + 0.18 * D.L) * (storm ? 1.25 : 1));
         ctx.lineWidth = 1;
         ctx.beginPath();
-        for (const p of rain) {
+        for (let i = 0; i < nR; i++) {
+          const p = rain[i];
           ctx.moveTo(p.x, p.y);
-          ctx.lineTo(p.x - 2.5, p.y + p.l);
-          p.y += p.v * dt;
-          p.x -= p.v * 0.22 * dt;
-          if (p.y > H) { p.y = -10; p.x = Math.random() * (W + 60); }
+          ctx.lineTo(p.x - p.l * slant * 1.6, p.y + p.l * (storm ? 1.4 : 1));
+          p.y += p.v * spd * dt;
+          p.x -= p.v * slant * dt;
+          if (p.y > H) { p.y = -10; p.x = Math.random() * (W + 120); }
         }
         ctx.stroke();
       }
       if (D.precip && D.isSnow) {
+        const nS = storm ? snow.length : 120;
         ctx.fillStyle = css([234, 238, 244], 0.8);
-        for (const p of snow) {
+        for (let i = 0; i < nS; i++) {
+          const p = snow[i];
           ctx.beginPath();
-          ctx.arc(p.x + Math.sin(t / 900 + p.ph) * 9, p.y, p.r, 0, TAU);
+          ctx.arc(p.x + Math.sin(t / 900 + p.ph) * (storm ? 20 : 9), p.y, p.r, 0, TAU);
           ctx.fill();
-          p.y += p.v * dt;
+          p.y += p.v * (storm ? 1.7 : 1) * dt;
+          if (storm) p.x -= 55 * dt;
           if (p.y > H) { p.y = -4; p.x = Math.random() * W; }
+          if (p.x < -22) p.x = W + 20;
+        }
+      }
+      // lightning, warm storms only
+      if (storm && !D.isSnow && !reduced && dt > 0) {
+        if (t > bolt.next) {
+          bolt.next = t + 3000 + Math.random() * 7000;
+          bolt.until = t + 160;
+          bolt.flash = 0.55;
+          const x0 = W * (0.1 + Math.random() * 0.8);
+          const pts = [[x0, H * 0.02]];
+          let bx = x0;
+          for (let y = H * 0.14; y < H * 0.72; y += H * 0.12) {
+            bx += (Math.random() - 0.5) * W * 0.06;
+            pts.push([bx, y]);
+          }
+          bolt.path = pts;
+        }
+        if (t < bolt.until && bolt.path) {
+          ctx.strokeStyle = css([236, 239, 248], 0.9);
+          ctx.lineWidth = 1.6;
+          ctx.beginPath();
+          ctx.moveTo(bolt.path[0][0], bolt.path[0][1]);
+          for (const p of bolt.path) ctx.lineTo(p[0], p[1]);
+          ctx.stroke();
+        }
+        if (bolt.flash > 0.01) {
+          ctx.fillStyle = css([224, 229, 242], bolt.flash * 0.45);
+          ctx.fillRect(0, 0, W, H);
+          bolt.flash *= Math.exp(-dt * 7);
         }
       }
       const leafSeason = S.N >= 268 && S.N <= 326;
@@ -941,7 +991,7 @@ const shelf = data.books
       }
       // geese
       const springM = S.N >= 58 && S.N <= 140, fallM = S.N >= 244 && S.N <= 330;
-      if ((springM || fallM) && D.el > 0 && !D.fog) {
+      if ((springM || fallM) && D.el > 0 && !D.fog && !storm) {
         if (!birds.active && t > birds.next) {
           birds.active = true;
           birds.dir = springM ? 1 : -1;
@@ -1055,6 +1105,7 @@ const shelf = data.books
     };
 
     const QUOTES = [
+      { test: () => S.sky === 'storm', q: 'Blow, winds, and crack your cheeks!', src: 'KING LEAR' },
       { test: () => D.fog, q: 'Hover through the fog and filthy air.', src: 'MACBETH' },
       { test: () => D.precip && D.isSnow, q: 'When icicles hang by the wall.', src: "LOVE'S LABOUR'S LOST" },
       { test: () => D.precip, q: 'The rain it raineth every day.', src: 'TWELFTH NIGHT' },
@@ -1114,16 +1165,15 @@ const shelf = data.books
       const dev = S.temp - normal;
       const sigma = dev / 8;
       const devTxt = Math.abs(sigma) >= 0.2 ? ` (${sigma > 0 ? '+' : '−'}${Math.abs(sigma).toFixed(1)}σ)` : '';
-      let cond = S.sky === 'rain' ? (D.isSnow ? 'snow' : 'rain') : S.sky;
+      let cond = S.sky === 'storm' ? (D.isSnow ? 'blizzard' : 'storm') : S.sky;
       const misogi = S.h >= 5 && S.h <= 6.25 ? ' · the misogi hour' : '';
       readL.textContent = `${MONTHS[m]} ${d} · ${fmtClock(S.h)} · ${S.temp}°F${devTxt} · ${cond}${misogi}`;
       const dayLen = set - rise;
       const dh = Math.floor(dayLen), dm = Math.round((dayLen - dh) * 60);
       readR.textContent = `sun ${fmtClock(rise)} → ${fmtClock(set)} · daylight ${dh}h ${String(dm).padStart(2, '0')}m · ${S.source}`;
-      rainBtn.textContent = S.temp <= 34 ? 'Snow' : 'Rain';
       canvas.setAttribute(
         'aria-label',
-        `Greenwich, Connecticut: ${MONTHS[m]} ${d}, ${fmtClock(S.h)}, ${S.temp} degrees, ${cond}.`
+        `Seasonal scene: ${MONTHS[m]} ${d}, ${fmtClock(S.h)}, ${S.temp} degrees, ${cond}.`
       );
       dial.setAttribute('aria-valuenow', S.h.toFixed(2));
       dial.setAttribute('aria-valuetext', fmtClock(S.h));
@@ -1152,6 +1202,13 @@ const shelf = data.books
         S.temp = S.live && !S.touched ? S.live.temp : normalTemp(S.N, S.h, D.cloud);
         elT.value = S.temp;
         derive();
+      }
+      if (S.sky === 'rain' && S.temp <= 34) {
+        S.sky = 'snow';
+        setSkyButtons();
+      } else if (S.sky === 'snow' && S.temp > 34) {
+        S.sky = 'rain';
+        setSkyButtons();
       }
       elN.value = Math.round(S.N);
       updateReadout();
@@ -1182,6 +1239,16 @@ const shelf = data.books
         S.sky = b.dataset.sky;
         S.touched = true;
         S.source = S.source === 'LIVE' ? 'DIALED' : S.source;
+        // precipitation phase follows the thermometer, so Snow and Rain nudge it
+        if (S.sky === 'snow' && S.temp > 34) {
+          S.temp = 28;
+          S.tempTouched = true;
+          elT.value = S.temp;
+        } else if (S.sky === 'rain' && S.temp <= 34) {
+          S.temp = 38;
+          S.tempTouched = true;
+          elT.value = S.temp;
+        }
         for (const x of skyBtns) x.setAttribute('aria-pressed', x === b ? 'true' : 'false');
         apply({ keepTemp: true, books: false });
       });
@@ -1241,15 +1308,17 @@ const shelf = data.books
         const ac = new AbortController();
         setTimeout(() => ac.abort(), 3500);
         const r = await fetch(
-          'https://api.open-meteo.com/v1/forecast?latitude=41.03&longitude=-73.63&current=temperature_2m,cloud_cover,precipitation,weather_code&temperature_unit=fahrenheit&timezone=America%2FNew_York',
+          'https://api.open-meteo.com/v1/forecast?latitude=41.0&longitude=-73.6&current=temperature_2m,cloud_cover,precipitation,weather_code&temperature_unit=fahrenheit&timezone=America%2FNew_York',
           { signal: ac.signal }
         );
         const j = await r.json();
         const c = j.current;
         const code = c.weather_code;
         let sky = 'clear';
-        if (code === 45 || code === 48) sky = 'fog';
-        else if ((code >= 51 && code <= 86) || c.precipitation > 0.01) sky = 'rain';
+        if (code >= 95) sky = 'storm';
+        else if (code === 45 || code === 48) sky = 'fog';
+        else if ((code >= 71 && code <= 77) || code === 85 || code === 86) sky = 'snow';
+        else if ((code >= 51 && code <= 82) || c.precipitation > 0.01) sky = 'rain';
         else if (c.cloud_cover > 55) sky = 'clouds';
         S.live = { temp: Math.round(c.temperature_2m), sky };
         if (!S.touched) {
