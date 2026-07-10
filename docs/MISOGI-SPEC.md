@@ -119,6 +119,15 @@ Shakespeare route.
    page and play log will be mined during implementation).
 5. 2027 candidate for the ghost spine, if any (Dante? Leaves of Grass? — per BRAINSTORM).
 
+## Chapter toggles (July 2026)
+
+Every year chapter is a `<details>`; closed years read as index rows (kicker + title),
+matching the homepage index idiom. Only the in-progress year (`spine.pulled` in
+misogi.json) opens by default, so the handoff to 2027 is automatic. The Shakespeare
+route toggle inside it now defaults closed; its summary line carries the progress
+tease. Anchor links and the spine shelf auto-open the year they target (inline script).
+Multi-open on purpose, not an accordion.
+
 ## Files touched
 
 | File | Change |

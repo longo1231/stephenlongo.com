@@ -62,9 +62,11 @@ const routeStats = {
     </section>
 
     {data.years.map((y) => (
-      <article class="chapter" id={`y${y.id}`}>
-        <p class="mono kicker">{y.kicker}</p>
-        <h2>{y.title}</h2>
+      <details class="chapter" id={`y${y.id}`} open={y.spine.pulled}>
+        <summary class="ch-head">
+          <p class="mono kicker"><span class="tri" aria-hidden="true">▸</span>{y.kicker}</p>
+          <h2>{y.title}</h2>
+        </summary>
         <p class="why">{y.why}</p>
 
         <div class="protocol">
@@ -91,7 +93,7 @@ const routeStats = {
         )}
 
         {y.id === '2026' && (
-          <details class="route" open={y.spine.pulled}>
+          <details class="route">
             <summary class="mono route-head">
               <span class="tri" aria-hidden="true">▸</span>
               The route · {routeStats.done}/{routeStats.total} plays read{routeStats.now && ` · now: ${routeStats.now}`} · steal this syllabus
@@ -114,7 +116,7 @@ const routeStats = {
             <p class="mono route-key">● read · ◐ now · ○ ahead — verdicts appear as they're written</p>
           </details>
         )}
-      </article>
+      </details>
     ))}
 
     <section class="own">
@@ -136,6 +138,16 @@ const routeStats = {
     <span class="mono">© 2026</span>
   </footer>
 </Base>
+
+<script is:inline>
+  // Anchor links (the spine shelf, shared #y20XX urls) open the year they point to.
+  const openHash = () => {
+    const el = location.hash && document.getElementById(location.hash.slice(1));
+    if (el && el.tagName === 'DETAILS') el.open = true;
+  };
+  openHash();
+  addEventListener('hashchange', openHash);
+</script>
 
 <style>
   .top,
@@ -285,12 +297,29 @@ const routeStats = {
     margin-top: 3rem;
   }
 
-  /* --- Chapters --- */
+  /* --- Chapters: closed rows read as an index of summits --- */
 
   .chapter {
-    padding: 3.2rem 0 1rem;
+    padding: 2rem 0;
     border-top: 1px solid var(--hairline);
     scroll-margin-top: 2rem;
+  }
+
+  .ch-head {
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .ch-head::-webkit-details-marker {
+    display: none;
+  }
+
+  .ch-head:hover h2 {
+    color: var(--accent);
+  }
+
+  .chapter[open] > .ch-head {
+    padding-bottom: 0.2rem;
   }
 
   .kicker {
@@ -302,6 +331,7 @@ const routeStats = {
     font-size: 2rem;
     font-weight: 520;
     line-height: 1.1;
+    transition: color 0.15s ease;
   }
 
   .why {
@@ -378,7 +408,8 @@ const routeStats = {
     transition: transform 0.15s ease;
   }
 
-  .route[open] .tri {
+  .route[open] > .route-head .tri,
+  .chapter[open] > .ch-head .tri {
     transform: rotate(90deg);
   }
 
