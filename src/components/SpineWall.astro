@@ -2,6 +2,9 @@
 // Spine Wall v2 — the bookshelf as a real bookcase (see docs/SPINE-WALL-SPEC.md).
 // Spines wrap into shelves; width encodes page count, five-stars lean out, and
 // clicking a spine pulls the book off the shelf into a centered modal.
+// Arriving with #slug-of-title (from a night star on the homepage, or a shared
+// link) scrolls to that spine, glows it, and pulls the book automatically.
+import { slug } from '../utils/slug';
 const { books } = Astro.props;
 
 // Same title hash as the cover grid, so both views share tints.
@@ -52,6 +55,7 @@ const pullData = books.map((b) => ({
           class:list={['sp', { lean: b.rating === 5 }]}
           style={`--w:${width(b.pages ?? median)}px;--h:${height(b.title)}px;--hue:${hue(b.title)};--lean:${b.rating === 5 ? (i % 2 ? -6 : -4) : 0}deg`}
           data-i={i}
+          data-slug={slug(b.title)}
           data-rating={b.rating ?? ''}
           data-type={b.type ?? ''}
           data-recommend={b.recommend ? '1' : ''}
@@ -158,6 +162,25 @@ const pullData = books.map((b) => ({
 
   .sp.dim {
     opacity: 0.12;
+  }
+
+  /* A star settling into its spine: the warm glow of the night sky it fell from. */
+  .sp.settle {
+    position: relative;
+    z-index: 2;
+    animation: settle-glow 2.2s ease-out 0.25s backwards;
+  }
+
+  @keyframes settle-glow {
+    0% {
+      box-shadow: 0 0 0 0 rgba(255, 241, 195, 0);
+    }
+    30% {
+      box-shadow: 0 0 22px 7px rgba(255, 241, 195, 0.9);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(255, 241, 195, 0);
+    }
   }
 
   .sp-t {
@@ -368,6 +391,7 @@ const pullData = books.map((b) => ({
       wrap.hidden = true;
       document.body.style.overflow = '';
       spines.forEach((s) => s.classList.remove('pulled'));
+      history.replaceState(null, '', location.pathname + location.search);
       if (lastSpine) lastSpine.focus();
       lastSpine = null;
     };
@@ -393,6 +417,8 @@ const pullData = books.map((b) => ({
       }
       wrap.hidden = false;
       document.body.style.overflow = 'hidden';
+      // Any open book is shareable — the URL always names it.
+      history.replaceState(null, '', `#${spine.dataset.slug}`);
       lastSpine = spine;
       closeBtn.focus();
     };
@@ -421,5 +447,22 @@ const pullData = books.map((b) => ({
         closeBtn.focus();
       }
     });
+
+    // Arriving from a night star (or a shared link): scroll to the spine,
+    // let the star settle into it, then pull the book off the shelf.
+    const arrive = () => {
+      const want = decodeURIComponent(location.hash.slice(1));
+      if (!want) return;
+      const spine = wall.querySelector(`.sp[data-slug="${CSS.escape(want)}"]`);
+      if (!spine) return;
+      if (open >= 0) close();
+      const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      spine.scrollIntoView({ block: 'center', behavior: reduce ? 'auto' : 'smooth' });
+      spine.classList.add('settle');
+      spine.addEventListener('animationend', () => spine.classList.remove('settle'), { once: true });
+      setTimeout(() => openBook(+spine.dataset.i, spine), reduce ? 0 : 1300);
+    };
+    arrive();
+    window.addEventListener('hashchange', arrive);
   })();
 </script>

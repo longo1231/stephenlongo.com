@@ -2,13 +2,14 @@
 // Seasonal diorama of a northeastern shoreline. Experiment; toggled by SHOW_DIORAMA in index.astro.
 // Runtime kill switch: ?diorama=0. Spec: docs/DIORAMA-SPEC.md
 import data from '../data/books.json';
+import { slug } from '../utils/slug';
 
 const MONTH_DAYS = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
 const shelf = data.books
   .filter((b) => b.date && b.rating >= 4)
   .map((b) => {
     const [y, m, d] = b.date.split('-').map(Number);
-    return { t: b.title, y, n: MONTH_DAYS[m - 1] + d, r: b.rating, mi: b.misogi ? 1 : 0 };
+    return { t: b.title, s: slug(b.title), y, n: MONTH_DAYS[m - 1] + d, r: b.rating, mi: b.misogi ? 1 : 0 };
   });
 ---
 <section id="diorama" aria-label="A seasonal diorama of the Northeast">
@@ -1423,6 +1424,7 @@ const shelf = data.books
       bookEl.classList.add('dio-fade');
       setTimeout(() => {
         bookEl.textContent = `From the shelf, this week in ${b.y} · ${b.t} ${stars5}${b.mi ? ' · misogi' : ''}`;
+        bookEl.href = `/bookshelf#${b.s}`;
         bookEl.classList.remove('dio-fade');
       }, 220);
     };
@@ -1538,7 +1540,7 @@ const shelf = data.books
       setH(S.h + step);
     });
 
-    // five-star shelf overhead: hover a bright star at night, click through to the bookshelf
+    // five-star shelf overhead: hover a bright star at night, click through to that book on the shelf
     const tip = $('dio-tip');
     const starAt = (e) => {
       const dark = smooth(-4.5, -9.5, D.el) * (1 - D.cloud * 0.9) * (1 - D.fog);
@@ -1573,7 +1575,8 @@ const shelf = data.books
       canvas.style.cursor = '';
     });
     canvas.addEventListener('click', (e) => {
-      if (starAt(e)) location.href = '/bookshelf';
+      const hit = starAt(e);
+      if (hit) location.href = `/bookshelf#${hit.book.s}`;
     });
 
     $('dio-now').addEventListener('click', () => {
