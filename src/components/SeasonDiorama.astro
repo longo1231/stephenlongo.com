@@ -54,7 +54,6 @@ const shelf = data.books
       </div>
 
       <button type="button" class="mono dio-now" id="dio-now">Now</button>
-      <button type="button" class="mono dio-now" id="dio-play">Play year</button>
     </div>
 
     <div class="dio-footline">
@@ -660,12 +659,15 @@ const shelf = data.books
       ctx.fillStyle = g;
       ctx.fillRect(0, 0, W, hy + 2);
 
-      // stars
-      const dark = smooth(-4, -14, el) * (1 - D.cloud * 0.9) * (1 - D.fog);
-      if (dark > 0.02) {
+      // stars: the brightest surface first in twilight, and the book stars are the brightest
+      const skyClear = (1 - D.cloud * 0.9) * (1 - D.fog);
+      if (el < -3 && skyClear > 0.02) {
         for (const s of stars) {
+          const e0 = -1.5 - 11 * (1 - s.a);
+          const appear = smooth(e0, e0 - 5, el);
+          if (appear < 0.01) continue;
           const tw = reduced ? 1 : 0.75 + 0.25 * Math.sin(t / 900 + s.ph);
-          ctx.fillStyle = css([232, 228, 220], s.a * dark * tw);
+          ctx.fillStyle = css([232, 228, 220], s.a * appear * skyClear * tw);
           ctx.beginPath();
           ctx.arc(s.fx * W, s.fy * H, s.r, 0, TAU);
           ctx.fill();
@@ -1381,29 +1383,8 @@ const shelf = data.books
       paintFrame();
     };
 
-    // ------- play the year -------
-    const playBtn = $('dio-play');
-    let playing = false, lastPlayDay = 0;
-    const setPlayLabel = () => (playBtn.textContent = playing ? 'Stop' : 'Play year');
-    const stopPlay = () => {
-      if (playing) {
-        playing = false;
-        setPlayLabel();
-      }
-    };
-    playBtn.addEventListener('click', () => {
-      playing = !playing;
-      if (playing) {
-        S.touched = true;
-        if (S.source === 'LIVE') S.source = 'NORMALS';
-      }
-      setPlayLabel();
-    });
-    if (reduced) playBtn.hidden = true;
-
     // ------- inputs -------
     elN.addEventListener('input', () => {
-      stopPlay();
       S.N = +elN.value;
       S.touched = true;
       S.source = 'NORMALS';
@@ -1411,7 +1392,6 @@ const shelf = data.books
     });
     for (const b of skyBtns) {
       b.addEventListener('click', () => {
-        stopPlay();
         S.sky = b.dataset.sky;
         S.touched = true;
         S.source = S.source === 'LIVE' ? 'DIALED' : S.source;
@@ -1425,7 +1405,6 @@ const shelf = data.books
 
     // time dial: pointer + keyboard
     const setH = (h) => {
-      stopPlay();
       S.h = ((h % 24) + 24) % 24;
       S.touched = true;
       apply({ books: false });
@@ -1456,8 +1435,8 @@ const shelf = data.books
     // five-star shelf overhead: hover a bright star at night, click through to the bookshelf
     const tip = $('dio-tip');
     const starAt = (e) => {
-      const dark = smooth(-4, -14, D.el) * (1 - D.cloud * 0.9) * (1 - D.fog);
-      if (dark < 0.25) return null;
+      const dark = smooth(-4.5, -9.5, D.el) * (1 - D.cloud * 0.9) * (1 - D.fog);
+      if (dark < 0.2) return null;
       const rect = canvas.getBoundingClientRect();
       const x = e.clientX - rect.left, y = e.clientY - rect.top;
       let best = null, bestD = 121; // 11px radius
@@ -1492,7 +1471,6 @@ const shelf = data.books
     });
 
     $('dio-now').addEventListener('click', () => {
-      stopPlay();
       const now = nyNow();
       S.N = now.N;
       S.h = now.h;
@@ -1566,19 +1544,6 @@ const shelf = data.books
       running = true;
       const dt = Math.min((t - last) / 1000, 0.05);
       last = t;
-      if (playing) {
-        S.N = ((S.N - 1 + dt * 13) % 365) + 1;
-        derive();
-        const day = Math.floor(S.N);
-        if (day !== lastPlayDay) {
-          lastPlayDay = day;
-          elN.value = day;
-          updateReadout();
-          updateQuote();
-          arcPath();
-          if (day % 14 === 0) updateBooks();
-        }
-      }
       snowCover += clamp(D.snowTarget - snowCover, -0.004, 0.0025) * (dt * 60);
       snowCover = clamp(snowCover, 0, 1);
       draw(t);
@@ -1624,7 +1589,6 @@ const shelf = data.books
     // for tinkering in the console
     window.__dio = {
       set(o) {
-        stopPlay();
         if (o.N != null) S.N = o.N;
         if (o.h != null) S.h = o.h;
         if (o.sky != null) { S.sky = o.sky; setSkyButtons(); }

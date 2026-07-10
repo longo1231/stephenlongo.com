@@ -37,9 +37,11 @@ seeded so the scene is stable across loads), stone wall, saltbox house, foregrou
   freezing, Rain keeps it above). The readout shows the deviation from normal in sigma,
   live readings only. 34°F stays the rain/snow line.
 - **Now**: snaps back to the current local date, time, and (if fetched) live weather.
-- **Play year**: sweeps the full year in about 28 seconds; foliage waves through, the
-  daylight arc breathes, snow comes and goes. Any other control stops it. Hidden under
-  prefers-reduced-motion.
+
+Tried and removed (July 2026): a Play year button that swept the year in ~28s. Neat in
+theory, but it added control-row weight (worst on mobile) and the payoff read as noise,
+with books and plays flying by too fast to register. Do not reintroduce without a better
+payoff design.
 
 The readout also names the moment in New England vernacular: mud season, leaf-out,
 high summer, peak foliage, stick season, the dead of winter.
@@ -58,8 +60,9 @@ the readout.
   Shakespeare reading plan in Notion, baked into the component; buffer weeks fall back to
   the month's theme. Revisit when the 2027 misogi starts.
 - **The five-star shelf, overhead**: every five-star book gets one of the brighter stars.
-  On a dark clear night, hovering a star names the book and the year it was read; clicking
-  goes to the bookshelf. Daylight, clouds, and fog hide them.
+  Hovering a star names the book and the year it was read; clicking goes to the bookshelf.
+  Daylight, clouds, and fog hide them, but the brightest stars surface first in twilight
+  (real astronomy), so for a stretch after sunset the only stars out are the five-star books.
 - **From the shelf**: books finished within a week of the dialed date, any year, pulled from
   the bookshelf data at build time (rating 4+ only), linking to /bookshelf. Misogi books tagged.
 - **The runner** crosses the field now and then; in rain or snow a caption notes he goes out anyway.
