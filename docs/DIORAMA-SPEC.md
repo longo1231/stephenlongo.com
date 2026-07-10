@@ -63,6 +63,9 @@ the readout.
 - **From the shelf**: books finished within a week of the dialed date, any year, pulled from
   the bookshelf data at build time (rating 4+ only), linking to /bookshelf. Misogi books tagged.
 - **The runner** crosses the field now and then; in rain or snow a caption notes he goes out anyway.
+- **The walkers**: every couple of minutes on gentle days (and in snow, never rain or storms),
+  a small group strolls through: two grown silhouettes, three small ones in descending order,
+  and a dog that ranges around them. Unlabeled and uncommented, on purpose.
 - Fireflies on warm clear summer nights, geese in spring and fall, chimney smoke below 48°F,
   and the house window glows during the 5 AM misogi hour.
 

@@ -568,6 +568,15 @@ const shelf = data.books
     const runner = { active: false, x: 0, dir: 1, next: 7000 };
     const birds = { active: false, x: 0, dir: 1, y: 0, next: 15000, n: 6 };
     const bolt = { next: 2500, until: 0, flash: 0, path: null };
+    // the walkers: two grown, three small in descending order, one dog ranging
+    const family = { active: false, x: 0, dir: 1, next: 14000 + Math.random() * 18000 };
+    const CAST = [
+      { dx: 0, h: 20 },
+      { dx: -27, h: 18.5 },
+      { dx: 15, h: 13 },
+      { dx: -13, h: 10.5 },
+      { dx: -35, h: 7 },
+    ];
 
     // ------- palettes -------
     const SKY = [
@@ -1062,6 +1071,88 @@ const shelf = data.books
           }
         }
       }
+      // the walkers, out on gentle days and in snow
+      const strollOk = D.el > -4 && !D.fog && D.precip < 2 && !(D.precip === 1 && !D.isSnow);
+      if (strollOk) {
+        if (!family.active && t > family.next) {
+          family.active = true;
+          family.dir = Math.random() > 0.5 ? 1 : -1;
+          family.x = family.dir > 0 ? -80 : W + 80;
+        }
+        if (family.active) {
+          family.x += family.dir * 26 * dt;
+          const fy = H * 0.915;
+          const ink = css([9, 9, 11], 0.95);
+          ctx.strokeStyle = ink;
+          ctx.fillStyle = ink;
+          ctx.lineCap = 'round';
+          for (const m of CAST) {
+            const mx = family.x + m.dx * family.dir;
+            const ph = mx * 0.2 * Math.sqrt(20 / m.h);
+            const hr = m.h * 0.115;
+            const hipY = fy - m.h * 0.45, shY = fy - m.h + hr * 2.2;
+            ctx.lineWidth = Math.max(1.1, m.h * 0.085);
+            ctx.beginPath();
+            ctx.arc(mx, fy - m.h + hr, hr, 0, TAU);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.moveTo(mx, shY);
+            ctx.lineTo(mx, hipY);
+            ctx.stroke();
+            const amp = m.h < 8 ? 0.55 : 0.42;
+            for (const s of [0, Math.PI]) {
+              const a = Math.PI / 2 + Math.sin(ph + s) * amp * family.dir;
+              const ll = m.h * 0.45;
+              ctx.beginPath();
+              ctx.moveTo(mx, hipY);
+              ctx.lineTo(mx + Math.cos(a) * ll, hipY + Math.sin(a) * ll);
+              ctx.stroke();
+              const aa = Math.PI / 2 + Math.sin(ph + s + Math.PI) * 0.28 * family.dir;
+              ctx.beginPath();
+              ctx.moveTo(mx, shY);
+              ctx.lineTo(mx + Math.cos(aa) * m.h * 0.3, shY + Math.sin(aa) * m.h * 0.3);
+              ctx.stroke();
+            }
+          }
+          // the dog, sixty pounds of ranging
+          {
+            const dx = family.x + (Math.sin(t / 2400) * 40 + 14) * family.dir;
+            const ph = dx * 0.3;
+            const by = fy - 5;
+            ctx.lineWidth = 1.4;
+            ctx.beginPath();
+            ctx.ellipse(dx, by, 6, 2.6, 0, 0, TAU);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(dx + 7 * family.dir, by - 2.4, 2.1, 0, TAU);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.moveTo(dx + 8.5 * family.dir, by - 2.2);
+            ctx.lineTo(dx + 10.5 * family.dir, by - 1.6);
+            ctx.stroke();
+            for (const s of [0, Math.PI]) {
+              const sw = Math.sin(ph + s) * 2.2;
+              ctx.beginPath();
+              ctx.moveTo(dx - 4 * family.dir, by + 1.5);
+              ctx.lineTo(dx - 4 * family.dir + sw, fy);
+              ctx.moveTo(dx + 4 * family.dir, by + 1.5);
+              ctx.lineTo(dx + 4 * family.dir - sw, fy);
+              ctx.stroke();
+            }
+            ctx.beginPath();
+            ctx.moveTo(dx - 6 * family.dir, by - 1.5);
+            ctx.lineTo(dx - 9.5 * family.dir, by - 4 - Math.sin(t / 180) * 1.2);
+            ctx.stroke();
+          }
+          if (family.x < -130 || family.x > W + 130) {
+            family.active = false;
+            family.next = t + 70000 + Math.random() * 90000;
+          }
+        }
+      } else if (family.active) {
+        family.active = false;
+      }
+
       // the runner
       if (D.el > -6) {
         if (!runner.active && t > runner.next) {
@@ -1540,6 +1631,12 @@ const shelf = data.books
         S.touched = true;
         S.source = 'NORMALS';
         apply();
+      },
+      walk() {
+        family.active = true;
+        family.dir = 1;
+        family.x = W * 0.45;
+        apply({ books: false });
       },
       state: S,
     };
