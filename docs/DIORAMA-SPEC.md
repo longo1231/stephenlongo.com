@@ -9,7 +9,12 @@ lat-41 northeastern shoreline.*
 A single self-contained Astro component ([src/components/SeasonDiorama.astro](../src/components/SeasonDiorama.astro)),
 no libraries, one canvas plus an instrument panel. It renders a flat-silhouette landscape of a
 northeastern shoreline: water, far shore, treeline (procedural deciduous trees and pines,
-seeded so the scene is stable across loads), stone wall, saltbox house, foreground field.
+seeded so the scene is stable across loads), stone wall, saltbox house, foreground field,
+and one great oak behind the wall, unmistakably larger than everything else. The oak runs
+real white-oak biology: crown wider than tall on zigzag limbs, leafs out later than its
+neighbors, turns rust instead of red, holds a scatter of bronze marcescent leaves into
+December, keeps dark-green ivy at its trunk through the winter, and carries snow on its
+big horizontal limbs after a storm. Unlabeled, like the walkers.
 
 ## The models (real, not faked)
 

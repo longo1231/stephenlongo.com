@@ -435,6 +435,16 @@ const shelf = data.books
       const fresh = 1 - smooth(138, 178, N);
       return { density, turn, fresh };
     };
+    // oaks run their own calendar: late to leaf, late to turn, rust not red,
+    // and marcescent, holding bronze leaves into the winter
+    const oakCanopy = (N) => {
+      const density = Math.min(smooth(118, 150, N), 1 - smooth(300, 330, N));
+      const turn = smooth(276, 304, N);
+      const fresh = 1 - smooth(150, 190, N);
+      const mday = N >= 316 ? N - 316 : N + 49;
+      const mar = density < 0.1 && mday <= 69 ? 0.5 * (1 - mday / 69) : 0;
+      return { density, turn, fresh, mar };
+    };
 
     // ------- state -------
     const S = {
@@ -492,7 +502,7 @@ const shelf = data.books
     const AUTUMN = [[194, 106, 46], [168, 68, 46], [209, 154, 63], [143, 91, 42], [186, 82, 38]];
     const trees = [];
     {
-      const xs = [0.045, 0.10, 0.165, 0.245, 0.33, 0.415, 0.50, 0.575, 0.635, 0.80, 0.875, 0.95];
+      const xs = [0.045, 0.10, 0.165, 0.245, 0.50, 0.575, 0.635, 0.80, 0.875, 0.95];
       for (const fx of xs) {
         const pine = fx === 0.245 || fx === 0.875;
         const t = {
@@ -527,6 +537,45 @@ const shelf = data.books
         trees.push(t);
       }
     }
+    // the great oak: crown wider than tall, zigzag limbs sweeping low, ivy at the heart
+    const OAK = { fx: 0.375, fy: 0.785, limbs: [], puffs: [] };
+    {
+      OAK.limbs.push([0, 0.02, 0, -0.27, 0.13]);
+      const dirs = [-168, -142, -114, -88, -62, -36, -12];
+      for (const d0 of dirs) {
+        let a = (d0 * Math.PI) / 180;
+        let x = 0, y = -0.24;
+        const horiz = Math.abs(Math.cos(a));
+        let len = 0.32 + rnd() * 0.1 + horiz * 0.24;
+        let w = 0.085;
+        for (let s = 0; s < 3; s++) {
+          const nx = x + Math.cos(a) * len;
+          const ny = y + Math.sin(a) * len;
+          OAK.limbs.push([x, y, nx, ny, w]);
+          if (s > 0) {
+            for (const tw of [-0.7, 0.7]) {
+              const ta = a + tw;
+              OAK.limbs.push([x, y, x + Math.cos(ta) * len * 0.35, y + Math.sin(ta) * len * 0.35, w * 0.4]);
+            }
+          }
+          x = nx;
+          y = ny;
+          a += (rnd() - 0.5) * 0.5 + horiz * 0.12 * (Math.cos(a) > 0 ? 1 : -1);
+          len *= 0.72;
+          w *= 0.55;
+        }
+        OAK.puffs.push({ dx: x, dy: y - 0.05, r: 0.30 + rnd() * 0.1, sh: 0.8 + rnd() * 0.35 });
+      }
+      for (let i = 0; i < 12; i++) {
+        OAK.puffs.push({
+          dx: (rnd() * 2 - 1) * 1.05,
+          dy: -0.32 - rnd() * 0.55,
+          r: 0.26 + rnd() * 0.14,
+          sh: 0.75 + rnd() * 0.4,
+        });
+      }
+    }
+
     const stones = [];
     for (let i = 0; i < 90; i++) {
       stones.push({ fx: i / 90 + (rnd() - 0.5) * 0.004, w: 6 + rnd() * 9, h: 2.4 + rnd() * 2.2, row: rnd() > 0.5 ? 1 : 0, sh: 0.8 + rnd() * 0.5 });
@@ -895,6 +944,63 @@ const shelf = data.books
             ctx.arc(tx, ty - hgt * 1.0, hgt * 0.4 * c.density, 0, TAU);
             ctx.fill();
           }
+        }
+      }
+
+      // the great oak
+      {
+        const ox = OAK.fx * W, oy = OAK.fy * H, oh = 82 * (H / 340);
+        const c = oakCanopy(S.N);
+        ctx.lineCap = 'round';
+        ctx.strokeStyle = css(mul([24, 23, 26], Math.max(landL, 0.24)));
+        const limbAlpha = Math.max(1 - c.density * 0.7, 0.28);
+        let first = true;
+        for (const [x0, y0, x1, y1, w] of OAK.limbs) {
+          ctx.globalAlpha = first ? 1 : limbAlpha;
+          first = false;
+          ctx.lineWidth = Math.max(1, w * oh);
+          ctx.beginPath();
+          ctx.moveTo(ox + x0 * oh, oy + y0 * oh);
+          ctx.lineTo(ox + x1 * oh, oy + y1 * oh);
+          ctx.stroke();
+        }
+        ctx.globalAlpha = 1;
+        if (snowCover > 0.08 && c.density < 0.4) {
+          ctx.strokeStyle = css(mul([222, 227, 233], Math.max(landL, 0.3)), snowCover * 0.85);
+          for (const [x0, y0, x1, y1, w] of OAK.limbs) {
+            if (w < 0.04 || Math.abs(y1 - y0) > Math.abs(x1 - x0) * 0.6) continue;
+            ctx.lineWidth = Math.max(1, w * oh * 0.7);
+            ctx.beginPath();
+            ctx.moveTo(ox + x0 * oh, oy + (y0 - w * 0.65) * oh);
+            ctx.lineTo(ox + x1 * oh, oy + (y1 - w * 0.65) * oh);
+            ctx.stroke();
+          }
+        }
+        if (c.density > 0.04) {
+          const springCol = [112, 142, 86], summerCol = [48, 76, 52];
+          let leafCol = mix(summerCol, springCol, c.fresh);
+          leafCol = mix(leafCol, mix([138, 84, 44], [108, 64, 34], c.turn), c.turn);
+          for (const p of OAK.puffs) {
+            ctx.fillStyle = css(mul(leafCol, p.sh * Math.max(landL, 0.26)), 0.95);
+            ctx.beginPath();
+            ctx.arc(ox + p.dx * oh, oy + p.dy * oh, p.r * oh * (0.55 + 0.45 * c.density), 0, TAU);
+            ctx.fill();
+          }
+        } else if (c.mar > 0.01) {
+          for (let i = 0; i < 7; i++) {
+            const p = OAK.puffs[i];
+            ctx.fillStyle = css(mul([96, 62, 38], p.sh * Math.max(landL, 0.26)), c.mar);
+            ctx.beginPath();
+            ctx.arc(ox + p.dx * oh, oy + p.dy * oh, p.r * oh * 0.5, 0, TAU);
+            ctx.fill();
+          }
+        }
+        // ivy holds the trunk, green through the winter
+        for (const [ix, iy, ir] of [[0, -0.11, 0.15], [0.02, -0.25, 0.12], [-0.03, -0.38, 0.09]]) {
+          ctx.fillStyle = css(mul([36, 50, 39], Math.max(landL, 0.25)), 0.95);
+          ctx.beginPath();
+          ctx.arc(ox + ix * oh, oy + iy * oh, ir * oh, 0, TAU);
+          ctx.fill();
         }
       }
 
