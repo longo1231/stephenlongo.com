@@ -31,8 +31,9 @@ const musingsCount = (await getCollection('musings')).length;
       </h1>
       <p class="cite mono">— Oscar Wilde</p>
     </section>
+  </main>
 
-    <nav class="index" aria-label="Site index">
+  <nav class="index" aria-label="Site index">
       <a class="row" href="/bookshelf">
         <span class="num mono">001</span>
         <span class="name">Bookshelf</span>
@@ -63,8 +64,7 @@ const musingsCount = (await getCollection('musings')).length;
         <span class="desc mono">one mountain a year · the method</span>
         <span class="arrow" aria-hidden="true">↗</span>
       </a>
-    </nav>
-  </main>
+  </nav>
 
   <footer class="bottom">
     <span class="mono">Content lives in Notion · the site rebuilds itself</span>
@@ -164,10 +164,15 @@ const musingsCount = (await getCollection('musings')).length;
     animation-delay: 0.95s;
   }
 
+  /* Full-bleed band like the top strip and diorama panel; type one clear
+     step below the hero so the nav reads as index, not display. */
   .index {
     display: block;
+    position: relative;
+    z-index: 1;
     border-top: 1px solid var(--hairline);
-    margin-bottom: 14vh;
+    padding: 0 var(--pad-x);
+    margin-bottom: 10vh;
   }
 
   .row {
@@ -175,20 +180,20 @@ const musingsCount = (await getCollection('musings')).length;
     grid-template-columns: 4rem 1fr auto 3rem;
     align-items: baseline;
     gap: 1.5rem;
-    padding: 2rem 0.5rem;
+    padding: 1.5rem 0.5rem;
     border-bottom: 1px solid var(--hairline);
     text-decoration: none;
     transition: background 0.18s ease, color 0.18s ease;
   }
 
   .name {
-    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-size: clamp(1.6rem, 2.4vw, 2.1rem);
     font-weight: 460;
     font-style: italic;
   }
 
   .arrow {
-    font-size: 1.6rem;
+    font-size: 1.3rem;
     justify-self: end;
     transition: transform 0.18s ease;
   }

@@ -53,6 +53,13 @@ the readout.
 - **Shakespeare quotes** keyed to season and weather (fog gets Macbeth, snow gets
   Love's Labour's Lost, moonlit nights get The Merchant of Venice...), linking to /misogi.
   2026 is the year of Shakespeare.
+- **The misogi marker**: the quote line names what the 2026 syllabus assigns for the dialed
+  date, play by play (scrub to mid-July and it says Hamlet). Date ranges come from the
+  Shakespeare reading plan in Notion, baked into the component; buffer weeks fall back to
+  the month's theme. Revisit when the 2027 misogi starts.
+- **The five-star shelf, overhead**: every five-star book gets one of the brighter stars.
+  On a dark clear night, hovering a star names the book and the year it was read; clicking
+  goes to the bookshelf. Daylight, clouds, and fog hide them.
 - **From the shelf**: books finished within a week of the dialed date, any year, pulled from
   the bookshelf data at build time (rating 4+ only), linking to /bookshelf. Misogi books tagged.
 - **The runner** crosses the field now and then; in rain or snow a caption notes he goes out anyway.

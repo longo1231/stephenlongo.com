@@ -16,6 +16,7 @@ const shelf = data.books
     <canvas id="dio-canvas" role="img" aria-label="Seasonal landscape of a northeastern shoreline"></canvas>
     <span class="mono dio-plate">Field Station · The Northeast · 41° N</span>
     <span class="mono dio-chip" id="dio-chip">the runner goes out anyway</span>
+    <span class="mono dio-tip" id="dio-tip" hidden></span>
   </div>
 
   <div class="dio-panel">
@@ -109,6 +110,25 @@ const shelf = data.books
 
   .dio-chip.on {
     opacity: 0.75;
+  }
+
+  .dio-tip {
+    position: absolute;
+    transform: translate(-50%, -130%);
+    background: rgba(11, 11, 13, 0.92);
+    border: 1px solid var(--hairline);
+    padding: 0.4em 0.65em;
+    color: var(--ink);
+    white-space: nowrap;
+    max-width: 280px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .dio-tip.below {
+    transform: translate(-50%, 40%);
   }
 
   .dio-panel {
@@ -513,6 +533,13 @@ const shelf = data.books
     const stars = [];
     for (let i = 0; i < 110; i++) {
       stars.push({ fx: rnd(), fy: rnd() * 0.58, r: 0.4 + rnd() * 1.0, a: 0.25 + rnd() * 0.6, ph: rnd() * TAU });
+    }
+    // the five-star shelf, overhead: each ★★★★★ book gets a star (hover at night)
+    const fiveStars = shelf.filter((b) => b.r === 5);
+    for (let i = 0; i < stars.length && i < fiveStars.length; i++) {
+      stars[i].book = fiveStars[i];
+      stars[i].r = Math.max(stars[i].r, 0.95);
+      stars[i].a = Math.max(stars[i].a, 0.55);
     }
     const clouds = [];
     for (let i = 0; i < 9; i++) {
@@ -1118,6 +1145,30 @@ const shelf = data.books
       return `${hr}:${String(m2).padStart(2, '0')} ${ap}`;
     };
 
+    // 2026 misogi syllabus, day-of-year ranges from the Shakespeare reading plan
+    const MISOGI = [
+      [1, 4, 'The Comedy of Errors'], [5, 9, 'Two Gentlemen of Verona'], [10, 15, 'The Taming of the Shrew'],
+      [16, 22, "Love's Labour's Lost"], [23, 29, 'A Midsummer Night’s Dream'], [30, 31, 'foundations'],
+      [32, 37, 'Henry VI, Part 1'], [38, 43, 'Henry VI, Part 2'], [44, 49, 'Henry VI, Part 3'],
+      [50, 57, 'Richard III'], [58, 59, 'the early histories'],
+      [60, 64, 'King John'], [65, 71, 'The Merchant of Venice'], [72, 77, 'Much Ado About Nothing'],
+      [78, 84, 'As You Like It'], [85, 90, 'Twelfth Night'],
+      [91, 98, 'Richard II'], [99, 108, 'Henry IV, Part 1'], [109, 118, 'Henry IV, Part 2'], [119, 120, 'the Henriad'],
+      [121, 129, 'Henry V'], [130, 134, 'The Merry Wives of Windsor'], [135, 142, 'Julius Caesar'], [143, 151, 'Titus Andronicus'],
+      [152, 160, 'Troilus and Cressida'], [161, 169, 'Measure for Measure'], [170, 178, "All's Well That Ends Well"], [179, 181, 'the problem plays'],
+      [182, 187, 'Romeo and Juliet'], [188, 205, 'Hamlet'], [206, 218, 'Othello'],
+      [219, 236, 'King Lear'], [237, 251, 'Macbeth'],
+      [252, 261, 'Antony and Cleopatra'], [262, 269, 'Coriolanus'], [270, 273, 'Timon of Athens'],
+      [274, 280, 'Henry VIII'], [281, 285, 'The Two Noble Kinsmen'], [286, 296, 'Pericles'], [297, 310, 'Cymbeline'],
+      [311, 328, 'The Winter’s Tale'], [329, 334, 'reflection'],
+      [335, 354, 'The Tempest'], [355, 365, 're-reading and reflection'],
+    ];
+    const misogiNow = (N) => {
+      const d = Math.round(N);
+      const row = MISOGI.find((r) => d >= r[0] && d <= r[1]);
+      return row ? row[2] : '';
+    };
+
     const QUOTES = [
       { test: () => S.sky === 'storm', q: 'Blow, winds, and crack your cheeks!', src: 'KING LEAR' },
       { test: () => D.fog, q: 'Hover through the fog and filthy air.', src: 'MACBETH' },
@@ -1134,11 +1185,13 @@ const shelf = data.books
     let lastQuote = '';
     const updateQuote = () => {
       const q = QUOTES.find((x) => x.test());
-      if (q.q === lastQuote) return;
-      lastQuote = q.q;
+      const misogi = misogiNow(S.N);
+      const key = q.q + misogi;
+      if (key === lastQuote) return;
+      lastQuote = key;
       quoteEl.classList.add('dio-fade');
       setTimeout(() => {
-        quoteEl.innerHTML = `<em>“${q.q}”</em> · ${q.src} · the year of Shakespeare ↗`;
+        quoteEl.innerHTML = `<em>“${q.q}”</em> · ${q.src} · the year of Shakespeare: ${misogi} ↗`;
         quoteEl.classList.remove('dio-fade');
       }, 220);
     };
@@ -1305,6 +1358,44 @@ const shelf = data.books
       if (!step) return;
       e.preventDefault();
       setH(S.h + step);
+    });
+
+    // five-star shelf overhead: hover a bright star at night, click through to the bookshelf
+    const tip = $('dio-tip');
+    const starAt = (e) => {
+      const dark = smooth(-4, -14, D.el) * (1 - D.cloud * 0.9) * (1 - D.fog);
+      if (dark < 0.25) return null;
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left, y = e.clientY - rect.top;
+      let best = null, bestD = 121; // 11px radius
+      for (const s of stars) {
+        if (!s.book) continue;
+        const dx = s.fx * W - x, dy = s.fy * H - y;
+        const dd = dx * dx + dy * dy;
+        if (dd < bestD) { bestD = dd; best = s; }
+      }
+      return best;
+    };
+    canvas.addEventListener('pointermove', (e) => {
+      const hit = starAt(e);
+      if (hit) {
+        tip.hidden = false;
+        tip.textContent = `★ ${hit.book.t} · ${hit.book.y}`;
+        tip.style.left = `${clamp(hit.fx * W, 70, W - 70)}px`;
+        tip.style.top = `${hit.fy * H}px`;
+        tip.classList.toggle('below', hit.fy * H < 42);
+        canvas.style.cursor = 'pointer';
+      } else {
+        tip.hidden = true;
+        canvas.style.cursor = '';
+      }
+    });
+    canvas.addEventListener('pointerleave', () => {
+      tip.hidden = true;
+      canvas.style.cursor = '';
+    });
+    canvas.addEventListener('click', (e) => {
+      if (starAt(e)) location.href = '/bookshelf';
     });
 
     $('dio-now').addEventListener('click', () => {

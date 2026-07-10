@@ -87,6 +87,11 @@ training and effort, and (b) paired with the "AI as coach" story it becomes an a
 diary. Format: single page, sparse table — date, race, time, pace — in the site's mono style.
 Keep it small; don't build a Strava clone.
 
+> **Diorama tie-in, parked July 2026 (Stephen approved the idea):** once the race log syncs
+> from Notion, the diorama runner makes a race-day crossing on real race dates and the
+> footline gains a sibling to "from the shelf": "raced this week in 2024 · Brooklyn Half."
+> Blocked on adding the race log data to the sync first.
+
 ---
 
 ## Tier 3 — Park for later
