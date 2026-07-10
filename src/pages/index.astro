@@ -114,9 +114,23 @@ const musingsCount = (await getCollection('musings')).length;
     padding: 4rem 0 3rem;
   }
 
+  /* With the diorama masthead above, the hero gives up its dead space and one
+     type step so strip + scene + panel + full quote fit a ~780px viewport. */
   .has-diorama .hero {
-    min-height: 42vh;
-    padding: 3rem 0 2.5rem;
+    min-height: 0;
+    padding: 2.2rem 0 1.8rem;
+  }
+
+  .has-diorama .quote {
+    font-size: clamp(1.9rem, 4.4vw, 3.2rem);
+  }
+
+  .has-diorama .quote .big {
+    font-size: clamp(3.2rem, 9.5vw, 8.6rem);
+  }
+
+  .has-diorama .cite {
+    margin-top: 1.2rem;
   }
 
   .quote {
