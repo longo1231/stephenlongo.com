@@ -1,7 +1,22 @@
 {
-  "syncedAt": "2026-07-14",
+  "syncedAt": "2026-07-15",
   "source": "notion-api",
   "books": [
+    {
+      "title": "The Counting House",
+      "author": "Gary Sernovitz",
+      "subtitle": "",
+      "tagline": "",
+      "takeaway": "",
+      "rating": 4,
+      "status": "Read",
+      "type": null,
+      "pages": null,
+      "date": "2026-07-14",
+      "recommend": false,
+      "misogi": false,
+      "cover": null
+    },
     {
       "title": "1929",
       "author": "Andrew Ross Sorkin",
