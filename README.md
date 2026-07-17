@@ -36,3 +36,12 @@ Syncing is optional and manual — the site builds from the committed data eithe
 4. Review the diff and commit — the push deploys it
 
 Covers are downloaded into `public/covers/` during sync, so the live site never hotlinks external images.
+
+## Scripts
+
+- `scripts/sync-notion.mjs` (`npm run sync`) — the main content sync: Bookshelf → `books.json`,
+  Musings → `src/content/musings/`, Misogi + Shakespeare log → `misogi.json`. Also downloads covers.
+- `scripts/backfill-covers.mjs` — cover-matching helpers (`slug`, `norm`, `backfillCovers`),
+  imported by the sync. Not a standalone command.
+- `scripts/audit-books.mjs` — one-off metadata audit against Open Library; writes a review table
+  to `docs/BOOK-AUDIT.md` for a human to check. Run manually with `node scripts/audit-books.mjs`.
