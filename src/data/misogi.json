@@ -294,8 +294,8 @@
         {
           "name": "King Lear",
           "note": "Fathers and children. Giving up control. Madness as stripping away.",
-          "status": "up",
-          "verdict": ""
+          "status": "done",
+          "verdict": "Best play so far"
         }
       ]
     },
@@ -306,7 +306,7 @@
         {
           "name": "Macbeth",
           "note": "Ambition, guilt. Lady Macbeth as shadow.",
-          "status": "up",
+          "status": "now",
           "verdict": ""
         },
         {
