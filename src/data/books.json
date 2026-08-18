@@ -1,5 +1,5 @@
 {
-  "syncedAt": "2026-08-17",
+  "syncedAt": "2026-08-18",
   "source": "notion-api",
   "books": [
     {
@@ -450,7 +450,7 @@
       "date": "2023-11-12",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/the-self-driven-child.jpg"
     },
     {
       "title": "The Surrender Experiment",
@@ -525,7 +525,7 @@
       "date": "2023-08-03",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/the-world-behind-the-world.jpg"
     },
     {
       "title": "The Crossing",
@@ -540,7 +540,7 @@
       "date": "2023-06-28",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/the-crossing.jpg"
     },
     {
       "title": "All the Pretty Horses",
@@ -585,7 +585,7 @@
       "date": "2023-05-21",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/excellent-advice-for-living.jpg"
     },
     {
       "title": "The Brothers Karamazov",
@@ -630,7 +630,7 @@
       "date": "2023-04-30",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/financial-hacking.jpg"
     },
     {
       "title": "Chronicles",
@@ -645,7 +645,7 @@
       "date": "2023-03-23",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/chronicles.jpg"
     },
     {
       "title": "Systematic Trading",
@@ -660,7 +660,7 @@
       "date": "2023-03-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/systematic-trading.jpg"
     },
     {
       "title": "Chatter",
@@ -675,7 +675,7 @@
       "date": "2023-02-10",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/chatter.jpg"
     },
     {
       "title": "How Will You Measure Your Life",
@@ -690,7 +690,7 @@
       "date": "2023-02-07",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/how-will-you-measure-your-life.jpg"
     },
     {
       "title": "Fear",
@@ -735,7 +735,7 @@
       "date": "2023-01-04",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/breathe.jpg"
     },
     {
       "title": "Do the Work",
@@ -750,7 +750,7 @@
       "date": "2023-01-02",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/do-the-work.jpg"
     },
     {
       "title": "Never Finished",
@@ -765,7 +765,7 @@
       "date": "2023-01-01",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/never-finished.jpg"
     },
     {
       "title": "Shantaram",
@@ -780,7 +780,7 @@
       "date": "2022-10-26",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/shantaram.jpg"
     },
     {
       "title": "Investing Amid Low Expected Returns",
@@ -900,7 +900,7 @@
       "date": "2022-03-28",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/traction.jpg"
     },
     {
       "title": "The Go-Giver",
@@ -915,7 +915,7 @@
       "date": "2022-03-23",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/the-go-giver.jpg"
     },
     {
       "title": "Four Thousand Weeks",
@@ -930,7 +930,7 @@
       "date": "2022-03-04",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/four-thousand-weeks.jpg"
     },
     {
       "title": "Blue Highways",
@@ -945,7 +945,7 @@
       "date": "2022-02-27",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/blue-highways.jpg"
     },
     {
       "title": "The Art of Doing Science and Engineering",
@@ -960,7 +960,7 @@
       "date": "2022-02-24",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/the-art-of-doing-science-and-engineering.jpg"
     },
     {
       "title": "The EOS Life",
@@ -1065,7 +1065,7 @@
       "date": "2021-11-28",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/expected-returns-on-major-asset-classes.jpg"
     },
     {
       "title": "Norwegian Wood",
@@ -1095,7 +1095,7 @@
       "date": "2021-09-06",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/bluefishing.jpg"
     },
     {
       "title": "Exhalation",
@@ -1110,7 +1110,7 @@
       "date": "2021-08-14",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/exhalation.jpg"
     },
     {
       "title": "Project Hail Mary",
@@ -1125,7 +1125,7 @@
       "date": "2021-08-06",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/project-hail-mary.jpg"
     },
     {
       "title": "Lifestyle Investor",
@@ -1140,7 +1140,7 @@
       "date": "2021-07-22",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/lifestyle-investor.jpg"
     },
     {
       "title": "The Fifth Science",
@@ -1155,7 +1155,7 @@
       "date": "2021-07-18",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/the-fifth-science.jpg"
     },
     {
       "title": "Breath",
@@ -1170,7 +1170,7 @@
       "date": "2021-07-11",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/breath.jpg"
     },
     {
       "title": "The Four Agreements",
@@ -1185,7 +1185,7 @@
       "date": "2021-07-06",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/the-four-agreements.jpg"
     },
     {
       "title": "Yearbook",
@@ -1200,7 +1200,7 @@
       "date": "2021-05-23",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/yearbook.jpg"
     },
     {
       "title": "Complexity",
@@ -1230,7 +1230,7 @@
       "date": "2021-03-28",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/flash-crash.jpg"
     },
     {
       "title": "Beware of the Dog",
@@ -1245,7 +1245,7 @@
       "date": "2021-03-14",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/beware-of-the-dog.jpg"
     },
     {
       "title": "Introducing Epigenetics",
@@ -1260,7 +1260,7 @@
       "date": "2021-03-02",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/introducing-epigenetics.jpg"
     },
     {
       "title": "Total Rugby",
@@ -1275,7 +1275,7 @@
       "date": "2021-03-01",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/total-rugby.jpg"
     },
     {
       "title": "The Laws of Trading",
@@ -1305,7 +1305,7 @@
       "date": "2021-02-21",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/the-call-of-cthulhu.jpg"
     },
     {
       "title": "The Richest Man in Babylon",
@@ -1320,7 +1320,7 @@
       "date": "2021-02-15",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/the-richest-man-in-babylon.jpg"
     },
     {
       "title": "Cryptonomicon",
@@ -1335,7 +1335,7 @@
       "date": "2020-12-27",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/cryptonomicon.jpg"
     },
     {
       "title": "The Unfettered Mind",
@@ -1350,7 +1350,7 @@
       "date": "2020-12-27",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/the-unfettered-mind.jpg"
     },
     {
       "title": "Soros on Soros",
@@ -1365,7 +1365,7 @@
       "date": "2020-12-05",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/soros-on-soros.jpg"
     },
     {
       "title": "The Crash of 2008",
@@ -1395,7 +1395,7 @@
       "date": "2020-11-15",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/greenlights.jpg"
     },
     {
       "title": "The New Market Wizards",
@@ -1425,7 +1425,7 @@
       "date": "2020-10-25",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/river-of-doubt.jpg"
     },
     {
       "title": "Get Together",
@@ -1440,7 +1440,7 @@
       "date": "2020-09-26",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/get-together.jpg"
     },
     {
       "title": "Positional Option Trading",
@@ -1515,7 +1515,7 @@
       "date": "2020-08-04",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/genghis-khan-and-the-making-of-the-modern-world.jpg"
     },
     {
       "title": "Essentialism",
@@ -1635,7 +1635,7 @@
       "date": "2020-06-07",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/the-headspace-guide-to-meditation-and-mindfulness.jpg"
     },
     {
       "title": "Live the Best Story of Your Life",
@@ -1665,7 +1665,7 @@
       "date": "2020-05-17",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/spiritual-warfare.jpg"
     },
     {
       "title": "Spiritually Incorrect Enlightenment",
@@ -1680,7 +1680,7 @@
       "date": "2020-05-10",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/spiritually-incorrect-enlightenment.jpg"
     },
     {
       "title": "Spiritual Enlightenment is the Damndest Thing",
@@ -1710,7 +1710,7 @@
       "date": "2020-01-06",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/running-with-sherman.jpg"
     },
     {
       "title": "Friendly Ambitious Nerd",
@@ -1740,7 +1740,7 @@
       "date": "2020-01-03",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/horse-tradin.jpg"
     },
     {
       "title": "The Path of Least Resistance",
@@ -1770,7 +1770,7 @@
       "date": "2020-01-01",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/nothing-to-see-here.jpg"
     },
     {
       "title": "Volatility Trading",
@@ -1800,7 +1800,7 @@
       "date": "2019-12-25",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/the-power-of-less.jpg"
     },
     {
       "title": "Lifespan: Aging",
@@ -1830,7 +1830,7 @@
       "date": "2019-11-25",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/daisy-jones-the-six.jpg"
     },
     {
       "title": "Markets in Profile",
@@ -1845,7 +1845,7 @@
       "date": "2019-11-25",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/markets-in-profile.jpg"
     },
     {
       "title": "Moloka'i",
@@ -1860,7 +1860,7 @@
       "date": "2019-11-10",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/moloka-i.jpg"
     },
     {
       "title": "Digital Minimalism",
@@ -1920,7 +1920,7 @@
       "date": "2019-10-14",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/ego-is-the-enemy.jpg"
     },
     {
       "title": "Am I Being Too Subtle",
@@ -1935,7 +1935,7 @@
       "date": "2019-01-01",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/am-i-being-too-subtle.jpg"
     },
     {
       "title": "Rise up and Kill First",
@@ -1995,7 +1995,7 @@
       "date": "2019-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/the-great-successor.jpg"
     },
     {
       "title": "Soonish",
@@ -2010,7 +2010,7 @@
       "date": "2019-01-01",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/soonish.jpg"
     },
     {
       "title": "Can't Hurt Me",
@@ -2025,7 +2025,7 @@
       "date": "2019-01-01",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/can-t-hurt-me.jpg"
     },
     {
       "title": "Skunk Works",
@@ -2055,7 +2055,7 @@
       "date": "2019-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/the-forever-war.jpg"
     },
     {
       "title": "Zen in the Art of Archery ",
@@ -2085,7 +2085,7 @@
       "date": "2019-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/a-gentleman-in-moscow.jpg"
     },
     {
       "title": "The Accidental Universe",
@@ -2100,7 +2100,7 @@
       "date": "2019-01-01",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/the-accidental-universe.jpg"
     },
     {
       "title": "The Stranger in the Woods",
@@ -2145,7 +2145,7 @@
       "date": "2019-01-01",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/simple-wealth-inevitable-wealth.jpg"
     },
     {
       "title": "Conscious",
@@ -2190,7 +2190,7 @@
       "date": "2019-01-01",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/the-ends-of-the-world.jpg"
     },
     {
       "title": "Born Standing Up",
@@ -2205,7 +2205,7 @@
       "date": "2019-01-01",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/born-standing-up.jpg"
     },
     {
       "title": "Making Sense of People",
@@ -2220,7 +2220,7 @@
       "date": "2019-01-01",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/making-sense-of-people.jpg"
     },
     {
       "title": "Amusing Ourselves to Death ",
@@ -2235,7 +2235,7 @@
       "date": "2019-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/amusing-ourselves-to-death.jpg"
     },
     {
       "title": "Think Twice",
@@ -2250,7 +2250,7 @@
       "date": "2019-01-01",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/think-twice.jpg"
     },
     {
       "title": "The Absent Superpower",
@@ -2310,7 +2310,7 @@
       "date": "2019-01-01",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/the-longevity-diet.jpg"
     },
     {
       "title": "The Warburgs",
@@ -2325,7 +2325,7 @@
       "date": "2019-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/the-warburgs.jpg"
     },
     {
       "title": "Happiest Toddler on the Block",
@@ -2355,7 +2355,7 @@
       "date": "2019-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/dune.jpg"
     },
     {
       "title": "When I Say No, I Feel Guilty",
@@ -2370,7 +2370,7 @@
       "date": "2019-01-01",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/when-i-say-no-i-feel-guilty.jpg"
     },
     {
       "title": "The Married Man Sex Life Primer",
@@ -2400,7 +2400,7 @@
       "date": "2019-01-01",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/everybody-lies.jpg"
     },
     {
       "title": "The Messy Marketplace",
@@ -2445,7 +2445,7 @@
       "date": "2019-01-01",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/just-mercy.jpg"
     },
     {
       "title": "The Ivy Portfolio",
@@ -2475,7 +2475,7 @@
       "date": "2018-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/cathedral-of-the-wild.jpg"
     },
     {
       "title": "Keto Clarity",
@@ -2490,7 +2490,7 @@
       "date": "2018-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/keto-clarity.jpg"
     },
     {
       "title": "The Sympathizer ",
@@ -2505,7 +2505,7 @@
       "date": "2018-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/the-sympathizer.jpg"
     },
     {
       "title": "Bad Blood",
@@ -2535,7 +2535,7 @@
       "date": "2018-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/all-marketers-are-liars.jpg"
     },
     {
       "title": "Finite and Infinite Games",
@@ -2550,7 +2550,7 @@
       "date": "2018-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/finite-and-infinite-games.jpg"
     },
     {
       "title": "Dark Forest",
@@ -2580,7 +2580,7 @@
       "date": "2018-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/the-obstacle-is-the-way.jpg"
     },
     {
       "title": "Never Split the Difference",
@@ -2595,7 +2595,7 @@
       "date": "2018-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/never-split-the-difference.jpg"
     },
     {
       "title": "The Courage to Be Disliked",
@@ -2625,7 +2625,7 @@
       "date": "2018-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/the-most-important-thing.jpg"
     },
     {
       "title": "The Birth of Plenty",
@@ -2640,7 +2640,7 @@
       "date": "2018-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/the-birth-of-plenty.jpg"
     },
     {
       "title": "Home Game",
@@ -2655,7 +2655,7 @@
       "date": "2018-01-01",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/home-game.jpg"
     },
     {
       "title": "Tiger Woods",
@@ -2670,7 +2670,7 @@
       "date": "2018-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/tiger-woods.jpg"
     },
     {
       "title": "Finding Your Way in a Wild New World",
@@ -2685,7 +2685,7 @@
       "date": "2018-01-01",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/finding-your-way-in-a-wild-new-world.jpg"
     },
     {
       "title": "A Short History of Nearly Everything",
@@ -2700,7 +2700,7 @@
       "date": "2018-01-01",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/a-short-history-of-nearly-everything.jpg"
     },
     {
       "title": "Fortune's Children: The Fall of the House of Vanderbilt",
@@ -2715,7 +2715,7 @@
       "date": "2018-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/fortune-s-children-the-fall-of-the-house-of-vanderbilt.jpg"
     },
     {
       "title": "Gridiron Genius",
@@ -2745,7 +2745,7 @@
       "date": "2018-01-01",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/the-aggressive-conservative-investor.jpg"
     },
     {
       "title": "The Fish that Ate the Whale",
@@ -2760,7 +2760,7 @@
       "date": "2018-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/the-fish-that-ate-the-whale.jpg"
     },
     {
       "title": "The Laws of Wealth",
@@ -2775,7 +2775,7 @@
       "date": "2018-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/the-laws-of-wealth.jpg"
     },
     {
       "title": "Fire and Fury",
@@ -2790,7 +2790,7 @@
       "date": "2018-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/fire-and-fury.jpg"
     },
     {
       "title": "Death's End",
@@ -2850,7 +2850,7 @@
       "date": "2018-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/the-quest-of-the-simple-life.jpg"
     },
     {
       "title": "The Trusted Advisor",
@@ -2865,7 +2865,7 @@
       "date": "2018-01-01",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/the-trusted-advisor.jpg"
     },
     {
       "title": "Bringing Up Bébé",
@@ -2880,7 +2880,7 @@
       "date": "2018-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/bringing-up-b-b.jpg"
     },
     {
       "title": "Skagboys",
@@ -2895,7 +2895,7 @@
       "date": "2018-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/skagboys.jpg"
     },
     {
       "title": "Zero to One",
@@ -2910,7 +2910,7 @@
       "date": "2018-01-01",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/zero-to-one.jpg"
     },
     {
       "title": "Lake Success",
@@ -2925,7 +2925,7 @@
       "date": "2018-01-01",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/lake-success.jpg"
     },
     {
       "title": "Levels of the Game",
@@ -2955,7 +2955,7 @@
       "date": "2018-01-01",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/the-culture-code.jpg"
     },
     {
       "title": "Sense of Style",
@@ -2970,7 +2970,7 @@
       "date": "2018-01-01",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/sense-of-style.jpg"
     },
     {
       "title": "The Hero with a Thousand Faces",
@@ -2985,7 +2985,7 @@
       "date": "2018-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/the-hero-with-a-thousand-faces.jpg"
     },
     {
       "title": "Anything You Want",
@@ -3000,7 +3000,7 @@
       "date": "2018-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/anything-you-want.jpg"
     },
     {
       "title": "Designing Your Life",
@@ -3030,7 +3030,7 @@
       "date": "2018-01-01",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/the-little-book-that-beats-the-market.jpg"
     },
     {
       "title": "Thinking in Bets",
@@ -3045,7 +3045,7 @@
       "date": "2018-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/thinking-in-bets.jpg"
     },
     {
       "title": "Meaningful Work",
@@ -3060,7 +3060,7 @@
       "date": "2018-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/meaningful-work.jpg"
     },
     {
       "title": "Brick by Brick",
@@ -3075,7 +3075,7 @@
       "date": "2018-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/brick-by-brick.jpg"
     },
     {
       "title": "Legacy of Ashes",
@@ -3090,7 +3090,7 @@
       "date": "2018-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/legacy-of-ashes.jpg"
     },
     {
       "title": "A Man for All Markets",
@@ -3105,7 +3105,7 @@
       "date": "2018-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/a-man-for-all-markets.jpg"
     },
     {
       "title": "How to Change Your Mind",
@@ -3120,7 +3120,7 @@
       "date": "2018-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/how-to-change-your-mind.jpg"
     },
     {
       "title": "Creativity Inc",
@@ -3150,7 +3150,7 @@
       "date": "2018-01-01",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/the-road-to-character.jpg"
     },
     {
       "title": "Skin in the Game",
@@ -3165,7 +3165,7 @@
       "date": "2018-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/skin-in-the-game.jpg"
     },
     {
       "title": "I Contain Multitudes",
@@ -3180,7 +3180,7 @@
       "date": "2018-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/i-contain-multitudes.jpg"
     },
     {
       "title": "Convict Conditioning",
@@ -3210,7 +3210,7 @@
       "date": "2018-01-01",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/happiest-baby-on-the-block.jpg"
     },
     {
       "title": "The Silk Roads:  A New History of the World",
@@ -3240,7 +3240,7 @@
       "date": "2017-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/the-north-water.jpg"
     },
     {
       "title": "Wisdom of Psychopaths",
@@ -3255,7 +3255,7 @@
       "date": "2017-01-01",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/wisdom-of-psychopaths.jpg"
     },
     {
       "title": "Principles",
@@ -3270,7 +3270,7 @@
       "date": "2017-01-01",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/principles.jpg"
     },
     {
       "title": "Black Edge",
@@ -3285,7 +3285,7 @@
       "date": "2017-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/black-edge.jpg"
     },
     {
       "title": "East of Eden",
@@ -3300,7 +3300,7 @@
       "date": "2017-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/east-of-eden.jpg"
     },
     {
       "title": "The Politics of Resentment",
@@ -3315,7 +3315,7 @@
       "date": "2017-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/the-politics-of-resentment.jpg"
     },
     {
       "title": "Jonathan Living Seagull",
@@ -3345,7 +3345,7 @@
       "date": "2017-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/free-will.jpg"
     },
     {
       "title": "Healing Back Pain",
@@ -3390,7 +3390,7 @@
       "date": "2017-01-01",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/barking-up-the-wrong-tree.jpg"
     },
     {
       "title": "For the Love of Money",
@@ -3405,7 +3405,7 @@
       "date": "2017-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/for-the-love-of-money.jpg"
     },
     {
       "title": "Grit ",
@@ -3420,7 +3420,7 @@
       "date": "2017-01-01",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/grit.jpg"
     },
     {
       "title": "The Unbearable Lightness of Being",
@@ -3450,7 +3450,7 @@
       "date": "2017-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/billion-dollar-spy.jpg"
     },
     {
       "title": "The Only Guide to a Winning Bond Strategy You'll Ever Need",
@@ -3465,7 +3465,7 @@
       "date": "2017-01-01",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/the-only-guide-to-a-winning-bond-strategy-you-ll-ever-need.jpg"
     },
     {
       "title": "The Course of Love",
@@ -3480,7 +3480,7 @@
       "date": "2017-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/the-course-of-love.jpg"
     },
     {
       "title": "Passage Meditation",
@@ -3495,7 +3495,7 @@
       "date": "2017-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/passage-meditation.jpg"
     },
     {
       "title": "Life 3.0",
@@ -3510,7 +3510,7 @@
       "date": "2017-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/life-3-0.jpg"
     },
     {
       "title": "Sapiens",
@@ -3540,7 +3540,7 @@
       "date": "2017-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/investing-the-last-liberal-art.jpg"
     },
     {
       "title": "The Elements of Eloquence",
@@ -3555,7 +3555,7 @@
       "date": "2017-01-01",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/the-elements-of-eloquence.jpg"
     },
     {
       "title": "Other People's Money",
@@ -3570,7 +3570,7 @@
       "date": "2017-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/other-people-s-money.jpg"
     },
     {
       "title": "The Best Investment Writing",
@@ -3600,7 +3600,7 @@
       "date": "2017-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/discipline-equals-freedom.jpg"
     },
     {
       "title": "HBR Guide to Buying a Small Business",
@@ -3615,7 +3615,7 @@
       "date": "2017-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/hbr-guide-to-buying-a-small-business.jpg"
     },
     {
       "title": "Homo Deus",
@@ -3630,7 +3630,7 @@
       "date": "2017-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/homo-deus.jpg"
     },
     {
       "title": "The Immortal Irishman",
@@ -3645,7 +3645,7 @@
       "date": "2017-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/the-immortal-irishman.jpg"
     },
     {
       "title": "Requiem for the American Dream",
@@ -3660,7 +3660,7 @@
       "date": "2017-01-01",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/requiem-for-the-american-dream.jpg"
     },
     {
       "title": "The Inevitable",
@@ -3675,7 +3675,7 @@
       "date": "2017-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/the-inevitable.jpg"
     },
     {
       "title": "Super Sad True Love Story",
@@ -3690,7 +3690,7 @@
       "date": "2017-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/super-sad-true-love-story.jpg"
     },
     {
       "title": "The Brain That Changes Itself",
@@ -3705,7 +3705,7 @@
       "date": "2017-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/the-brain-that-changes-itself.jpg"
     },
     {
       "title": "Chaos Monkeys",
@@ -3720,7 +3720,7 @@
       "date": "2017-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/chaos-monkeys.jpg"
     },
     {
       "title": "TransAtlantic",
@@ -3735,7 +3735,7 @@
       "date": "2017-01-01",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/transatlantic.jpg"
     },
     {
       "title": "Dark Money",
@@ -3750,7 +3750,7 @@
       "date": "2017-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/dark-money.jpg"
     },
     {
       "title": "The Subtle Art of Not Giving a F*ck",
@@ -3765,7 +3765,7 @@
       "date": "2017-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/the-subtle-art-of-not-giving-a-f-ck.jpg"
     },
     {
       "title": "Born to Run",
@@ -3795,7 +3795,7 @@
       "date": "2017-01-01",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/how-to-fail-at-almost-everything-and-still-win-big.jpg"
     },
     {
       "title": "The Practicing Mind",
@@ -3810,7 +3810,7 @@
       "date": "2017-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/the-practicing-mind.jpg"
     },
     {
       "title": "The Three Body Problem",
@@ -3855,7 +3855,7 @@
       "date": "2017-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/cloud-atlas.jpg"
     },
     {
       "title": "Foundation",
@@ -3870,7 +3870,7 @@
       "date": "2017-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/foundation.jpg"
     },
     {
       "title": "The $100 Startup",
@@ -3885,7 +3885,7 @@
       "date": "2017-01-01",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/the-100-startup.jpg"
     },
     {
       "title": "The Hidden Life of Trees",
@@ -3930,7 +3930,7 @@
       "date": "2017-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/the-psychedelic-explorer-s-guide.jpg"
     },
     {
       "title": "Devil's Bargain",
@@ -3945,7 +3945,7 @@
       "date": "2017-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/devil-s-bargain.jpg"
     },
     {
       "title": "Waking Up",
@@ -3960,7 +3960,7 @@
       "date": "2017-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/waking-up.jpg"
     },
     {
       "title": "Pre-Suasion",
@@ -3975,7 +3975,7 @@
       "date": "2017-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/pre-suasion.jpg"
     },
     {
       "title": "SPQR",
@@ -3990,7 +3990,7 @@
       "date": "2016-01-01",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/spqr.jpg"
     },
     {
       "title": "Shoe Dog",
@@ -4020,7 +4020,7 @@
       "date": "2016-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/the-door.jpg"
     },
     {
       "title": "Lone Survivor",
@@ -4035,7 +4035,7 @@
       "date": "2016-01-01",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/lone-survivor.jpg"
     },
     {
       "title": "The Patriarch",
@@ -4050,7 +4050,7 @@
       "date": "2016-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/the-patriarch.jpg"
     },
     {
       "title": "Let the Great World Spin",
@@ -4065,7 +4065,7 @@
       "date": "2016-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/let-the-great-world-spin.jpg"
     },
     {
       "title": "Alexander Hamilton",
@@ -4095,7 +4095,7 @@
       "date": "2016-01-01",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/a-little-life.jpg"
     },
     {
       "title": "Extreme Ownership",
@@ -4110,7 +4110,7 @@
       "date": "2016-01-01",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/extreme-ownership.jpg"
     },
     {
       "title": "The Orphan Masters Son",
@@ -4170,7 +4170,7 @@
       "date": "2016-01-01",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/the-one-percent-doctrine.jpg"
     },
     {
       "title": "QB: My Life Behind the Spiral",
@@ -4200,7 +4200,7 @@
       "date": "2016-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/how-to-be-your-dog-s-best-friend.jpg"
     },
     {
       "title": "John Adams",
@@ -4215,7 +4215,7 @@
       "date": "2016-01-01",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/john-adams.jpg"
     },
     {
       "title": "Boys in the Boat",
@@ -4245,7 +4245,7 @@
       "date": "2016-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/snow-crash.jpg"
     },
     {
       "title": "Drive",
@@ -4260,7 +4260,7 @@
       "date": "2016-01-01",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/drive.jpg"
     },
     {
       "title": "Once a Runner",
@@ -4275,7 +4275,7 @@
       "date": "2016-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/once-a-runner.jpg"
     },
     {
       "title": "School of Greatness",
@@ -4290,7 +4290,7 @@
       "date": "2016-01-01",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/school-of-greatness.jpg"
     },
     {
       "title": "The Courage to Act",
@@ -4305,7 +4305,7 @@
       "date": "2016-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/the-courage-to-act.jpg"
     },
     {
       "title": "But What If We're Wrong?",
@@ -4320,7 +4320,7 @@
       "date": "2016-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/but-what-if-we-re-wrong.jpg"
     },
     {
       "title": "Capital Returns",
@@ -4365,7 +4365,7 @@
       "date": "2016-01-01",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/the-second-machine-age.jpg"
     },
     {
       "title": "The Tiger",
@@ -4410,7 +4410,7 @@
       "date": "2016-01-01",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/iza-s-ballad.jpg"
     },
     {
       "title": "Team of Rivals",
@@ -4425,7 +4425,7 @@
       "date": "2016-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/team-of-rivals.jpg"
     },
     {
       "title": "The Choose Yourself Guide to Wealth",
@@ -4440,7 +4440,7 @@
       "date": "2016-01-01",
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/the-choose-yourself-guide-to-wealth.jpg"
     },
     {
       "title": "Shadow Divers",
@@ -4470,7 +4470,7 @@
       "date": "2016-01-01",
       "recommend": true,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/no-place-to-hide.jpg"
     },
     {
       "title": "Unscripted",
@@ -4485,7 +4485,7 @@
       "date": null,
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/unscripted.jpg"
     },
     {
       "title": "Immunity",
@@ -4500,7 +4500,7 @@
       "date": null,
       "recommend": false,
       "misogi": false,
-      "cover": null
+      "cover": "/covers/immunity.jpg"
     },
     {
       "title": " Hedge Fund Market Wizards",
