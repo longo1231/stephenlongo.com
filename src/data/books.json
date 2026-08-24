@@ -1,7 +1,37 @@
 {
-  "syncedAt": "2026-08-23",
+  "syncedAt": "2026-08-24",
   "source": "notion-api",
   "books": [
+    {
+      "title": "The River",
+      "author": "Peter Heller",
+      "subtitle": "",
+      "tagline": "",
+      "takeaway": "",
+      "rating": 5,
+      "status": "Read",
+      "type": "Fiction",
+      "pages": 250,
+      "date": "2026-08-19",
+      "recommend": true,
+      "misogi": false,
+      "cover": "/covers/the-river.jpg"
+    },
+    {
+      "title": "Replay",
+      "author": "Ken Greenwood",
+      "subtitle": "",
+      "tagline": "",
+      "takeaway": "",
+      "rating": 4,
+      "status": "Read",
+      "type": "Fiction",
+      "pages": null,
+      "date": "2026-08-15",
+      "recommend": false,
+      "misogi": false,
+      "cover": null
+    },
     {
       "title": "The Counting House",
       "author": "Gary Sernovitz",
