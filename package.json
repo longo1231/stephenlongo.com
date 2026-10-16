@@ -6,11 +6,16 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview",
-    "sync": "node scripts/sync-notion.mjs"
+    "preview": "npm run build && wrangler dev",
+    "sync": "node scripts/sync-notion.mjs",
+    "deploy": "npm run build && wrangler deploy"
   },
   "dependencies": {
+    "@astrojs/cloudflare": "12",
     "@notionhq/client": "^5.1.0",
     "astro": "^5.8.0"
+  },
+  "devDependencies": {
+    "wrangler": "^4.114.0"
   }
 }
