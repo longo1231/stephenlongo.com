@@ -360,13 +360,13 @@
         {
           "name": "Cymbeline",
           "note": "Forgiveness despite nothing being earned.",
-          "status": "up",
+          "status": "done",
           "verdict": ""
         },
         {
           "name": "The Winter's Tale",
           "note": "After you've broken it completely, is restoration possible?",
-          "status": "up",
+          "status": "done",
           "verdict": ""
         }
       ]
@@ -378,7 +378,7 @@
         {
           "name": "The Tempest",
           "note": "Control, letting go. “Every third thought shall be my grave.” Read slowly.",
-          "status": "up",
+          "status": "now",
           "verdict": ""
         }
       ]
