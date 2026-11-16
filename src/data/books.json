@@ -1,7 +1,37 @@
 {
-  "syncedAt": "2026-11-15",
+  "syncedAt": "2026-11-16",
   "source": "notion-api",
   "books": [
+    {
+      "title": "Taking Manhattan",
+      "author": "Russell Shorto",
+      "subtitle": "",
+      "tagline": "",
+      "takeaway": "",
+      "rating": null,
+      "status": "Reading",
+      "type": "Non Fiction",
+      "pages": null,
+      "date": "2026-11-14",
+      "recommend": false,
+      "misogi": false,
+      "cover": "/covers/taking-manhattan.jpg"
+    },
+    {
+      "title": "The AGI Chronicles",
+      "author": "Kevin Roose",
+      "subtitle": "",
+      "tagline": "",
+      "takeaway": "",
+      "rating": 4,
+      "status": "Read",
+      "type": "Non Fiction",
+      "pages": null,
+      "date": "2026-11-08",
+      "recommend": false,
+      "misogi": false,
+      "cover": "/covers/the-agi-chronicles.jpg"
+    },
     {
       "title": "The River",
       "author": "Peter Heller",
